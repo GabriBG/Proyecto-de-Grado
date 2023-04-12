@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Persona;
-use Illuminate\Support\Facades\Redirect;
 
-class PersonaController extends Controller
+use App\Models\Asignatura;
+
+class AsignaturaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,9 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        $personas = Persona::orderBy('id','DESC')->paginate(3);
+        $asignaturas = Asignatura::orderBy('id','DESC')->paginate(3);
         
-        return view('persona.index',compact('personas'));
-       
-        // return view('persona.index');
+        return view('asignatura.index',compact('asignaturas'));
     }
 
     /**
@@ -29,7 +27,7 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        return view ('persona.create');
+        //
     }
 
     /**
@@ -40,17 +38,7 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $personas=new Persona; 
-        $personas->documento_identidad=$request->get('documento_identidad');
-        $personas->nombre=$request->get('nombre'); 
-        $personas->apellido=$request->get('apellido');
-        $personas->email=$request->get('email'); 
-        $personas->telefono=$request->get('telefono');
-    
-        $personas->save();
-       
-        return Redirect::to('persona');
+        //
     }
 
     /**
@@ -95,13 +83,6 @@ class PersonaController extends Controller
      */
     public function destroy($id)
     {
-        
-        $personas=Persona::findOrFail($id);
-        
-        
-        $personas->delete();
-
-
-         return Redirect::to('persona');
+        //
     }
 }

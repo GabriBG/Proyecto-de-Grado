@@ -19,3 +19,12 @@ Route::get('/', function () {
  
 
 Route::resource('persona', 'App\Http\Controllers\PersonaController');
+
+Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController');
+
+
+
+
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

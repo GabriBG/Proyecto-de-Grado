@@ -26,12 +26,15 @@
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
+                <li><a class="dropdown-item" href="{{ route('logout') }}" method="post" >Logout</a></li>
+                                                     @csrf
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Settings</a></li>
                         <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}" method="post" >Logout</a></li>
+                                                     @csrf
                     </ul>
                 </li>
             </ul>
@@ -44,7 +47,7 @@
                             <div class="sb-sidenav-menu-heading">Core</div>
                             <a class="nav-link" href="index.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Menu Principak
+                                Menu Principal
                             </a>
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -58,7 +61,7 @@
                                     <a class="nav-link" href="/asignatura/create">Insertar Asignatura</a>
                                 </nav>
                             </div>
-                           
+
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayoutsp" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                                 Personas
@@ -66,15 +69,15 @@
                             </a>
                             <div class="collapse" id="collapseLayoutsp" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="persona">Consultar Personas</a>
-                                    <a class="nav-link" href="persona/create">Insertar Personas</a>
+                                    <a class="nav-link" href="/persona">Consultar Personas</a>
+                                    <a class="nav-link" href="/persona/create">Insertar Personas</a>
                                 </nav>
                             </div>
 
 
 
 
-                           
+
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 Pages
@@ -129,7 +132,7 @@
                         <h1 class="mt-4">AppDEV</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
-                            <li class="breadcrumb-item active">Persona</li>
+                            <li class="breadcrumb-item active">@yield('sesion')</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">

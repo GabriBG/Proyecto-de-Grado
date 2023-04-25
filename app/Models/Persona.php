@@ -12,6 +12,11 @@ class Persona extends Model
 
     public $timestamps = false;
     
-    protected $fillable = ['documento_identidad','nombre','apellido','email','telefono'];
+    protected $fillable = ['documento_identidad','nombre','apellido','telefono'];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
 
 }

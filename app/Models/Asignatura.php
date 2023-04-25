@@ -10,6 +10,6 @@ class Asignatura extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $fillable = ['codigo','nombre','creditos'];
 }

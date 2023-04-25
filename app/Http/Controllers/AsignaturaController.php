@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Asignatura;
 
 class AsignaturaController extends Controller
@@ -16,7 +16,7 @@ class AsignaturaController extends Controller
     public function index()
     {
         $asignaturas = Asignatura::orderBy('id','DESC')->paginate(3);
-        
+
         return view('asignatura.index',compact('asignaturas'));
     }
 
@@ -27,7 +27,7 @@ class AsignaturaController extends Controller
      */
     public function create()
     {
-        //
+        return view('asignatura.create');
     }
 
     /**
@@ -38,7 +38,27 @@ class AsignaturaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $campos=[
+            'codigo'=>'required|string|max:100',
+            'nombre'=>'required|string|max:100',
+            'creditos'=>'required|int|max:100',
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido'
+        ];
+
+        $this->validate($request, $campos,$mensaje);
+
+        $asignaturas=new Asignatura;
+        $asignaturas->codigo=$request->get('codigo');
+        $asignaturas->nombre=$request->get('nombre');
+        $asignaturas->creditos=$request->get('creditos');
+
+        $asignaturas->save();
+
+        return Redirect::to('asignatura');
     }
 
     /**
@@ -60,7 +80,8 @@ class AsignaturaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $asignaturas=Asignatura::findOrFail($id);
+        return view('asignatura.edit', compact('asignaturas'));
     }
 
     /**
@@ -72,7 +93,26 @@ class AsignaturaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $campos=[
+            'codigo'=>'required|string|max:100',
+            'nombre'=>'required|string|max:100',
+            'creditos'=>'required|string|max:100',
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido'
+        ];
+
+        $this->validate($request, $campos,$mensaje);
+
+        $asignaturas=Asignatura::findOrFail($id);
+        $asignaturas->codigo=$request->input('codigo');
+        $asignaturas->nombre=$request->input('nombre');
+        $asignaturas->creditos=$request->input('creditos');
+        $asignaturas->save();
+
+        return Redirect::to('asignatura');
     }
 
     /**
@@ -83,6 +123,13 @@ class AsignaturaController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $asignaturas=Asignatura::findOrFail($id);
+
+
+        $asignaturas->delete();
+
+
+         return Redirect::to('asignatura');
     }
 }

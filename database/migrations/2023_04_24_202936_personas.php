@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Persona;
 
 return new class extends Migration
 {
@@ -13,10 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->bigincrements('id');
-            $table->integer('role_id')->unsigned(); 
-            $table->integer('user_id')->unsigned();
+        Schema::create('personas', function (Blueprint $table) {
+            $table->id();
+            $table->string('id_usuario', 11)->unique();
+            $table->string('documento_identidad', 11)->unique();
+            $table->string('nombre', 20)->notnull();
+            $table->string('apellido', 30)->notnull();
+            $table->string('telefono', 10)->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('personas');
     }
 };

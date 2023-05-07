@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +17,13 @@ class Persona extends Model
     {
         return $this->belongsTo(User::class, 'id_usuario');
     }
+    public function profile(){
+        return $this->hasOne(Persona::class);
+    }
 
+    public function scopeNombres($query, $nom) {
+        if ($nom) {
+           return $query->where('nombre','like',"%$nom%");
+        }
+    }
 }

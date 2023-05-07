@@ -12,31 +12,19 @@ Route::get('/', function () {
 
 
 Route::resource('persona', 'App\Http\Controllers\PersonaController')->middleware('auth');
-
 Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController')->middleware('auth');
+Route::resource('aula', 'App\Http\Controllers\AulaController')->middleware('auth');
+Route::resource('horario', 'App\Http\Controllers\HorarioController')->middleware('auth');
+Route::resource('grupo', 'App\Http\Controllers\GrupoController')->middleware('auth');
 
-Auth::routes(['register'=>false, 'reset'=>false]);
 
-
-
-Route::get('/icons', ['pages/icons', 'index'])->name('icons');
-Route::get('/home', [PersonaController::class, 'index'])->name('admin.persona');
-
+Route::get('/home', [PersonaController::class, 'index'])->name('home');
+Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
+Route::get('/inicio', 'App\Http\Controllers\InicioController@index')->name('inicio')->middleware('auth');
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function (){
-
-    Route::get('/', [PersonaController::class, 'index'])->name('admin.persona');
-    Route::get('/', [AsignaturaController::class, 'index'])->name('admin.asignatura');
-});
 
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
-
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 		Route::get('icons', ['as' => 'pages.icons', 'uses' => 'App\Http\Controllers\PageController@icons']);

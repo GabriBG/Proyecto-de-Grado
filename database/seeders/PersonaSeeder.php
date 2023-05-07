@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Persona;
 
+
 class PersonaSeeder extends Seeder
 {
     /**
@@ -47,5 +48,17 @@ class PersonaSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        Persona::create([
+            'id' => 4,
+            'id_usuario' => '4',
+            'documento_identidad' => '163269850',
+            'nombre' => 'Gustavo',
+            'apellido' => 'Perez Molina',
+            'telefono' => '3156285594',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
+
 }

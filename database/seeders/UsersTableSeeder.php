@@ -46,5 +46,15 @@ class UsersTableSeeder extends Seeder
             'updated_at' => now()
         ])->assignRole('Director');
 
+
+        User::create([
+            'id' => 4,
+            'username' => 'GPerez',
+            'email' => 'GPerez@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('G.Perez2023'),
+            'created_at' => now(),
+            'updated_at' => now()
+        ])->assignRole('Docente');
     }
 }

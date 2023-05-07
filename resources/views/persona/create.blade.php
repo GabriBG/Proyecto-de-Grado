@@ -1,7 +1,7 @@
 @extends('layouts.app', ['pageSlug' => 'crearP'])
 
 @section('content')
-
+<h1>Personas</h1>
 <div class="row">
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <h4>Ingresar Persona</h4>
 @if (count($errors)>0)
@@ -42,7 +42,7 @@
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="apellido">Apellidos</label>
-<input type="text" name="apellido" value="{{ isset($personas->apellido)?$personas->apellido:old('apellido') }}" id="apeliido" class="form-control" placeholder="Apellidos Completos">
+<input type="text" name="apellido" value="{{ isset($personas->apellido)?$personas->apellido:old('apellido') }}" id="apellido" class="form-control" placeholder="Apellidos Completos">
 </div>
     </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12"> <div class="form-group">
@@ -59,7 +59,7 @@
     
 <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12"> 
 <div class="form-group"> <br>
-<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
 <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
         </div>
     </div>

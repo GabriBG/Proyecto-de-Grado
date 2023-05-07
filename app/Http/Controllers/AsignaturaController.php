@@ -110,6 +110,8 @@ class AsignaturaController extends Controller
         $asignaturas->codigo=$request->input('codigo');
         $asignaturas->nombre=$request->input('nombre');
         $asignaturas->creditos=$request->input('creditos');
+        $asignaturas->created_at-> now();
+        $asignaturas->updated_at-> now();
         $asignaturas->save();
 
         return Redirect::to('asignatura');
@@ -125,6 +127,7 @@ class AsignaturaController extends Controller
     {
 
         $asignaturas=Asignatura::findOrFail($id);
+        Asignatura::destroy($id);
 
 
         $asignaturas->delete();

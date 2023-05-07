@@ -37,7 +37,7 @@
     </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12"> <div class="form-group">
 <label for="email">Email</label>
-<input type="text" name="email" id="email" value="{{ isset($personas->email)?$personas->email:old('email') }}" class="form-control" placeholder="Correo Electrónico">
+<input type="text" name="email" id="email" value="{{ isset($personas->users->email)?$personas->users->email:old('email') }}" class="form-control" placeholder="Correo Electrónico">
         </div>
     </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
@@ -46,11 +46,23 @@
 <input type="text" name="telefono" id="telefono" value="{{ isset($personas->telefono)?$personas->telefono:old('telefono') }}" class="form-control" placeholder="Telefono">
         </div>
     </div>
+<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+<div class="form-group">
+<label>Roles</label>
+{!! Form::model($personas, ['route' => ['persona.update', $personas], 'method' => 'put']) !!}
+@foreach ($roles as $rol)
+<div>
+    <label>
+        {!! Form::checkbox('roles[]', $rol->id, null, ['class' => 'mr-1'], ['value' => '{{ isset($personas->users->roles)?$personas->users->roles:old('roles') }}']) !!}
+        {{$rol->name}}
+    </label>
+</div>
+@endforeach
+{!! Form::close() !!}
 <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
 <div class="form-group"> <br>
-<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
-<button class="btn btn-danger" href="/asignatura"><span class="glyphicon glyphicon-remove"></span> Atrás</button>
-        </div>
+<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+<button class="btn btn-danger" href="/persona"><span class="glyphicon glyphicon-remove"></span> Atrás</button>        </div>
     </div>
 </div>
 </form>

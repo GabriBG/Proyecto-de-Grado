@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Persona;
+use App\Models\{Persona, User, Role};
 use Illuminate\Support\Facades\Redirect;
 
 class PersonaController extends Controller
@@ -13,12 +13,17 @@ class PersonaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+ 
+
+    public function index(Request $request)
     {
-       $personas = Persona::orderBy('id','DESC')->paginate(3);
-  //      $personas =DB::table('personas', 'users')->select('id', 'documento_identidad', 'nombre', 'apellido', 'email', 'telefono')->where('id_usuario','=','users.id')->paginate(3); 
- // $personas = Persona::select('id', 'documento_identidad', 'nombre', 'apellido', 'email', 'telefono')->from('personas', 'users')->where('id_usuario','=','users.id')->paginate(3);
-  
+
+       $nom = $request->get('name');
+       
+        $personas = Persona::where('nombre','LIKE',"%$nom%")->paginate(6);
+        $personas = Persona::where('apellido','LIKE',"%$nom%")->paginate(6);
+        $personas = Persona::where('documento_identidad','LIKE',"%$nom%")->paginate(6);
+        
   return view('persona.index',compact('personas'));
 
         // return view('persona.index');
@@ -40,14 +45,17 @@ class PersonaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
     public function store(Request $request)
     {
 
             $campos=[
-                'id_usuario'=>'required|string|max:15',
+                'username'=>'required|string|max:100',
+                'password'=>'required|string|max:100',
                 'documento_identidad'=>'required|string|max:100',
                 'nombre'=>'required|string|max:100',
                 'apellido'=>'required|string|max:100',
+                'email'=>'required|string|max:100',
                 'telefono'=>'required|string|max:100',
             ];
 
@@ -57,13 +65,19 @@ class PersonaController extends Controller
 
             $this->validate($request, $campos,$mensaje);
 
-
+        $users=new User;
         $personas=new Persona;
-        $personas->id_usuario=$request->get('id_usuario');
+        $users->username=$request->get('username');
+        $users->password=$request->get('password');
+        $users->email=$request->get('email');
+
+        $users->save();
+
         $personas->documento_identidad=$request->get('documento_identidad');
         $personas->nombre=$request->get('nombre');
         $personas->apellido=$request->get('apellido');
         $personas->telefono=$request->get('telefono');
+        $personas->id_usuario=$users->id;
 
         $personas->save();
 
@@ -88,9 +102,10 @@ class PersonaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   $roles=new Role;
         $personas=Persona::findOrFail($id);
-        return view ('persona.edit', compact('personas'));
+        $roles=Role::orderBy('id','DESC')->paginate(6);
+        return view ('persona.edit', compact('personas', 'roles'));
     }
 
     /**
@@ -117,14 +132,16 @@ class PersonaController extends Controller
 
         $this->validate($request, $campos,$mensaje);
 
-
+        $users=new User;
+        $users=User::findOrFail($id);
         $personas=Persona::findOrFail($id);
         $personas->documento_identidad=$request->input('documento_identidad');
         $personas->nombre=$request->input('nombre');
         $personas->apellido=$request->input('apellido');
-        $personas->email=$request->input('email');
+        $users->email=$request->input('email');
         $personas->telefono=$request->input('telefono');
         $personas->save();
+        $users->save();
 
         return Redirect::to('persona')->with('mensaje','Persona Actualizada');
     }
@@ -138,10 +155,12 @@ class PersonaController extends Controller
     public function destroy($id)
     {
 
+        $users=User::findOrFail($id);
         $personas=Persona::findOrFail($id);
-
-
+        
+        $users->delete();
         $personas->delete();
+        
 
 
          return Redirect::to('persona');

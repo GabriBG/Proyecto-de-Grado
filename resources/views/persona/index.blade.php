@@ -2,6 +2,8 @@
 
 @section('content')
 
+<h1>Personas</h1>
+
 
 <div class="row">
 <div class="table-responsive">
@@ -13,8 +15,13 @@
 <th>Correo Electrónico</th>
  <th>Telefono</th>
   <th>Opciones</th>
-</thead>
+</thead>  
 <tbody>
+  <form class="card card-header" action="{{ route('persona.index') }}" method="get">
+    <input name="name" type="text" aria-label="Search" value="{{ isset($users->username)?$users->username:old('username') }}" class="form-control" placeholder="Ingrese el nombre de la persona"></input>
+    <br>
+    <input class="btn btn-info" type="submit" value="Buscar">
+</form>
 @foreach($personas as $per)
 <tr>
 <td>{{ $per->id }}</td>
@@ -24,13 +31,15 @@
 <td>{{ $per->users->email }}</td>
 <td>{{ $per->telefono }}</td>
 <td>
-<a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-primary">Actualizar</button></a>
-<a href="" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$per->id}}">
-    <button type="button" class="btn btn-danger"> Eliminar</button>
+<a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
+<button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
+  <i >Eliminar</i>
+</buttom>
+
 </a>
 </td>
 </tr>
-@include('persona.modal')
+    @include('persona.modal')
 @endforeach
 @if(Session::has('mensaje'))
 <div class="alert alert-success alert" role="alert">
@@ -42,5 +51,5 @@
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('persona/create')}}" class="pull-left">
-<button class="btn btn-success">Crear Persona</button> </a> </div></div>
+<button class="btn btn-neutral btn-info">Crear Persona</button> </a> </div></div>
 @endsection

@@ -166,7 +166,7 @@ class PersonaController extends Controller
         ->update([
             'role_id' => $role_id,
             'model_id' => $users->id,
-            'model_type' => '']);
+            'model_type' => 'App\Models\User']);
 
         $personas->save();
         $users->save();

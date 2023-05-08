@@ -28,13 +28,13 @@ class UsersTableSeeder extends Seeder
 
         User::create([
             'id' => 2,
-            'username' => 'ASanchez ',
+            'username' => 'ASanchez',
             'email' => 'AlejoSanchez@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('A.Sanchez2023'),
             'created_at' => now(),
             'updated_at' => now()
-        ])->assignRole('Docente');
+        ])->assignRole('Admin');
 
         User::create([
             'id' => 3,

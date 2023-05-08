@@ -20,7 +20,7 @@ class Persona extends Model
 
     public function roles()
     {
-        return $this->belongsTo(Roles::class);
+        return $this->belongsToMany(Role::class);
     }
     public function profile(){
         return $this->hasOne(Persona::class);

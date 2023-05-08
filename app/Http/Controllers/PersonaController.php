@@ -38,11 +38,10 @@ class PersonaController extends Controller
     public function create()
     {
         $personas=new Persona;
-        $users = new User;
         $roles=new Role;
         $roles=Role::orderBy('id','DESC')->paginate(6);
         $roles = Role::all();
-        return view ('persona.create', compact('personas', 'roles', 'users'));
+        return view ('persona.create', compact('personas', 'roles'));
         }
 
     /**
@@ -90,9 +89,10 @@ class PersonaController extends Controller
         $role_id = $request->input('role');
 
         DB::table('model_has_roles')
-        ->create([
+        ->insert([
             'role_id' => $role_id,
-            'model_id' => $users->id]);
+            'model_id' => $users->id,
+            'model_type' => 'App\Models\User']);
 
 
         return Redirect::to('persona');

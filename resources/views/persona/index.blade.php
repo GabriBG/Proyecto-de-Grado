@@ -31,7 +31,7 @@
 <td>{{ $per->apellido}}</td>
 <td>{{ $per->users->email }}</td>
 <td>{{ $per->telefono }}</td>
-<td>{{ $per->users->roles->contains('name') }}</td>
+<td>{{ $per->users->roles->nombre }}</td>
 <td>
 <a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">

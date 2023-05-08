@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Persona, User, Role};
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 
 class PersonaController extends Controller
 {
@@ -13,18 +14,18 @@ class PersonaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
- 
+
 
     public function index(Request $request)
     {
-
+        $roles=new Role;
        $nom = $request->get('name');
-       
+
         $personas = Persona::where('nombre','LIKE',"%$nom%")->paginate(6);
         $personas = Persona::where('apellido','LIKE',"%$nom%")->paginate(6);
         $personas = Persona::where('documento_identidad','LIKE',"%$nom%")->paginate(6);
-        
-  return view('persona.index',compact('personas'));
+
+  return view('persona.index',compact('personas', 'roles'));
 
         // return view('persona.index');
     }
@@ -36,8 +37,13 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        return view ('persona.create');
-    }
+        $personas=new Persona;
+        $users = new User;
+        $roles=new Role;
+        $roles=Role::orderBy('id','DESC')->paginate(6);
+        $roles = Role::all();
+        return view ('persona.create', compact('personas', 'roles', 'users'));
+        }
 
     /**
      * Store a newly created resource in storage.
@@ -45,7 +51,7 @@ class PersonaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
     public function store(Request $request)
     {
 
@@ -81,6 +87,19 @@ class PersonaController extends Controller
 
         $personas->save();
 
+        $role_id = $request->input('role');
+
+        if (!$users->roles()->exists()) {
+            DB::table('model_has_roles')->create([
+                'role_id' => $role_id,
+                'model_id' => $users->id,
+                'model_type' => 'App\Models\User'
+            ]);
+        }
+
+
+
+
         return Redirect::to('persona');
     }
 
@@ -105,6 +124,9 @@ class PersonaController extends Controller
     {   $roles=new Role;
         $personas=Persona::findOrFail($id);
         $roles=Role::orderBy('id','DESC')->paginate(6);
+        $users = User::find($id);
+        $roles = Role::all();
+        $model_has_roles = $users->roles()->first();
         return view ('persona.edit', compact('personas', 'roles'));
     }
 
@@ -135,13 +157,26 @@ class PersonaController extends Controller
         $users=new User;
         $users=User::findOrFail($id);
         $personas=Persona::findOrFail($id);
-        $personas->documento_identidad=$request->input('documento_identidad');
-        $personas->nombre=$request->input('nombre');
-        $personas->apellido=$request->input('apellido');
+        $personas->update([
+        'documento_identidad'=>$request->input('documento_identidad'),
+        'nombre'=>$request->input('nombre'),
+        'apellido'=>$request->input('apellido'),
+        'telefono'=>$request->input('telefono')]);
         $users->email=$request->input('email');
-        $personas->telefono=$request->input('telefono');
+
+
+        $role_id = $request->input('role');
+
+        DB::table('model_has_roles')->update([
+            'role_id' => $role_id,
+            'model_id' => $users->id,
+            'model_type' => 'App\Models\User'
+        ]);
+
         $personas->save();
         $users->save();
+
+        echo '';
 
         return Redirect::to('persona')->with('mensaje','Persona Actualizada');
     }
@@ -157,10 +192,10 @@ class PersonaController extends Controller
 
         $users=User::findOrFail($id);
         $personas=Persona::findOrFail($id);
-        
+
         $users->delete();
         $personas->delete();
-        
+
 
 
          return Redirect::to('persona');

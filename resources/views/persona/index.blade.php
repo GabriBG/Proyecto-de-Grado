@@ -14,8 +14,9 @@
 <th>Apellidos</th>
 <th>Correo Electrónico</th>
  <th>Telefono</th>
+ <th>Rol</th>
   <th>Opciones</th>
-</thead>  
+</thead>
 <tbody>
   <form class="card card-header" action="{{ route('persona.index') }}" method="get">
     <input name="name" type="text" aria-label="Search" value="{{ isset($users->username)?$users->username:old('username') }}" class="form-control" placeholder="Ingrese el nombre de la persona"></input>
@@ -30,6 +31,7 @@
 <td>{{ $per->apellido}}</td>
 <td>{{ $per->users->email }}</td>
 <td>{{ $per->telefono }}</td>
+<td>{{ $per->users->roles->contains('name') }}</td>
 <td>
 <a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">

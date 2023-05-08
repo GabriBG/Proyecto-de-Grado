@@ -48,21 +48,20 @@
     </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
-<label>Roles</label>
+    <label for="role">Rol:</label>
 {!! Form::model($personas, ['route' => ['persona.update', $personas], 'method' => 'put']) !!}
-@foreach ($roles as $rol)
-<div>
-    <label>
-        {!! Form::checkbox('roles[]', $rol->id, null, ['class' => 'mr-1'], ['value' => '{{ isset($personas->users->roles)?$personas->users->roles:old('roles') }}']) !!}
-        {{$rol->name}}
-    </label>
-</div>
-@endforeach
+<select name="role" id="role" class="form-control">
+    @foreach($roles as $role)
+        <option value="{{ $role->id }}" {{ $personas->users->roles->contains($role) ? 'selected' : '' }}>
+            {{ $role->name }}
+        </option>
+    @endforeach
+</select>
 {!! Form::close() !!}
 <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
 <div class="form-group"> <br>
 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
-<button class="btn btn-danger" href="/persona"><span class="glyphicon glyphicon-remove"></span> Atrás</button>        </div>
+<button class="btn btn-danger" href="persona"><span class="glyphicon glyphicon-remove"></span> Atrás</button>        </div>
     </div>
 </div>
 </form>

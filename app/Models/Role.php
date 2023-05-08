@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     use HasFactory;
-    
+
     public function users()
-{
-return $this
-->belongsToMany('App\Models\User') ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(User::class, 'model_has_roles', 'role_id', 'model_id')->where('model_type', 'App\User');
+    }
 
 }

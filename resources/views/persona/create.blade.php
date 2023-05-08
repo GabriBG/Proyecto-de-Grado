@@ -61,7 +61,6 @@
 <div class="form-group">
 
     <label for="role">Rol:</label>
-    {!! Form::model($personas, ['route' => ['persona', $personas], 'method' => 'POST']) !!}
     <select name="role" id="role" class="form-control">
         @foreach($roles as $role)
             <option value="{{ $role->id }}">
@@ -69,7 +68,7 @@
             </option>
         @endforeach
     </select>
-    {!! Form::close() !!}<br>
+<br>
 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
 <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
         </div>

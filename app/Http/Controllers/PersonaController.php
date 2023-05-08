@@ -89,15 +89,10 @@ class PersonaController extends Controller
 
         $role_id = $request->input('role');
 
-        if (!$users->roles()->exists()) {
-            DB::table('model_has_roles')->create([
-                'role_id' => $role_id,
-                'model_id' => $users->id,
-                'model_type' => 'App\Models\User'
-            ]);
-        }
-
-
+        DB::table('model_has_roles')
+        ->create([
+            'role_id' => $role_id,
+            'model_id' => $users->id]);
 
 
         return Redirect::to('persona');
@@ -167,16 +162,14 @@ class PersonaController extends Controller
 
         $role_id = $request->input('role');
 
-        DB::table('model_has_roles')->update([
+        DB::table('model_has_roles')->where('model_id', $users->id)
+        ->update([
             'role_id' => $role_id,
             'model_id' => $users->id,
-            'model_type' => 'App\Models\User'
-        ]);
+            'model_type' => '']);
 
         $personas->save();
         $users->save();
-
-        echo '';
 
         return Redirect::to('persona')->with('mensaje','Persona Actualizada');
     }

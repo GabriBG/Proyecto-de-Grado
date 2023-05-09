@@ -115,13 +115,13 @@
 
                 <div class="collapse" id="aulas">
                     <ul class="nav pl-4">
-                        <li @if ($pageSlug == 'indexA') class="active " @endif>
+                        <li @if ($pageSlug == 'indexAu') class="active " @endif>
                             <a href="{{ route('aula.index')  }}">
                                 <i class="tim-icons icon-notes"></i>
                                 <p>{{ __('Consultar Aulas') }}</p>
                             </a>
                         </li>
-                        <li @if ($pageSlug == 'crearA') class="active " @endif>
+                        <li @if ($pageSlug == 'crearAu') class="active " @endif>
                             <a href="{{ route('aula.create')  }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ __('Insertar Aulas') }}</p>

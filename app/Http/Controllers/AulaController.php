@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use App\Models\Aula;
+use Illuminate\Support\Facades\Redirect;
 
 class AulaController extends Controller
 {
@@ -15,9 +15,10 @@ class AulaController extends Controller
      */
     public function index()
     {
-        $aulas = Aula::orderBy('id','DESC')->paginate(3);
+       $aulas = Aula::orderBy('id','DESC')->paginate(6);
+  return view('aula.index',compact('aulas'));
 
-        return view('aula.index',compact('aulas'));
+        // return view('horario.index');
     }
 
     /**
@@ -27,7 +28,7 @@ class AulaController extends Controller
      */
     public function create()
     {
-        return view('aula.create');
+        return view ('aula.create');
     }
 
     /**
@@ -39,22 +40,21 @@ class AulaController extends Controller
     public function store(Request $request)
     {
 
-        $campos=[
-            'nomenclatura'=>'required|string|max:100',
-            'sede'=>'required|string|max:100',
-        ];
+            $campos=[
+                'nomenclatura'=>'required|string|max:100',
+                'sede'=>'required|string|max:100',
+            ];
 
-        $mensaje=[
-            'required'=>'El :attribute es requerido'
-        ];
+            $mensaje=[
+                'required'=>'El :attribute es requerido'
+            ];
 
-        $this->validate($request, $campos,$mensaje);
+            $this->validate($request, $campos,$mensaje);
 
         $aulas=new Aula;
-        $aulas->codigo=$request->get('nomenclatura');
-        $aulas->nombre=$request->get('sede');
-        $aulas->created_at-> now();
-        $aulas->updated_at-> now();
+
+        $aulas->nomenclatura=$request->get('nomenclatura');
+        $aulas->sede=$request->get('sede');
 
         $aulas->save();
 
@@ -81,7 +81,7 @@ class AulaController extends Controller
     public function edit($id)
     {
         $aulas=Aula::findOrFail($id);
-        return view('aula.edit', compact('aulas'));
+        return view ('aula.edit', compact('aulas'));
     }
 
     /**
@@ -97,6 +97,7 @@ class AulaController extends Controller
         $campos=[
             'nomenclatura'=>'required|string|max:100',
             'sede'=>'required|string|max:100',
+
         ];
 
         $mensaje=[
@@ -108,10 +109,9 @@ class AulaController extends Controller
         $aulas=Aula::findOrFail($id);
         $aulas->nomenclatura=$request->input('nomenclatura');
         $aulas->sede=$request->input('sede');
-        $aulas->updated_at-> now();
         $aulas->save();
 
-        return Redirect::to('aula');
+        return Redirect::to('aula')->with('mensaje','Aula Actualizado');
     }
 
     /**
@@ -124,12 +124,12 @@ class AulaController extends Controller
     {
 
         $aulas=Aula::findOrFail($id);
-        Aula::destroy($id);
-
 
         $aulas->delete();
+
 
 
          return Redirect::to('aula');
     }
 }
+

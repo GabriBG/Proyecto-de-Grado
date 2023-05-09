@@ -19,7 +19,7 @@
 </thead>
 <tbody>
   <form class="card card-header" action="{{ route('persona.index') }}" method="get">
-    <input name="name" type="text" aria-label="Search" value="{{ isset($users->username)?$users->username:old('username') }}" class="form-control" placeholder="Ingrese el nombre de la persona"></input>
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Ingrese el nombre de la persona"></input>
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>
@@ -31,7 +31,8 @@
 <td>{{ $per->apellido}}</td>
 <td>{{ $per->users->email }}</td>
 <td>{{ $per->telefono }}</td>
-<td>{{ $per->users->roles->nombre }}</td>
+<td>{{ $per->users->roles->pluck('name')->implode(', ') }}</td>
+
 <td>
 <a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">

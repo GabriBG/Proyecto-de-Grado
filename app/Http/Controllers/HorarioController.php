@@ -15,7 +15,7 @@ class HorarioController extends Controller
      */
     public function index()
     {
-       $horarios = Horario::orderBy('id','DESC')->paginate(3);
+       $horarios = Horario::orderBy('id','DESC')->paginate(6);
   return view('horario.index',compact('horarios'));
 
         // return view('horario.index');
@@ -131,7 +131,7 @@ class HorarioController extends Controller
         $horarios=Horario::findOrFail($id);
 
         $horarios->delete();
-        
+
 
 
          return Redirect::to('horario');

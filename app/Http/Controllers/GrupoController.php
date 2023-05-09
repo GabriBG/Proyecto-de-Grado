@@ -104,8 +104,8 @@ class GrupoController extends Controller
         $this->validate($request, $campos,$mensaje);
 
         $grupos=Grupo::findOrFail($id);
-        $grupos->nomenclatura=$request->input('nomenclatura');
-        $grupos->sede=$request->input('sede');
+        $grupos->estudiantes_matriculados=$request->input('estudiantes_matriculados');
+        $grupos->numero_grupo=$request->input('numero_grupo');
         $grupos->save();
 
         return Redirect::to('grupo');

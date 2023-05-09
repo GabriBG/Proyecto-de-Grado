@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'crearA'])
+@extends('layouts.app', ['pageSlug' => 'crearAu'])
 
 @section('content')
 <h1>Aula</h1>
@@ -22,13 +22,13 @@
 <input type="text" name="nomenclatura" value="{{ isset($aulas->nomenclatura)?$aulas->nomenclatura:old('nomenclatura') }}" id="nomenclatura" class="form-control" placeholder="Nomenclatura del aula">
         </div>
     </div>
-    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12"> 
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="email">Sede</label>
 <input type="text" name="sede" value="{{ isset($aulas->sede)?$aulas->sede:old('sede') }}" id="sede" class="form-control" placeholder="Sede">
         </div>
     </div>
-<div class="col-lg-6 col-md-12 col-sm-6 col-xs-12"> 
+<div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
 <div class="form-group"> <br>
 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
 <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>

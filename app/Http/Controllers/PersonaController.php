@@ -19,11 +19,11 @@ class PersonaController extends Controller
     public function index(Request $request)
     {
         $roles=new Role;
-       $nom = $request->get('name');
+       $nom = $request->input('name');
 
-        $personas = Persona::where('nombre','LIKE',"%$nom%")->paginate(6);
-        $personas = Persona::where('apellido','LIKE',"%$nom%")->paginate(6);
-        $personas = Persona::where('documento_identidad','LIKE',"%$nom%")->paginate(6);
+        $personas = Persona::where('nombre','LIKE',"%$nom%")->
+        orWhere('apellido','LIKE',"%$nom%")->
+        orWhere('documento_identidad','LIKE',"%$nom%")->paginate(6);
 
   return view('persona.index',compact('personas', 'roles'));
 

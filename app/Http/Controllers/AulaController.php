@@ -13,9 +13,12 @@ class AulaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       $aulas = Aula::orderBy('id','DESC')->paginate(6);
+        $nom = $request->input('name');
+
+        $aulas = Aula::where('nomenclatura','LIKE',"%$nom%")->
+        orWhere('sede','LIKE',"%$nom%")->paginate(6);
   return view('aula.index',compact('aulas'));
 
         // return view('horario.index');

@@ -13,9 +13,13 @@ class HorarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-       $horarios = Horario::orderBy('id','DESC')->paginate(6);
+        $nom = $request->input('name');
+
+        $horarios = Horario::where('jornada','LIKE',"%$nom%")->
+        orWhere('hora_inicio','LIKE',"%$nom%")->
+        orWhere('hora_final','LIKE',"%$nom%")->paginate(6);
   return view('horario.index',compact('horarios'));
 
         // return view('horario.index');

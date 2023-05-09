@@ -13,9 +13,13 @@ class AsignaturaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $asignaturas = Asignatura::orderBy('id','DESC')->paginate(3);
+        $nom = $request->input('name');
+
+        $asignaturas = Asignatura::where('nombre','LIKE',"%$nom%")->
+        orWhere('codigo','LIKE',"%$nom%")->
+        orWhere('creditos','LIKE',"%$nom%")->paginate(6);
 
         return view('asignatura.index',compact('asignaturas'));
     }

@@ -10,13 +10,13 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-
-Route::resource('persona', 'App\Http\Controllers\PersonaController')->middleware('auth');
-Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController')->middleware('auth');
-Route::resource('aula', 'App\Http\Controllers\AulaController')->middleware('auth');
-Route::resource('horario', 'App\Http\Controllers\HorarioController')->middleware('auth');
-Route::resource('grupo', 'App\Http\Controllers\GrupoController')->middleware('auth');
-
+Route::group(['middleware' => 'auth'], function () {
+Route::resource('persona', 'App\Http\Controllers\PersonaController');
+Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController');
+Route::resource('aula', 'App\Http\Controllers\AulaController');
+Route::resource('horario', 'App\Http\Controllers\HorarioController');
+Route::resource('grupo', 'App\Http\Controllers\GrupoController');
+});
 
 Route::get('/home', [PersonaController::class, 'index'])->name('home');
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');

@@ -19,7 +19,7 @@
 </thead>
 <tbody>
   <form class="card card-header" action="{{ route('persona.index') }}" method="get">
-    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Ingrese el nombre de la persona"></input>
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Persona"></input>
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>

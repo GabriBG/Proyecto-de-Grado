@@ -12,6 +12,11 @@
   <th>Opciones</th>
 </thead>
 <tbody>
+<form class="card card-header" action="{{ route('grupo.index') }}" method="get">
+    <input name="name" id='name' value="{{old('name')}}" type="text" aria-label="Search" class="form-control" placeholder="Buscar Grupo" value="{{old('name')}}"></input>
+    <br>
+    <input class="btn btn-info" type="submit" value="Buscar">
+</form>
 @foreach($grupos as $gru)
 <tr>
 <td>{{ $gru->id }}</td>

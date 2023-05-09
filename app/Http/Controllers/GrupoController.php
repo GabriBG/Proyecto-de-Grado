@@ -13,9 +13,12 @@ class GrupoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $grupos = Grupo::orderBy('id','DESC')->paginate(3);
+        $nom = $request->input('name');
+
+        $grupos = Grupo::where('estudiantes_matriculados','LIKE',"%$nom%")->
+        orWhere('numero_grupo','LIKE',"%$nom%")->paginate(6);
 
         return view('grupo.index',compact('grupos'));
     }
@@ -108,7 +111,8 @@ class GrupoController extends Controller
         $grupos->numero_grupo=$request->input('numero_grupo');
         $grupos->save();
 
-        return Redirect::to('grupo');
+        return Redirect::to('grupo')->with('mensaje','Grupo Actualizado');
+        
     }
 
     /**

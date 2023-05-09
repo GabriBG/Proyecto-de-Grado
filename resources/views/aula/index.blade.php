@@ -12,6 +12,11 @@
   <th>Opciones</th>
 </thead>
 <tbody>
+<form class="card card-header" action="{{ route('aula.index') }}" method="get">
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Aula"></input>
+    <br>
+    <input class="btn btn-info" type="submit" value="Buscar">
+</form>
 @foreach($aulas as $au)
 <tr>
 <td>{{ $au->id }}</td>

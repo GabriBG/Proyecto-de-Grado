@@ -16,6 +16,7 @@ Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController');
 Route::resource('aula', 'App\Http\Controllers\AulaController');
 Route::resource('horario', 'App\Http\Controllers\HorarioController');
 Route::resource('grupo', 'App\Http\Controllers\GrupoController');
+Route::resource('asignaciongrupo', 'App\Http\Controllers\AsignacionGrupoController');
 });
 
 Route::get('/home', [PersonaController::class, 'index'])->name('home');

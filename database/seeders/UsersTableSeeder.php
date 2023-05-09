@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('A.Sanchez2023'),
             'created_at' => now(),
             'updated_at' => now()
-        ])->assignRole('Admin');
+        ])->assignRole('Docente');
 
         User::create([
             'id' => 3,

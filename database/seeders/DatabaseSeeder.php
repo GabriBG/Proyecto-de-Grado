@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([GrupoSeeder::class]);
         $this->call([HorarioSeeder::class]);
         $this->call([AulaSeeder::class]);
+        $this->call([AsignacionGruposSeeder::class]);
     }
 }

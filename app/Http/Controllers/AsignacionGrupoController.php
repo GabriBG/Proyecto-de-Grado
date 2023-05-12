@@ -19,15 +19,18 @@ class AsignacionGrupoController extends Controller
 
      public function index(Request $request)
      {
-        $asignacion_grupos = Asignacion_Grupo::orderBy('id','DESC')->paginate(3);
         $nom = $request->input('name');
-         $personas = Persona::where('nombre','LIKE',"%$nom%")->paginate(6);
-         $asignaturas = Asignatura::where('nombre','LIKE',"%$nom%")->paginate(6);
-         $grupos = Grupo::where('numero_grupo','LIKE',"%$nom%")->paginate(6);
- 
-   return view('asignaciongrupo.index',compact('personas', 'asignaturas', 'grupos', 'asignacion_grupos'));
- 
-         // return view('persona.index');
+
+        $asignacion_grupos = Asignacion_Grupo::whereHas('personas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%")
+                  ->orWhere('apellido', 'LIKE', "%$nom%");
+        })->orWhereHas('asignaturas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%");
+        })->orWhereHas('grupos', function ($query) use ($nom) {
+            $query->where('numero_grupo', 'LIKE', "%$nom%");
+        })->with('personas', 'asignaturas', 'grupos')->get();
+        
+        return view('asignaciongrupo.index',compact('asignacion_grupos'));
      }
  
      /**

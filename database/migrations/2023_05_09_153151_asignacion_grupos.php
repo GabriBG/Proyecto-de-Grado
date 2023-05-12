@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('asignacion_grupos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_grupo');
-            $table->foreign('id_grupo')->references('id')->on('grupos')->onDelete('cascade');
-            $table->unsignedBigInteger('id_asignatura');
-            $table->foreign('id_asignatura')->references('id')->on('asignaturas')->onDelete('cascade');
-            $table->unsignedBigInteger('id_persona');
-            $table->foreign('id_persona')->references('id')->on('personas')->onDelete('cascade');
+            $table->unsignedBigInteger('grupo_id');
+            $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
+            $table->unsignedBigInteger('asignatura_id');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
+            $table->unsignedBigInteger('persona_id');
+            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
             $table->timestamps();
         });
     }

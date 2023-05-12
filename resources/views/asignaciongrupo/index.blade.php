@@ -9,7 +9,8 @@
 <div class="table-responsive">
 <table class="table table-striped table-hover"> <thead>
 <th>Id</th>
-<th>Docente</th>
+<th>Nombre de Docente</th>
+<th>Apellido de Docente</th>
 <th>Asignatura</th>
 <th>Numero de Grupo</th>
   <th>Opciones</th>
@@ -24,19 +25,20 @@
 <tr>
 <td>{{ $asigna->id }}</td>
 <td>{{ $asigna->personas->nombre }}</td>
+<td>{{ $asigna->personas->apellido }}</td>
 <td>{{ $asigna->asignaturas->nombre }}</td>
 <td>{{ $asigna->grupos->numero_grupo}}</td>
 <td>
 <a href="{{url('asignaciongrupo/'.$asigna->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 
-<button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asi->id}}">
+<button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asigna->id}}">
   <i >Eliminar</i>
 </buttom>
 
 </a>
 </td>
 </tr>
-@include('asignatura.modal')
+@include('asignaciongrupo.modal')
 @endforeach
 
 @if(Session::has('mensaje'))
@@ -48,6 +50,6 @@
 </div></div>
 <div class="row">
 <div class="col-md-9">
-<a href="{{url('asignatura/create')}}" class="pull-left">
-<button class="btn btn-neutral btn-info">Crear Asignatura</button> </a> </div></div>
+<a href="{{url('asignaciongrupo/create')}}" class="pull-left">
+<button class="btn btn-neutral btn-info">Asignar nuevo grupo</button> </a> </div></div>
 @endsection

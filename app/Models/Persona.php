@@ -18,6 +18,11 @@ class Persona extends Model
         return $this->belongsTo(User::class, 'id_usuario');
     }
 
+    public function asignaciones()
+    {
+        return $this->hasMany(Asignacion_Grupo::class);
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);

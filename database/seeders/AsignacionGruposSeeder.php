@@ -17,18 +17,18 @@ class AsignacionGruposSeeder extends Seeder
     {
         Asignacion_Grupo::create([
             'id' => 1,
-            'id_grupo' => '1',
-            'id_asignatura' => '1',
-            'id_persona' => '4',
+            'grupo_id' => '1',
+            'asignatura_id' => '1',
+            'persona_id' => '4',
             'created_at' => now(),
             'updated_at' => now()
         ]);
 
         Asignacion_Grupo::create([
             'id' => 2,
-            'id_grupo' => '2',
-            'id_asignatura' => '2',
-            'id_persona' => '2',
+            'grupo_id' => '2',
+            'asignatura_id' => '2',
+            'persona_id' => '2',
             'created_at' => now(),
             'updated_at' => now()
         ]);

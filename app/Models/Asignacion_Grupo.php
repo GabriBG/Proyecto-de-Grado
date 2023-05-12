@@ -12,18 +12,22 @@ class Asignacion_Grupo extends Model
     protected $table= 'asignacion_grupos';
     public $timestamps = false;
 
-    protected $fillable = ['id_grupo','id_asignatura','id_persona'];
+    protected $fillable = ['grupo_id','asignatura_id','persona_id'];
 
+    public function asignaciones()
+    {
+        return $this->hasMany(Persona::class);
+    }
     public function grupos()
     {
-        return $this->belongsTo(Grupo::class, 'id_grupo');
+        return $this->belongsTo(Grupo::class, 'grupo_id');
     }
     public function asignaturas()
     {
-        return $this->belongsTo(Asignatura::class, 'id_asignatura');
+        return $this->belongsTo(Asignatura::class, 'asignatura_id');
     }
     public function personas()
     {
-        return $this->belongsTo(Persona::class, 'id_persona');
+        return $this->belongsTo(Persona::class, 'persona_id');
     }
 }

@@ -12316,6 +12316,8 @@ fieldset[disabled] .btn-link.active {
   filter: alpha(opacity=100);
 }
 
+
+
 .form-control {
   border-color: #2b3553;
   border-radius: 0.4285rem;
@@ -12329,7 +12331,7 @@ fieldset[disabled] .btn-link.active {
 
 .form-control:focus {
   border-color: #ffd600;
-  background-color: transparent;
+  background-color: #131933;
   box-shadow: none;
 }
 
@@ -12339,7 +12341,7 @@ fieldset[disabled] .btn-link.active {
 .form-control:focus~.input-group-prepend .input-group-text {
   border: 1px solid #e14eca;
   border-left: none;
-  background-color: transparent;
+  background-color: #131933;
 }
 
 .has-success .form-control,

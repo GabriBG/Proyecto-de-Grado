@@ -17,7 +17,7 @@
 </thead>
 <tbody>
 <form class="card card-header" action="{{ route('asignaciongrupo.index') }}" method="get">
-    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Asignatura"></input>
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Grupos Asignados"></input>
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>

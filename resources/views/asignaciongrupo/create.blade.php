@@ -22,7 +22,7 @@
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="docente">Docente</label>
-<select class="form-select" name="docente">
+<select class="form-control" style="color=#FFFFFF;" name="docente">
     <option class="" value="">Seleccione el docente</option>
     @foreach($personas as $per)
     <option value="{{ $per->id }}">{{ $per->nombre }} {{ $per->apellido }}</option>

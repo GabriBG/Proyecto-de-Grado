@@ -12,7 +12,7 @@
             </li>
             <li>
                 <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
-                    <i class="tim-icons icon-single-02" ></i>
+                    <i class="tim-icons icon-pin" ></i>
                     <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
                     <b class="caret mt-1"></b>
                 </a>

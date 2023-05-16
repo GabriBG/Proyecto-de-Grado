@@ -50,6 +50,8 @@
 </div>
 @endif
 </tbody> </table>
+<div class="pagination">
+  {!! $personas->links() !!}
 </div></div>
 <div class="row">
 <div class="col-md-9">

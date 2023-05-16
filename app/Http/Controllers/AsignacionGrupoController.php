@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class AsignacionGrupoController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -29,10 +29,10 @@ class AsignacionGrupoController extends Controller
         })->orWhereHas('grupos', function ($query) use ($nom) {
             $query->where('numero_grupo', 'LIKE', "%$nom%");
         })->with('personas', 'asignaturas', 'grupos')->get();
-        
+
         return view('asignaciongrupo.index',compact('asignacion_grupos'));
      }
- 
+
      /**
       * Show the form for creating a new resource.
       *
@@ -40,67 +40,52 @@ class AsignacionGrupoController extends Controller
       */
      public function create()
      {
-         $asignacion_grupos=new Asignacion_Grupo;
-         $personas=new Persona;
-         $asignaturas=new Asignatura;
-         $grupos=new Grupo;
-         return view ('persona.create', compact('personas'));
+
+        $personas = DB::table('personas')
+        ->join('model_has_roles', 'personas.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->where('roles.name', '=', 'docente')
+        ->select('personas.*')
+        ->get();
+
+        $asignacion_grupos = Asignacion_Grupo::orderBy('id','DESC')->paginate(6);
+         $asignaturas = Asignatura::orderBy('id','DESC')->paginate(6);
+         $grupos = Grupo::orderBy('id','DESC')->paginate(6);
+         return view ('asignaciongrupo.create', compact('personas', 'asignaturas', 'grupos', 'asignacion_grupos'));
          }
- 
+
      /**
       * Store a newly created resource in storage.
       *
       * @param  \Illuminate\Http\Request  $request
       * @return \Illuminate\Http\Response
       */
- 
+
      public function store(Request $request)
      {
- 
+
              $campos=[
-                 'username'=>'required|string|max:100',
-                 'password'=>'required|string|max:100',
-                 'documento_identidad'=>'required|string|max:100',
-                 'nombre'=>'required|string|max:100',
-                 'apellido'=>'required|string|max:100',
-                 'email'=>'required|string|max:100',
-                 'telefono'=>'required|string|max:100',
+                 'docente'=>'required|string|max:100',
+                 'asignatura'=>'required|string|max:100',
+                 'grupo'=>'required|string|max:100',
              ];
- 
+
              $mensaje=[
                  'required'=>'El :attribute es requerido'
              ];
- 
+
              $this->validate($request, $campos,$mensaje);
- 
-         $users=new User;
-         $personas=new Persona;
-         $users->username=$request->get('username');
-         $users->password=$request->get('password');
-         $users->email=$request->get('email');
- 
-         $users->save();
- 
-         $personas->documento_identidad=$request->get('documento_identidad');
-         $personas->nombre=$request->get('nombre');
-         $personas->apellido=$request->get('apellido');
-         $personas->telefono=$request->get('telefono');
-         $personas->id_usuario=$users->id;
- 
-         $personas->save();
- 
-         $role_id = $request->input('role');
- 
-         DB::table('model_has_roles')
-         ->insert([
-             'role_id' => $role_id,
-             'model_id' => $users->id,
-             'model_type' => 'App\Models\User']);
- 
- 
-         return Redirect::to('persona');
+
+         $asignaciones=new Asignacion_Grupo();
+         $asignaciones->grupo_id=$request->get('grupo');
+         $asignaciones->asignatura_id=$request->get('asignatura');
+         $asignaciones->persona_id=$request->get('docente');
+
+         $asignaciones->save();
+
+         return Redirect::to('asignaciongrupo');
      }
- 
+
      /**
       * Display the specified resource.
       *
@@ -111,7 +96,7 @@ class AsignacionGrupoController extends Controller
      {
          //
      }
- 
+
      /**
       * Show the form for editing the specified resource.
       *
@@ -127,7 +112,7 @@ class AsignacionGrupoController extends Controller
          $model_has_roles = $users->roles()->first();
          return view ('persona.edit', compact('personas', 'roles'));
      }
- 
+
      /**
       * Update the specified resource in storage.
       *
@@ -137,7 +122,7 @@ class AsignacionGrupoController extends Controller
       */
      public function update(Request $request, $id)
      {
- 
+
          $campos=[
              'documento_identidad'=>'required|string|max:100',
              'nombre'=>'required|string|max:100',
@@ -145,13 +130,13 @@ class AsignacionGrupoController extends Controller
              'email'=>'required|email',
              'telefono'=>'required|string|max:100',
          ];
- 
+
          $mensaje=[
              'required'=>'El :attribute es requerido'
          ];
- 
+
          $this->validate($request, $campos,$mensaje);
- 
+
          $users=new User;
          $users=User::findOrFail($id);
          $personas=Persona::findOrFail($id);
@@ -161,22 +146,22 @@ class AsignacionGrupoController extends Controller
          'apellido'=>$request->input('apellido'),
          'telefono'=>$request->input('telefono')]);
          $users->email=$request->input('email');
- 
- 
+
+
          $role_id = $request->input('role');
- 
+
          DB::table('model_has_roles')->where('model_id', $users->id)
          ->update([
              'role_id' => $role_id,
              'model_id' => $users->id,
              'model_type' => 'App\Models\User']);
- 
+
          $personas->save();
          $users->save();
- 
+
          return Redirect::to('persona')->with('mensaje','Persona Actualizada');
      }
- 
+
      /**
       * Remove the specified resource from storage.
       *
@@ -185,15 +170,15 @@ class AsignacionGrupoController extends Controller
       */
      public function destroy($id)
      {
- 
+
          $users=User::findOrFail($id);
          $personas=Persona::findOrFail($id);
- 
+
          $users->delete();
          $personas->delete();
- 
- 
- 
+
+
+
           return Redirect::to('persona');
      }
 }

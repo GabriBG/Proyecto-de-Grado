@@ -37,7 +37,7 @@
 <a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
   <i >Eliminar</i>
-</buttom>
+</button>
 
 </a>
 </td>
@@ -50,11 +50,11 @@
 </div>
 @endif
 </tbody> </table>
-<div class="pagination">
-  {!! $personas->links() !!}
-</div></div>
+</div>
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('persona/create')}}" class="pull-left">
 <button class="btn btn-neutral btn-info">Crear Persona</button> </a> </div></div>
+<a href="{{url('imprimirPersonas')}}" class="pull-right">
+    <button class="btn btn-success">Imprimir PDF</button></a>
 @endsection

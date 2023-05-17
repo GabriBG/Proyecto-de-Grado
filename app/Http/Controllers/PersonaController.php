@@ -23,7 +23,7 @@ class PersonaController extends Controller
 
         $personas = Persona::where('nombre','LIKE',"%$nom%")->
         orWhere('apellido','LIKE',"%$nom%")->
-        orWhere('documento_identidad','LIKE',"%$nom%")->paginate(2);
+        orWhere('documento_identidad','LIKE',"%$nom%")->paginate(8);
 
   return view('persona.index',compact('personas', 'roles'));
 

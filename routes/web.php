@@ -22,6 +22,9 @@ Route::resource('asignaciongrupo', 'App\Http\Controllers\AsignacionGrupoControll
 Route::get('/home', [PersonaController::class, 'index'])->name('home');
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
 Route::get('/inicio', 'App\Http\Controllers\InicioController@index')->name('inicio')->middleware('auth');
+Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
+Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
+
 Auth::routes();
 
 

@@ -55,6 +55,6 @@
 <div class="col-md-9">
 <a href="{{url('persona/create')}}" class="pull-left">
 <button class="btn btn-neutral btn-info">Crear Persona</button> </a> </div></div>
-<a href="{{url('imprimirPersonas')}}" class="pull-right">
+<a href="{{url('imprimirPersonas')}}" target="_blank" class="pull-right">
     <button class="btn btn-success">Imprimir PDF</button></a>
 @endsection

@@ -11,7 +11,10 @@ class PdfController extends Controller
 
 public function imprimirPersonas(Request $request){
 
-    $personas=Persona::orderBy('id','ASC')->get();
+    $nom = $request->input('name');
+    $personas = Persona::where('nombre','LIKE',"%$nom%")->
+    orWhere('apellido','LIKE',"%$nom%")->
+    orWhere('documento_identidad','LIKE',"%$nom%")->paginate(8);
     $pdf = PDF::loadView('pdf.personasPDF',['personas' => $personas ]);
     $pdf->setPaper('carta','A4');
 

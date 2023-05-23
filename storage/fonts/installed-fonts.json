@@ -3,18 +3,18 @@
         "normal": "glyphicons-halflings-normal_4ced20531a4f462a8c5c535d4debd2eb"
     },
     "poppins": {
-        "200": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/poppins_200_6ad855cb213b5e84660a5640d8f48bbd",
-        "300": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/poppins_300_999a4088f0da952988730996a4bec1d8",
-        "normal": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/poppins_normal_ee697d7869cb745ccf3ccccc013145ad",
-        "600": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/poppins_600_9623fbc18c38938c2057a9aae8390a42",
-        "bold": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/poppins_bold_8fe618268f56b4b8f1e70e87a9e99fc0",
-        "800": "poppins_800_ef86a7722c08a791e114b6649bbd6ae4"
+        "200": "poppins_200_6ad855cb213b5e84660a5640d8f48bbd",
+        "300": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/poppins_300_999a4088f0da952988730996a4bec1d8",
+        "normal": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/poppins_normal_ee697d7869cb745ccf3ccccc013145ad",
+        "600": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/poppins_600_9623fbc18c38938c2057a9aae8390a42",
+        "bold": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/poppins_bold_8fe618268f56b4b8f1e70e87a9e99fc0",
+        "800": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/poppins_800_ef86a7722c08a791e114b6649bbd6ae4"
     },
     "font awesome\\ 5 brands": {
         "normal": "font_awesome__5_brands_normal_92c3b9ac7fe6cdef7b03c6ec28737444"
     },
     "font awesome\\ 5 free": {
-        "normal": "C:\\xampp\\htdocs\\ProyectoIntegrador\\storage\\fonts\/font_awesome__5_free_normal_88c1af7c4c5e3f312c3ccc9fd25bceaa",
-        "900": "font_awesome__5_free_900_d2d1cb55749accad36c573fd6f5ae5fd"
+        "normal": "font_awesome__5_free_normal_88c1af7c4c5e3f312c3ccc9fd25bceaa",
+        "900": "C:\\laragon\\www\\ProyectoIntegrador\\storage\\fonts\/font_awesome__5_free_900_d2d1cb55749accad36c573fd6f5ae5fd"
     }
 }

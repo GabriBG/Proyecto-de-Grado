@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use App\Models\{Persona, User, Role};
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 
@@ -15,7 +16,11 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        return view('profile.edit');
+        $user = User::with('persona')->find(auth()->id());
+        $user->load('persona');
+
+        return dd($user);
+return view('profile.edit', compact('user'));
     }
 
     /**

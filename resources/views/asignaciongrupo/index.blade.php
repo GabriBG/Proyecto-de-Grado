@@ -47,9 +47,11 @@
 </div>
 @endif
 </tbody> </table>
-</div></div>
+</div>
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('asignaciongrupo/create')}}" class="pull-left">
 <button class="btn btn-neutral btn-info">Asignar nuevo grupo</button> </a> </div></div>
+<a target="_blank" href="{{ route('imprimirAsignacion', ['name' => request('name')]) }}">
+    <button class="btn btn-success"  value="PDF" type="submit">Generar PDF</button></a></div>
 @endsection

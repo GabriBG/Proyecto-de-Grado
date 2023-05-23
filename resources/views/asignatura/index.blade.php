@@ -29,9 +29,9 @@
 <td>
 <a href="{{url('asignatura/'.$asi->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 
-<button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asi->id}}">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asi->id}}">
   <i >Eliminar</i>
-</buttom>
+</button>
 
 </a>
 </td>
@@ -45,12 +45,11 @@
 </div>
 @endif
 </tbody> </table>
-</div></div>
+</div>
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('asignatura/create')}}" class="pull-left">
-<button class="btn btn-neutral btn-info">Crear Asignatura</button> </a>
- </div>
- <a href="{{url('imprimirAsignaturas')}}" class="pull-right">
-    <button class="btn btn-success">Imprimir PDF</button></a></div>
+<button class="btn btn-neutral btn-info">Crear Asignatura</button> </a> </div></div>
+<a target="_blank" href="{{ route('imprimirAsignaturas', ['name' => request('name')]) }}">
+    <button class="btn btn-success"  value="PDF" type="submit">Generar PDF</button></a></div>
 @endsection

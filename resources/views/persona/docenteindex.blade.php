@@ -1,8 +1,8 @@
-@extends('layouts.app', ['pageSlug' => 'indexP'])
+@extends('layouts.app', ['pageSlug' => 'indexD'])
 
 @section('content')
 
-<h1>Personas</h1>
+<h1>Docentes</h1>
 
 
 <div class="row">
@@ -18,8 +18,8 @@
   <th>Opciones</th>
 </thead>
 <tbody>
-  <form class="card card-header" action="{{ route('persona.index') }}" method="get">
-    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Persona"></input>
+  <form class="card card-header" action="{{ route('docente.index') }}" method="get">
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Docente"></input>
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>
@@ -34,7 +34,7 @@
 <td>{{ $per->users->roles->pluck('name')->implode(', ') }}</td>
 
 <td>
-<a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
+<a href="{{url('persona/'.$per->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
   <i >Eliminar</i>
 </button>
@@ -42,7 +42,7 @@
 </a>
 </td>
 </tr>
-    @include('persona.modal')
+    @include('docente.modal')
 @endforeach
 @if(Session::has('mensaje'))
 <div class="alert alert-success alert" role="alert">

@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call([HorarioSeeder::class]);
         $this->call([AulaSeeder::class]);
         $this->call([AsignacionGruposSeeder::class]);
+        $this->call([ClaseSeeder::class]);
     }
 }

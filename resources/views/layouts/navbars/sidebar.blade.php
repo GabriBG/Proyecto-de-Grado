@@ -58,6 +58,30 @@
                     </ul>
                 </div>
             </li>
+            <li>
+                <a data-toggle="collapse" href="#docentes" aria-expanded="false">
+                    <i class="tim-icons icon-single-02" ></i>
+                    <span class="nav-link-text" >{{ __('Docentes') }}</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                <div class="collapse" id="docentes">
+                    <ul class="nav pl-4">
+                        <li @if ($pageSlug == 'indexD') class="active " @endif>
+                            <a href="{{ route('docente.index')  }}">
+                                <i class="tim-icons icon-notes"></i>
+                                <p>{{ __('Consultar Docentes') }}</p>
+                            </a>
+                        </li>
+                        <li @if ($pageSlug == 'crearD') class="active " @endif>
+                            <a href="{{ route('docente.create')  }}">
+                                <i class="tim-icons icon-bullet-list-67"></i>
+                                <p>{{ __('Asignar Docentes') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
                 <li>
                 <a data-toggle="collapse" href="#asignaturas" aria-expanded="false">
                     <i class="tim-icons icon-puzzle-10" ></i>

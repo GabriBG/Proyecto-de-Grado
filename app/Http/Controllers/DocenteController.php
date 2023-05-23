@@ -7,7 +7,7 @@ use App\Models\{Persona, User, Role};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
-class PersonaController extends Controller
+class DocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +17,23 @@ class PersonaController extends Controller
 
 
     public function index(Request $request)
+
     {
+        $nom = $request->input('name');
+        $rolId = '2';
+        $docentes = Persona::whereHas('users.roles', function ($query) use ($rolId, $nom) {
+            $query->where('id', $rolId)
+                ->where(function ($query) use ($nom) {
+                    $query->where('nombre', 'LIKE', "%$nom%")
+                        ->orWhere('apellido', 'LIKE', "%$nom%")
+                        ->orWhere('documento_identidad', 'LIKE', "%$nom%");
+                });
+        })->get();
 
-       $nom = $request->input('name');
 
-        $personas = Persona::where('nombre','LIKE',"%$nom%")->
-        orWhere('apellido','LIKE',"%$nom%")->
-        orWhere('documento_identidad','LIKE',"%$nom%")->paginate(8);
+   //     $personas = Persona::whereIn('id', $docentes->pluck('model_id'))->get();
 
-  return view('persona.index',compact('personas'));
+  return view('docente.index',compact('docentes'));
 
         // return view('persona.index');
     }
@@ -41,7 +49,7 @@ class PersonaController extends Controller
         $roles=new Role;
         $roles=Role::orderBy('id','DESC')->paginate(6);
         $roles = Role::all();
-        return view ('persona.create', compact('personas', 'roles'));
+        return view ('docente.create', compact('personas', 'roles'));
         }
 
     /**
@@ -95,7 +103,7 @@ class PersonaController extends Controller
             'model_type' => 'App\Models\User']);
 
 
-        return Redirect::to('persona');
+        return Redirect::to('docente');
     }
 
     /**
@@ -122,7 +130,7 @@ class PersonaController extends Controller
         $users = User::find($id);
         $roles = Role::all();
         $model_has_roles = $users->roles()->first();
-        return view ('persona.edit', compact('personas', 'roles'));
+        return view ('docente.edit', compact('personas', 'roles'));
     }
 
     /**
@@ -171,7 +179,7 @@ class PersonaController extends Controller
         $personas->save();
         $users->save();
 
-        return Redirect::to('persona')->with('mensaje','Persona Actualizada');
+        return Redirect::to('docente')->with('mensaje','Docente Actualizado');
     }
 
     /**
@@ -191,6 +199,6 @@ class PersonaController extends Controller
 
 
 
-         return Redirect::to('persona');
+         return Redirect::to('docente');
     }
 }

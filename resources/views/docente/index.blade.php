@@ -1,8 +1,8 @@
-@extends('layouts.app', ['pageSlug' => 'indexP'])
+@extends('layouts.app', ['pageSlug' => 'indexD'])
 
 @section('content')
 
-<h1>Personas</h1>
+<h1>Docentes</h1>
 
 
 <div class="row">
@@ -18,12 +18,12 @@
   <th>Opciones</th>
 </thead>
 <tbody>
-  <form class="card card-header" action="{{ route('persona.index') }}" method="get">
-    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Persona"></input>
+  <form class="card card-header" action="{{ route('docente.index') }}" method="get">
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Docente"></input>
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>
-@foreach($personas as $per)
+@foreach($docentes as $per)
 <tr>
 <td>{{ $per->id }}</td>
 <td>{{ $per->documento_identidad }}</td>
@@ -34,7 +34,7 @@
 <td>{{ $per->users->roles->pluck('name')->implode(', ') }}</td>
 
 <td>
-<a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
+<a href="{{url('docente/'.$per->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
   <i >Eliminar</i>
 </button>
@@ -42,7 +42,7 @@
 </a>
 </td>
 </tr>
-    @include('persona.modal')
+    @include('docente.modal')
 @endforeach
 @if(Session::has('mensaje'))
 <div class="alert alert-success alert" role="alert">
@@ -53,8 +53,9 @@
 </div>
 <div class="row">
 <div class="col-md-9">
-<a href="{{url('persona/create')}}" class="pull-left">
+<a href="{{url('docente/create')}}" class="pull-left">
 <button class="btn btn-neutral btn-info">Crear Persona</button> </a> </div></div>
-<a href="{{url('imprimirPersonas')}}" target="_blank" class="pull-right">
-    <button class="btn btn-success">Imprimir PDF</button></a></div>
+<a target="_blank" href="{{ route('imprimirPersonas', ['name' => request('name')]) }}">
+    <button class="btn btn-success"  value="PDF" type="submit">Generar PDF</button></a>
+</div>
 @endsection

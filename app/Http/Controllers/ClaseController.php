@@ -35,18 +35,9 @@ class ClaseController extends Controller
       */
      public function create()
      {
+        $asignacionGrupos = Asignacion_Grupo::all();
 
-        $personas = DB::table('personas')
-        ->join('model_has_roles', 'personas.id', '=', 'model_has_roles.model_id')
-        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-        ->where('roles.name', '=', 'docente')
-        ->select('personas.*')
-        ->get();
-
-        $asignacion_grupos = Asignacion_Grupo::orderBy('id','DESC')->paginate(6);
-         $asignaturas = Asignatura::orderBy('id','DESC')->paginate(6);
-         $grupos = Grupo::orderBy('id','DESC')->paginate(6);
-         return view ('clase.create', compact('personas', 'asignaturas', 'grupos', 'asignacion_grupos'));
+         return view ('clase.create', compact('asignacionGrupos'));
          }
 
      /**
@@ -81,12 +72,19 @@ class ClaseController extends Controller
          return Redirect::to('clase');
      }
 
-     /**
-      * Display the specified resource.
-      *
-      * @param  int  $id
-      * @return \Illuminate\Http\Response
-      */
+     public function getAsignacionGrupo($id)
+     {
+         $asignacionGrupo = Asignacion_Grupo::findOrFail($id);
+         $persona = Persona::findOrFail($asignacionGrupo->persona_id)->nombre;
+         $asignatura = Asignatura::findOrFail($asignacionGrupo->asignatura_id)->nombre;
+         $grupo = Grupo::findOrFail($asignacionGrupo->grupo_id)->nombre;
+
+         return response()->json([
+             'persona' => $persona,
+             'asignatura' => $asignatura,
+             'grupo' => $grupo
+         ]);
+     }
      public function show($id)
      {
          //

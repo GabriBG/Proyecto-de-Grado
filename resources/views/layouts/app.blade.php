@@ -21,6 +21,7 @@
         <link href="{{ asset('black') }}/scss/_variables.scss" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/theme.css" rel="stylesheet" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body class="{{ $class ?? '' }}">
         @auth()

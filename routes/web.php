@@ -28,6 +28,7 @@ Route::get('/inicio', 'App\Http\Controllers\InicioController@index')->name('inic
 Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
 Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
+Route::get('/asignacion-grupo/{id}', 'ClaseController@getAsignacionGrupo')->name('asignacion-grupo');
 
 Auth::routes();
 

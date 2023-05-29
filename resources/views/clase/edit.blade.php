@@ -23,9 +23,8 @@
     <div class="form-group">
     <label for="grupo_asignado" style="color:white;">Grupo Asignado</label>
     <select class="form-control" style="color=#FFFFFF;" name="grupo_asignado" id="grupo_asignado">
-        <option class="" value="">Seleccione el grupo</option>
-        @foreach($asignacionGrupos as $asigna)
-        <option value="{{ $asigna->id  }}">{{ $asigna->id }}</option>
+        @foreach($asignacionGrupos as $grupoAsignado)
+        <option value="{{ $grupoAsignado->id }}" {{ $grupoAsignado->id == $clases->grupoasignado_id ? 'selected' : '' }}>{{ $grupoAsignado->id }}</option>
         @endforeach
     </select> </div>
     </div>

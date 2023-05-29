@@ -11,7 +11,12 @@ class Grupo extends Model
 
 
     public $timestamps = false;
-    
+
     protected $fillable = ['estudiantes_matriculados','numero_grupo'];
+
+    public function asignacionesGrupos()
+    {
+        return $this->hasMany(AsignacionGrupo::class);
+    }
 
 }

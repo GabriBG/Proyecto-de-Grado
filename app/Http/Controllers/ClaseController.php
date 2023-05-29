@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo};
+use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo, Horario};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
@@ -36,8 +36,10 @@ class ClaseController extends Controller
      public function create()
      {
         $asignacionGrupos = Asignacion_Grupo::all();
+        $horarios = Horario::all();
+        $aulas = Aula::orderBy('id','DESC')->get();
 
-         return view ('clase.create', compact('asignacionGrupos'));
+         return view ('clase.create', compact('asignacionGrupos', 'horarios', 'aulas'));
          }
 
      /**
@@ -51,9 +53,10 @@ class ClaseController extends Controller
      {
 
              $campos=[
-                 'docente'=>'required|string|max:100',
-                 'asignatura'=>'required|string|max:100',
-                 'grupo'=>'required|string|max:100',
+                 'grupo_asignado'=>'required|string|max:100',
+                 'horario'=>'required|string|max:100',
+                 'aula'=>'required|string|max:100',
+                 'modalidad'=>'required|string|max:100',
              ];
 
              $mensaje=[
@@ -62,28 +65,60 @@ class ClaseController extends Controller
 
              $this->validate($request, $campos,$mensaje);
 
-         $asignaciones=new Asignacion_Grupo();
-         $asignaciones->grupo_id=$request->get('grupo');
-         $asignaciones->asignatura_id=$request->get('asignatura');
-         $asignaciones->persona_id=$request->get('docente');
+         $clases=new Clase();
+         $clases->grupoasignado_id=$request->get('grupo_asignado');
+         $clases->horario_id=$request->get('horario');
+         $clases->aula_id=$request->get('aula');
+         $clases->modalidad=$request->get('modalidad');
 
-         $asignaciones->save();
+         $clases->save();
 
          return Redirect::to('clase');
      }
 
-     public function getAsignacionGrupo($id)
-     {
-         $asignacionGrupo = Asignacion_Grupo::findOrFail($id);
-         $persona = Persona::findOrFail($asignacionGrupo->persona_id)->nombre;
-         $asignatura = Asignatura::findOrFail($asignacionGrupo->asignatura_id)->nombre;
-         $grupo = Grupo::findOrFail($asignacionGrupo->grupo_id)->nombre;
 
-         return response()->json([
-             'persona' => $persona,
-             'asignatura' => $asignatura,
-             'grupo' => $grupo
-         ]);
+
+     public function obtenerDatosAsignacionGrupo(Request $request)
+     {
+
+         $asignacionGrupo = Asignacion_Grupo::with('personas', 'asignaturas', 'grupos')->findOrFail($request->grupo_asignado);
+         $nombreCompleto = $asignacionGrupo->personas->nombre . ' ' . $asignacionGrupo->personas->apellido;
+
+         $datos = [
+             'persona' => $nombreCompleto,
+             'asignatura' => $asignacionGrupo->asignaturas->nombre,
+             'grupo' => $asignacionGrupo->grupos->numero_grupo,
+         ];
+
+         return response()->json($datos);
+     }
+
+     public function obtenerDatosaula(Request $request)
+     {
+
+        $aulas = Aula::findOrFail($request->aula);
+
+         $datos = [
+             'nomenclatura' => $aulas->nomenclatura,
+             'sede' => $aulas->sede,
+         ];
+
+         return response()->json($datos);
+     }
+     public function obtenerDatoshorario(Request $request)
+     {
+
+        $horarios = Horario::findOrFail($request->horario);
+
+
+
+         $datos = [
+             'hora_inicio' => $horarios->hora_inicio,
+             'hora_final' => $horarios->hora_final,
+             'jornada' => $horarios->jornada,
+         ];
+
+         return response()->json($datos);
      }
      public function show($id)
      {
@@ -97,13 +132,14 @@ class ClaseController extends Controller
       * @return \Illuminate\Http\Response
       */
      public function edit($id)
-     {   $roles=new Role;
-         $personas=Persona::findOrFail($id);
-         $roles=Role::orderBy('id','DESC')->paginate(6);
-         $users = User::find($id);
-         $roles = Role::all();
-         $model_has_roles = $users->roles()->first();
-         return view ('clase.edit', compact('personas', 'roles'));
+     {   $clases=new Clase;
+
+        $clases= Clase::find($id);
+        $asignacionGrupos = Asignacion_Grupo::all();
+        $horarios = Horario::all();
+        $aulas = Aula::all();
+
+         return view ('clase.edit', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
      }
 
      /**
@@ -115,44 +151,31 @@ class ClaseController extends Controller
       */
      public function update(Request $request, $id)
      {
+        $campos=[
+            'grupo_asignado'=>'required|string|max:100',
+            'horario'=>'required|string|max:100',
+            'aula'=>'required|string|max:100',
+            'modalidad'=>'required|string|max:100',
+        ];
 
-         $campos=[
-             'documento_identidad'=>'required|string|max:100',
-             'nombre'=>'required|string|max:100',
-             'apellido'=>'required|string|max:100',
-             'email'=>'required|email',
-             'telefono'=>'required|string|max:100',
-         ];
+        $mensaje=[
+            'required'=>'El :attribute es requerido'
+        ];
 
-         $mensaje=[
-             'required'=>'El :attribute es requerido'
-         ];
-
-         $this->validate($request, $campos,$mensaje);
-
-         $users=new User;
-         $users=User::findOrFail($id);
-         $personas=Persona::findOrFail($id);
-         $personas->update([
-         'documento_identidad'=>$request->input('documento_identidad'),
-         'nombre'=>$request->input('nombre'),
-         'apellido'=>$request->input('apellido'),
-         'telefono'=>$request->input('telefono')]);
-         $users->email=$request->input('email');
+        $this->validate($request, $campos,$mensaje);
 
 
-         $role_id = $request->input('role');
+        $clases=new Clase();
+        $clases=Clase::findOrFail($id);
+        $clases->grupoasignado_id=$request->get('grupo_asignado');
+        $clases->horario_id=$request->get('horario');
+        $clases->aula_id=$request->get('aula');
+        $clases->modalidad=$request->get('modalidad');
 
-         DB::table('model_has_roles')->where('model_id', $users->id)
-         ->update([
-             'role_id' => $role_id,
-             'model_id' => $users->id,
-             'model_type' => 'App\Models\User']);
+        $clases->save();
 
-         $personas->save();
-         $users->save();
 
-         return Redirect::to('clase')->with('mensaje','Persona Actualizada');
+         return Redirect::to('clase')->with('mensaje','Clase actualizada');
      }
 
      /**

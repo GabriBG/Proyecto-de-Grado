@@ -12,4 +12,10 @@ class Asignatura extends Model
     public $timestamps = false;
 
     protected $fillable = ['codigo','nombre','creditos'];
+
+
+    public function asignacionesGrupos()
+{
+    return $this->hasMany(AsignacionGrupo::class);
+}
 }

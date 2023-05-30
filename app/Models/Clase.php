@@ -30,17 +30,17 @@ class Clase extends Model
 
     public function personas()
     {
-        return $this->hasOneThrough(Persona::class, Asignacion_Grupo::class, 'id', 'id', 'asignacion_grupo_id', 'persona_id');
+        return $this->hasOneThrough(Persona::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'persona_id');
     }
 
     public function asignaturas()
     {
-        return $this->hasOneThrough(Asignatura::class, Asignacion_Grupo::class, 'id', 'id', 'asignacion_grupo_id', 'asignatura_id');
+        return $this->hasOneThrough(Asignatura::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'asignatura_id');
     }
 
     public function grupos()
     {
-        return $this->hasOneThrough(Grupo::class, Asignacion_Grupo::class, 'id', 'id', 'asignacion_grupo_id', 'grupo_id');
+        return $this->hasOneThrough(Grupo::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'grupo_id');
 }
 
 }

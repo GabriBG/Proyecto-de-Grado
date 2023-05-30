@@ -54,5 +54,5 @@
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('persona/create')}}" class="pull-left">
-<button class="btn btn-neutral btn-info">Crear Persona</button> </a> </div></div>
+<button class="btn btn-neutral btn-info">Crear Persona</button> </a></div></div></div>
 @endsection

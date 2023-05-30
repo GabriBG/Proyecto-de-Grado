@@ -24,8 +24,21 @@ class ClaseController extends Controller
 
         $clases = Clase::with('asignacionGrupos', 'personas', 'asignaturas', 'grupos', 'horarios')->get();
 
+        $busqueda = Clase::whereHas('horarios', function ($query) use ($nom) {
+            $query->where('hora_inicio', 'like', "%$nom%")
+            ->orWhere('hora_final', 'LIKE', "%$nom%");
+        })->OrwhereHas('aulas', function ($query) use ($nom) {
+            $query->where('nomenclatura', 'like', "%$nom%");
+        })->orWhereHas('asignaturas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%");
+        })->orWhereHas('grupos', function ($query) use ($nom) {
+            $query->where('numero_grupo', 'LIKE', "%$nom%");
+        })->orWhereHas('personas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%")
+            ->orWhere('apellido', 'LIKE', "%$nom%");
+        })->with('personas', 'asignaturas', 'grupos')->get();
 
-        return view('clase.index',compact('clases'));
+        return view('clase.index',compact('clases','busqueda'));
      }
 
      /**

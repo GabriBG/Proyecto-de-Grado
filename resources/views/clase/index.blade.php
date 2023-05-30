@@ -21,6 +21,7 @@
     <br>
     <input class="btn btn-info" type="submit" value="Buscar">
 </form>
+<br>
 @foreach($clases as $cla)
 <tr>
 <td>{{ $cla->id }}</td>

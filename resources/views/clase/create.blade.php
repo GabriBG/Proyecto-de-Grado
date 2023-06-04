@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'crearAG'])
+@extends('layouts.app', ['page' => ('Clases'), 'pageSlug' => 'crearC'])
 
 
 
@@ -27,7 +27,7 @@
 <select class="form-control" style="color=#FFFFFF;" name="grupo_asignado" id="grupo_asignado">
     <option class="" value="">Seleccione el grupo</option>
     @foreach($asignacionGrupos as $asigna)
-    <option value="{{ $asigna->id  }}">{{ $asigna->id }}</option>
+    <option value="{{ $asigna->id  }}">{{ $asigna->grupos->numero_grupo }}</option>
     @endforeach
 </select> </div>
 </div>
@@ -43,12 +43,6 @@
     <input type="text" name="asignatura" id="asignatura" style="color:white;" class="form-control" readonly>
 </div>
 </div>
-<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-<div class="form-group">
-    <label for="grupo" style="color:white;">Grupo:</label>
-    <input type="text" name="grupo" id="grupo" style="color:white;" class="form-control" readonly>
-</div>
-</div>
 </div>
 <br>
 <div class="row">
@@ -58,22 +52,10 @@
     <select class="form-control" style="color=#FFFFFF;" name="horario" id="horario">
         <option class=""  value="">Seleccione el horario</option>
         @foreach($horarios as $hora)
-        <option value="{{ $hora->id  }}">{{ $hora->id }}</option>
+        <option value="{{ $hora->id  }}">{{ $hora->hora_inicio }} - {{ $hora->hora_final }}</option>
         @endforeach
     </select> </div>
     </div>
-    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-        <div class="form-group">
-            <label for="hora_inicio" style="color:white;">Hora de inicio:</label>
-            <input type="text" name="hora_inicio" id="hora_inicio" style="color:white;" class="form-control" readonly>
-        </div>
-        </div>
-        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-            <div class="form-group">
-                <label for="hora_final" style="color:white;">Hora de final:</label>
-                <input type="text" name="hora_final" id="hora_final" style="color:white;" class="form-control" readonly>
-            </div>
-            </div>
             <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label for="jornada" style="color:white;">Jornada:</label>
@@ -90,16 +72,10 @@
     <select class="form-control" style="color=#FFFFFF;" name="aula" id="aula">
         <option class=""  value="">Seleccione el aula</option>
         @foreach($aulas as $aul)
-        <option value="{{ $aul->id  }}">{{ $aul->id }}</option>
+        <option value="{{ $aul->id  }}">{{ $aul->nomenclatura }}</option>
         @endforeach
     </select> </div>
     </div>
-    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-        <div class="form-group">
-            <label for="nomenclatura" style="color:white;">Nomenclatura:</label>
-            <input type="text" name="nomenclatura" id="nomenclatura" style="color:white;" class="form-control" readonly>
-        </div>
-        </div>
         <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
             <div class="form-group">
                 <label for="sede" style="color:white;">Sede:</label>
@@ -108,8 +84,28 @@
             </div>
 
     </div>
-<br>
+    <br>
+    <div class="row">
+        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="fecha" style="color:white;">Fecha:</label>
+            <input class="form-control" type="date" name="fecha" id="fecha">
+        </div>
+    </div>
+    </div>
+    <br>
 <div class="row">
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+    <div class="form-group">
+        <label for="asistencia" style="color:white;">Asistencia:</label>
+        <select class="form-control" style="color=#FFFFFF;" name="asistencia" id="asistencia">
+            <option class=""  value="">Seleccione el aula</option>
+            <option class=""  value="asistida">Asistida</option>
+            <option class=""  value="inasistida">Inasistida</option>
+            <option class=""  value="pendiente">Pendiente</option>
+        </select>
+    </div>
+</div>
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
     <div class="form-group">
         <label for="modalidad" style="color:white;">Modalidad:</label>
@@ -127,9 +123,9 @@
 <br>
 <label style="color:white;">¿No encuentra su horario o aula?</label>
 <br>
-<a href="{{route('horario.create')}}">Registrar Horario</a>
+<a style="color:rgb(33, 222, 255);" target="_blank" href="{{route('horario.create')}}">Registrar Horario</a>
 <br>
-<a href="{{route('aula.create')}}">Registrar Aula</a>
+<a style="color:rgb(0, 217, 255);" target="_blank" href="{{route('aula.create')}}">Registrar Aula</a>
 
 {!!Form::close()!!}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

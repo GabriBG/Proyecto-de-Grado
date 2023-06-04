@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'indexAG'])
+@extends('layouts.app', ['page' => ('Clases'), 'pageSlug' => 'indexC'])
 
 @section('content')
 
@@ -31,7 +31,7 @@
 <td>{{ $cla->horarios->hora_inicio}} - {{ $cla->horarios->hora_final}}</td>
 <td>
 
-<a href="{{url('clase/'.$cla->id.'/edit')}}"><button class="btn btn-close">Examinar</button></a>
+<a href="{{url('clase/'.$cla->id.'/examinar')}}"><button class="btn btn-close">Examinar</button></a>
 <a href="{{url('clase/'.$cla->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$cla->id}}">
   <i >Eliminar</i>
@@ -54,6 +54,6 @@
 <div class="col-md-9">
 <a href="{{url('clase/create')}}" class="pull-left">
 <button class="btn btn-neutral btn-info">Crear nueva clase</button> </a> </div></div>
-<a target="_blank" href="{{ route('imprimirAsignacion', ['name' => request('name')]) }}">
+<a target="_blank" href="{{ route('imprimirClase', ['name' => request('name')]) }}">
     <button class="btn btn-success"  value="PDF" type="submit">Generar PDF</button></a></div>
 @endsection

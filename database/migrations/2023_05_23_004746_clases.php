@@ -22,6 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('aula_id');
             $table->foreign('aula_id')->references('id')->on('aulas')->onDelete('cascade');
             $table->string('modalidad')->notnull();
+            $table->date('fecha')->notnull();
+            $table->string('asistencia')->notnull();
             $table->timestamps();
         });
     }

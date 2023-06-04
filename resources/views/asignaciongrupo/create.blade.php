@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'crearAG'])
+@extends('layouts.app', ['page' => ('Asignacion Grupos'),'pageSlug' => 'crearAG'])
 
 @section('content')
 <h1>Asignacion de grupos</h1>

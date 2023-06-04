@@ -28,10 +28,12 @@ Route::get('/inicio', 'App\Http\Controllers\InicioController@index')->name('inic
 Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
 Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
+Route::get('imprimirClase','App\http\Controllers\PdfController@imprimirClase')->name('imprimirClase');
 Route::get('/asignacion-grupo/{id}', 'App\http\Controllers\ClaseController@getAsignacionGrupo')->name('asignacion-grupo');
 Route::get('/obtener-datos-asignacion-grupo', 'App\Http\Controllers\ClaseController@obtenerDatosAsignacionGrupo');
 Route::get('/obtener-datos-horario', 'App\Http\Controllers\ClaseController@obtenerDatoshorario');
 Route::get('/obtener-datos-aula', 'App\Http\Controllers\ClaseController@obtenerDatosaula');
+Route::get('clase/{id}/examinar', 'App\Http\Controllers\ClaseController@examinar')->name('clase.examinar');
 
 Auth::routes();
 

@@ -56,7 +56,7 @@ class PersonaController extends Controller
 
             $campos=[
                 'username'=>'required|string|max:100',
-                'password'=>'required|string|max:100',
+                'password'=>'required|string|min:8',
                 'documento_identidad'=>'required|string|max:100',
                 'nombre'=>'required|string|max:100',
                 'apellido'=>'required|string|max:100',
@@ -164,7 +164,7 @@ class PersonaController extends Controller
         if (!empty($data['password'])) {
             // Encriptar la nueva contraseña
             $password = bcrypt($request['password']);
-    
+
             // Actualizar la contraseña en la base de datos
             User::where('id', $id)->update(['password' => $password]);
         }

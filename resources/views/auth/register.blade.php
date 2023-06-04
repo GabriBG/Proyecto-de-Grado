@@ -1,69 +1,63 @@
-@extends('layouts.app', ['class' => 'register-page', 'page' => __('Register Page'), 'contentClass' => 'register-page'])
+@extends('layouts.app', ['class' => 'register-page', 'page' => __('PAGINA DE REGISTRO'), 'contentClass' => 'register-page'])
 
 @section('content')
-    <div class="row">
-        <div class="col-md-5 ml-auto">
-            <div class="info-area info-horizontal mt-5">
-                <div class="icon icon-warning">
-                    <i class="tim-icons icon-wifi"></i>
-                </div>
-                <div class="description">
-                    <h3 class="info-title">{{ __('Marketing') }}</h3>
-                    <p class="description">
-                        {{ __('We\'ve created the marketing campaign of the website. It was a very interesting collaboration.') }}
-                    </p>
-                </div>
-            </div>
-            <div class="info-area info-horizontal">
-                <div class="icon icon-primary">
-                    <i class="tim-icons icon-triangle-right-17"></i>
-                </div>
-                <div class="description">
-                    <h3 class="info-title">{{ __('Fully Coded in HTML5') }}</h3>
-                    <p class="description">
-                        {{ __('We\'ve developed the website with HTML5 and CSS3. The client has access to the code using GitHub.') }}
-                    </p>
-                </div>
-            </div>
-            <div class="info-area info-horizontal">
-                <div class="icon icon-info">
-                    <i class="tim-icons icon-trophy"></i>
-                </div>
-                <div class="description">
-                    <h3 class="info-title">{{ __('Built Audience') }}</h3>
-                    <p class="description">
-                        {{ __('There is also a Fully Customizable CMS Admin Dashboard for this product.') }}
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-7 mr-auto">
-            <div class="card card-register card-white">
-                <div class="card-header">
-                    <img class="card-img" src="{{ asset('black') }}/img/card-primary.png" alt="Card image">
-                    <h4 class="card-title">{{ __('Register') }}</h4>
-                </div>
+<div class="col-md-12 text-center ml-auto mr-auto">
+    <h1 class="mb-5">CONTROL DE ASISTENCIA DOCENTE</h1>
+</div>
+<div class="col-lg-6 col-md-12 ml-auto mr-auto">
                 <form class="form" method="post" action="{{ route('register') }}">
                     @csrf
-
-                    <div class="card-body">
-                        <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="tim-icons icon-single-02"></i>
+                    <div class="card card-login card-white">
+                        <div class="card-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffd700" fill-opacity="1" d="M0,256L34.3,229.3C68.6,203,137,149,206,128C274.3,107,343,117,411,112C480,107,549,85,617,96C685.7,107,754,149,823,165.3C891.4,181,960,171,1029,154.7C1097.1,139,1166,117,1234,128C1302.9,139,1371,181,1406,202.7L1440,224L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
+                        <img class="text-dark card-title" style="margin-left: 110px; margin-right: 100px" src="{{ asset('black') }}/img/LOGO-UNIAJC.png" alt="">
+                    </div>
+                        <div class="card-body">
+                            <p class="text-dark mb-2">REGISTRARSE</p>
+                            <div class="input-group{{ $errors->has('username') ? ' has-danger' : '' }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}">
-                            @include('alerts.feedback', ['field' => 'name'])
+                            <input type="text" name="username" class="form-control{{ $errors->has('username') ? ' es invalido' : '' }}" placeholder="{{ __('Nombre de usuario') }}">
+                            @include('alerts.feedback', ['field' => 'username'])
                         </div>
-                        <div class="input-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                        <div class="input-group{{ $errors->has('documento_identidad') ? ' has-danger' : '' }}">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <i class="tim-icons icon-email-85"></i>
                                 </div>
                             </div>
-                            <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}">
-                            @include('alerts.feedback', ['field' => 'email'])
+                        <input type="text" name="documento_identidad" class="form-control{{ $errors->has('documento_identidad') ? ' is-invalid' : '' }}" placeholder="{{ __('Documento de identidad') }}">
+                        @include('alerts.feedback', ['field' => 'documento_identidad'])
+                    </div>
+                    <div class="input-group{{ $errors->has('nombre') ? ' has-danger' : '' }}">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="tim-icons icon-email-85"></i>
+                            </div>
+                        </div>
+                    <input type="text" name="nombre" class="form-control{{ $errors->has('nombre') ? ' is-invalid' : '' }}" placeholder="{{ __('Nombre Completo') }}">
+                    @include('alerts.feedback', ['field' => 'nombre'])
+                </div>
+                <div class="input-group{{ $errors->has('apellido') ? ' has-danger' : '' }}">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="tim-icons icon-email-85"></i>
+                        </div>
+                    </div>
+                <input type="text" name="apellido" class="form-control{{ $errors->has('apellido') ? ' is-invalid' : '' }}" placeholder="{{ __('Apellidos') }}">
+                @include('alerts.feedback', ['field' => 'apellido'])
+            </div>
+                            <div class="input-group{{ $errors->has('telefono') ? ' has-danger' : '' }}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </div>
+                                </div>
+                            <input type="text" name="telefono" class="form-control{{ $errors->has('telefono') ? ' is-invalid' : '' }}" placeholder="{{ __('Telefono') }}">
+                            @include('alerts.feedback', ['field' => 'telefono'])
                         </div>
                         <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                             <div class="input-group-prepend">

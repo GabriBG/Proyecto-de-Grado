@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo, Horario};
@@ -22,12 +23,11 @@ class ClaseController extends Controller
      {
         $nom = $request->input('name');
 
-        $clases = Clase::with('asignacionGrupos', 'personas', 'asignaturas', 'grupos', 'horarios')->get();
 
-        $busqueda = Clase::whereHas('horarios', function ($query) use ($nom) {
+        $clases = Clase::whereHas('horarios', function ($query) use ($nom) {
             $query->where('hora_inicio', 'like', "%$nom%")
-            ->orWhere('hora_final', 'LIKE', "%$nom%");
-        })->OrwhereHas('aulas', function ($query) use ($nom) {
+                ->orWhere('hora_final', 'LIKE', "%$nom%");
+        })->orWhereHas('aulas', function ($query) use ($nom) {
             $query->where('nomenclatura', 'like', "%$nom%");
         })->orWhereHas('asignaturas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%");
@@ -35,10 +35,11 @@ class ClaseController extends Controller
             $query->where('numero_grupo', 'LIKE', "%$nom%");
         })->orWhereHas('personas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%")
-            ->orWhere('apellido', 'LIKE', "%$nom%");
-        })->with('personas', 'asignaturas', 'grupos')->get();
+                ->orWhere('apellido', 'LIKE', "%$nom%");
+        })->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
 
-        return view('clase.index',compact('clases','busqueda'));
+        return view('clase.index', compact('clases'));
+
      }
 
      /**
@@ -69,6 +70,8 @@ class ClaseController extends Controller
                  'grupo_asignado'=>'required|string|max:100',
                  'horario'=>'required|string|max:100',
                  'aula'=>'required|string|max:100',
+                 'fecha'=>'required|date',
+                 'asistencia'=>'required|string|max:100',
                  'modalidad'=>'required|string|max:100',
              ];
 
@@ -82,6 +85,8 @@ class ClaseController extends Controller
          $clases->grupoasignado_id=$request->get('grupo_asignado');
          $clases->horario_id=$request->get('horario');
          $clases->aula_id=$request->get('aula');
+         $clases->fecha=$request->get('fecha');
+         $clases->asistencia=$request->get('asistencia');
          $clases->modalidad=$request->get('modalidad');
 
          $clases->save();
@@ -94,17 +99,17 @@ class ClaseController extends Controller
      public function obtenerDatosAsignacionGrupo(Request $request)
      {
 
-         $asignacionGrupo = Asignacion_Grupo::with('personas', 'asignaturas', 'grupos')->findOrFail($request->grupo_asignado);
-         $nombreCompleto = $asignacionGrupo->personas->nombre . ' ' . $asignacionGrupo->personas->apellido;
+        $asignacionGrupo = Asignacion_Grupo::with('personas', 'asignaturas', 'grupos')->findOrFail($request->grupo_asignado);
+        $nombreCompleto = $asignacionGrupo->personas->nombre . ' ' . $asignacionGrupo->personas->apellido;
 
-         $datos = [
-             'persona' => $nombreCompleto,
-             'asignatura' => $asignacionGrupo->asignaturas->nombre,
-             'grupo' => $asignacionGrupo->grupos->numero_grupo,
-         ];
+        $datos = [
+            'persona' => $nombreCompleto,
+            'asignatura' => $asignacionGrupo->asignaturas->nombre,
+            'grupo' => $asignacionGrupo->grupos->numero_grupo,
+        ];
 
-         return response()->json($datos);
-     }
+        return response()->json($datos);
+    }
 
      public function obtenerDatosaula(Request $request)
      {
@@ -155,6 +160,19 @@ class ClaseController extends Controller
          return view ('clase.edit', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
      }
 
+
+
+     public function examinar($id)
+     {   $clases=new Clase;
+
+        $clases= Clase::find($id);
+        $asignacionGrupos = Asignacion_Grupo::all();
+        $horarios = Horario::all();
+        $aulas = Aula::all();
+
+         return view ('clase.exam', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
+     }
+
      /**
       * Update the specified resource in storage.
       *
@@ -168,6 +186,8 @@ class ClaseController extends Controller
             'grupo_asignado'=>'required|string|max:100',
             'horario'=>'required|string|max:100',
             'aula'=>'required|string|max:100',
+            'fecha'=>'required|date',
+            'asistencia'=>'required|string|max:100',
             'modalidad'=>'required|string|max:100',
         ];
 
@@ -183,6 +203,8 @@ class ClaseController extends Controller
         $clases->grupoasignado_id=$request->get('grupo_asignado');
         $clases->horario_id=$request->get('horario');
         $clases->aula_id=$request->get('aula');
+        $clases->fecha=$request->get('fecha');
+        $clases->asistencia=$request->get('asistencia');
         $clases->modalidad=$request->get('modalidad');
 
         $clases->save();
@@ -200,12 +222,9 @@ class ClaseController extends Controller
      public function destroy($id)
      {
 
-         $users=User::findOrFail($id);
-         $personas=Persona::findOrFail($id);
+         $clases=Clase::findOrFail($id);
 
-         $users->delete();
-         $personas->delete();
-
+         $clases->delete();
 
 
           return Redirect::to('clase');

@@ -7,6 +7,8 @@ use PDF;
 use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\Asignatura;
+use App\Models\Clase;
+
 
 class PdfController extends Controller
 {
@@ -65,5 +67,31 @@ public function imprimirAsignacion(Request $request){
 
 }
 
+
+public function imprimirClase(Request $request){
+
+    $nom = $request->input('name');
+
+
+    $clases = Clase::whereHas('horarios', function ($query) use ($nom) {
+        $query->where('hora_inicio', 'like', "%$nom%")
+            ->orWhere('hora_final', 'LIKE', "%$nom%");
+    })->orWhereHas('aulas', function ($query) use ($nom) {
+        $query->where('nomenclatura', 'like', "%$nom%");
+    })->orWhereHas('asignaturas', function ($query) use ($nom) {
+        $query->where('nombre', 'LIKE', "%$nom%");
+    })->orWhereHas('grupos', function ($query) use ($nom) {
+        $query->where('numero_grupo', 'LIKE', "%$nom%");
+    })->orWhereHas('personas', function ($query) use ($nom) {
+        $query->where('nombre', 'LIKE', "%$nom%")
+            ->orWhere('apellido', 'LIKE', "%$nom%");
+    })->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
+
+    $pdf = PDF::loadView('pdf.clasePDF',['clases' => $clases ]);
+    $pdf->setPaper('carta','A4');
+
+    return $pdf->stream();
+
+}
 
 }

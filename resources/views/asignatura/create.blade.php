@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'crearA'])
+@extends('layouts.app', ['page' => ('Asignaturas'),'pageSlug' => 'crearA'])
 
 @section('content')
 <h1>Asignatura</h1>

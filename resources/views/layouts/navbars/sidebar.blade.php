@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="home" class="simple-text logo-normal"><img src="{{ asset('black') }}/img/uniajc.png"></a>
+            <a href="/home" class="simple-text logo-normal"><img src="{{ asset('black') }}/img/uniajc.png"></a>
         </div>
         <ul class="nav">
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
@@ -29,6 +29,30 @@
                             <a href="{{ route('asignaciongrupo.create')  }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ __('Asignar Grupos') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#clase" aria-expanded="false">
+                    <i class="tim-icons icon-pin" ></i>
+                    <span class="nav-link-text" >{{ __('Clases') }}</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                <div class="collapse" id="clase">
+                    <ul class="nav pl-4">
+                        <li @if ($pageSlug == 'indexC') class="active " @endif>
+                            <a href="{{ route('clase.index')  }}">
+                                <i class="tim-icons icon-notes"></i>
+                                <p>{{ __('Consultar Clases') }}</p>
+                            </a>
+                        </li>
+                        <li @if ($pageSlug == 'crearC') class="active " @endif>
+                            <a href="{{ route('clase.create')  }}">
+                                <i class="tim-icons icon-bullet-list-67"></i>
+                                <p>{{ __('Asignar Clases') }}</p>
                             </a>
                         </li>
                     </ul>

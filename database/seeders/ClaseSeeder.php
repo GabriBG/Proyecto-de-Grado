@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Clase;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class ClaseSeeder extends Seeder
 {
@@ -20,7 +21,9 @@ class ClaseSeeder extends Seeder
             'grupoasignado_id' => '1',
             'horario_id' => '1',
             'aula_id' => '1',
-            'modalidad' => 'Presencial',
+            'modalidad' => 'presencial',
+            'fecha' => Carbon::create(2023, 6, 3),
+            'asistencia' => 'asistida',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -30,7 +33,9 @@ class ClaseSeeder extends Seeder
             'grupoasignado_id' => '2',
             'horario_id' => '2',
             'aula_id' => '2',
-            'modalidad' => 'Presencial',
+            'modalidad' => 'presencial',
+            'fecha' => Carbon::create(2023, 6, 6),
+            'asistencia' => 'pendiente',
             'created_at' => now(),
             'updated_at' => now()
         ]);

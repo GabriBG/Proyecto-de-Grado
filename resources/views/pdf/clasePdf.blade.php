@@ -12,11 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="..\public\images\cuestionario.png" type="image/x-icon">
-    <title>Listado Asignaturas</title>
+    <title>Listado Clases</title>
 </head>
 <body>
     <br>
-    <h1 style="font-family: Verdana, Geneva, Tahoma, sans-serif;" >Reporte de Asignaturas </h1>
+    <h1 style="font-family: Verdana, Geneva, Tahoma, sans-serif;" >Reporte de Clases </h1>
     <br>
 <div class="main-panel">
 
@@ -29,6 +29,7 @@
             <th>Asignatura</th>
             <th>Numero de Grupo</th>
             <th>Horario</th>
+            <th>Estado</th>
         </thead>
         <tbody>
         @foreach($clases as $cla)
@@ -38,6 +39,7 @@
                 <td>{{ $cla->asignacionGrupos->asignaturas->nombre }}</td>
                 <td>{{ $cla->asignacionGrupos->grupos->numero_grupo}}</td>
                 <td>{{ $cla->horarios->hora_inicio}} - {{ $cla->horarios->hora_final}}</td>
+                <td>{{ ucfirst($cla->asistencia)}}</td>
                 <td>
 
         </a>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Asignacion_Grupo, Persona, Asignatura, Grupo};
+use App\Models\{Asignacion_Grupo, Persona, Asignatura, Grupo, Role, User};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
@@ -104,13 +104,17 @@ class AsignacionGrupoController extends Controller
       * @return \Illuminate\Http\Response
       */
      public function edit($id)
-     {   $roles=new Role;
-         $personas=Persona::findOrFail($id);
-         $roles=Role::orderBy('id','DESC')->paginate(6);
-         $users = User::find($id);
-         $roles = Role::all();
-         $model_has_roles = $users->roles()->first();
-         return view ('persona.edit', compact('personas', 'roles'));
+     {   $personas = DB::table('personas')
+        ->join('model_has_roles', 'personas.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->where('roles.name', '=', 'docente')
+        ->select('personas.*')
+        ->get();
+
+        $asignacion_grupos= Asignacion_Grupo::find($id);
+         $asignaturas = Asignatura::orderBy('id','DESC')->paginate(6);
+         $grupos = Grupo::orderBy('id','DESC')->paginate(6);
+         return view ('asignaciongrupo.edit', compact('personas', 'asignaturas', 'grupos', 'asignacion_grupos'));
      }
 
      /**

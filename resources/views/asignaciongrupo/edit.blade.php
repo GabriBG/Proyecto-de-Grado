@@ -14,32 +14,46 @@
 @endif
     </div>
 </div>
-<form action="{{route('asignatura.update',$asignaturas->id)}}" method="post">
+<form action="{{route('asignaciongrupo.update',$asignacion_grupos->id)}}" method="post">
 {{Form::token()}}
 @method('PUT')
 
 <div class="row">
-<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-<div class="form-group">
-<label for="codigo">Codigo</label>
-<input type="number" name="codigo" id="codigo" value="{{ isset($asignaturas->codigo)?$asignaturas->codigo:old('codigo') }}" class="form-control" placeholder="Digite el codigo de asignatura"> </div>
-</div>
-<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-<div class="form-group">
-<label for="nombre">Nombre de la asignatura</label>
-<input type="text" name="nombre" id="nombre" value="{{ isset($asignaturas->nombre)?$asignaturas->nombre:old('nombre') }}" class="form-control" placeholder="Nombre de asignatura">
-</div>
-</div>
-<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-<div class="form-group">
-<label for="creditos">Creditos</label>
-<input type="text" name="creditos" id="creditos" value="{{ isset($asignaturas->creditos)?$asignaturas->creditos:old('creditos') }}" class="form-control" placeholder="Creditos de la asignatura">
-</div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+    <div class="form-group">
+    <label for="docente">Docente</label>
+    <select class="form-control" style="color=#FFFFFF;" name="docente">
+        @foreach($personas as $per)
+        <option value="{{ $per->id }}" {{ $per->id == $asignacion_grupos->personas->id ? 'selected' : '' }}>{{ $per->nombre }} {{ $per->apellido }}</option>
+        @endforeach
+    </select> </div>
     </div>
-<div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
-<div class="form-group"> <br>
-<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
-<a class="btn btn-danger" href="{{ route('asignatura.index') }}"><span class="glyphicon glyphicon-remove"></span> Atrás</a>        </div>        </div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+    <div class="form-group">
+    <label for="asignatura">Asignatura</label>
+    <select class="form-control" name="asignatura">
+
+        @foreach($asignaturas as $asig)
+        <option value="{{ $asig->id }}" {{ $asig->id == $asignacion_grupos->asignaturas->id ? 'selected' : '' }}>{{ $asig->nombre }}</option>
+        @endforeach
+    </select></div>
+    </div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+    <div class="form-group">
+    <label for="grupo">Grupo</label>
+    <select class="form-control" name="grupo">
+
+        @foreach($grupos as $gru)
+        <option value="{{ $gru->id }}" {{ $gru->id == $asignacion_grupos->grupos->id ? 'selected' : '' }}>{{ $gru->numero_grupo }}</option>
+        @endforeach
+    </select></div>
+        </div>
+    <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
+    <div class="form-group"> <br>
+    <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+    <button class="btn btn-danger" type="reset"><span  class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
+            </div>
+        </div>
     </div>
 </div>
 </form>

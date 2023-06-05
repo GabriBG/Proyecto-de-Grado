@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo, Horario};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ClaseController extends Controller
 {
@@ -21,6 +22,9 @@ class ClaseController extends Controller
 
      public function index(Request $request)
      {
+
+        $usuario = Auth::user();
+
         $nom = $request->input('name');
 
 
@@ -36,9 +40,35 @@ class ClaseController extends Controller
         })->orWhereHas('personas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%")
                 ->orWhere('apellido', 'LIKE', "%$nom%");
-        })->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
+        })->orWhere('asistencia', "$nom")
+        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
 
-        return view('clase.index', compact('clases'));
+
+        $autenticado = Clase::whereHas('horarios', function ($query) use ($nom) {
+            $query->where('hora_inicio', 'like', "%$nom%")
+                ->orWhere('hora_final', 'LIKE', "%$nom%");
+        })
+        ->orWhereHas('aulas', function ($query) use ($nom) {
+            $query->where('nomenclatura', 'like', "%$nom%");
+        })
+        ->orWhereHas('asignaturas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%");
+        })
+        ->orWhereHas('grupos', function ($query) use ($nom) {
+            $query->where('numero_grupo', 'LIKE', "%$nom%");
+        })
+        ->orWhereHas('personas', function ($query) use ($nom) {
+            $query->where('nombre', 'LIKE', "%$nom%")
+                ->orWhere('apellido', 'LIKE', "%$nom%")
+                ->whereHas('users', function ($query) {
+                    $query->where('id', auth()->user()->id);
+                });
+        })
+        ->orWhere('asistencia', "$nom")
+        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')
+        ->get();
+
+        return view('clase.index', compact('clases','autenticado'));
 
      }
 
@@ -211,6 +241,31 @@ class ClaseController extends Controller
 
 
          return Redirect::to('clase')->with('mensaje','Clase actualizada');
+     }
+
+
+
+     public function confirmar(Request $request, $id)
+     {
+        $campos=[
+            'asistencia'=>'required|string|max:100',
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido'
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+
+        $clases=new Clase();
+        $clases=Clase::findOrFail($id);
+        $clases->asistencia=$request->get('asistencia');
+
+        $clases->save();
+
+
+         return Redirect::to('clase')->with('mensaje','Asistencia de Clase Confirmada');
      }
 
      /**

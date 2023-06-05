@@ -79,25 +79,28 @@
                                 <h5 class="title">{{ auth()->user()->name }}</h5>
                             </a>
                             <p class="description">
-                                {{ __('Ceo/Co-Founder') }}
+                                {{ __('Institucion Universitaria Antonio Jose Camacho') }}
                             </p>
                         </div>
                     </p>
                     <div class="card-description">
-                        {{ __('Do not be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...') }}
+                        {{ __('La Institución Universitaria Antonio José Camacho es una entidad de carácter público, comprometida con la formación integral, en diferentes niveles y modalidades, para contribuir con el desarrollo y transformación social de la región, mediante la docencia, la investigación y la proyección social.') }}
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="button-container">
+                        <a href="https://web.facebook.com/UNIAJC" target="_blank">
                         <button class="btn btn-icon btn-round btn-facebook">
                             <i class="fab fa-facebook"></i>
-                        </button>
+                        </button></a>
+                        <a href="https://twitter.com/UNIAJC" target="_blank">
                         <button class="btn btn-icon btn-round btn-twitter">
                             <i class="fab fa-twitter"></i>
-                        </button>
+                        </button></a>
+                        <a href="https://www.uniajc.edu.co/" target="_blank">
                         <button class="btn btn-icon btn-round btn-google">
                             <i class="fab fa-google-plus"></i>
-                        </button>
+                        </button></a>
                     </div>
                 </div>
             </div>

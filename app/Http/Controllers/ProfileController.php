@@ -19,7 +19,6 @@ class ProfileController extends Controller
         $user = User::with('persona')->find(auth()->id());
         $user->load('persona');
 
-        return dd($user);
 return view('profile.edit', compact('user'));
     }
 

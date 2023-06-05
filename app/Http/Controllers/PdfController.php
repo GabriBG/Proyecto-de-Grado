@@ -85,7 +85,8 @@ public function imprimirClase(Request $request){
     })->orWhereHas('personas', function ($query) use ($nom) {
         $query->where('nombre', 'LIKE', "%$nom%")
             ->orWhere('apellido', 'LIKE', "%$nom%");
-    })->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
+    })->orWhere('asistencia', "$nom")
+    ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
 
     $pdf = PDF::loadView('pdf.clasePDF',['clases' => $clases ]);
     $pdf->setPaper('carta','A4');

@@ -22,9 +22,8 @@ Route::resource('clase', 'App\Http\Controllers\ClaseController');
 
 });
 
-Route::get('/home', [PersonaController::class, 'index'])->name('home');
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
-Route::get('/inicio', 'App\Http\Controllers\InicioController@index')->name('inicio')->middleware('auth');
+Route::get('/home', 'App\Http\Controllers\InicioController@index')->name('home')->middleware('auth');
 Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
 Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
@@ -34,6 +33,8 @@ Route::get('/obtener-datos-asignacion-grupo', 'App\Http\Controllers\ClaseControl
 Route::get('/obtener-datos-horario', 'App\Http\Controllers\ClaseController@obtenerDatoshorario');
 Route::get('/obtener-datos-aula', 'App\Http\Controllers\ClaseController@obtenerDatosaula');
 Route::get('clase/{id}/examinar', 'App\Http\Controllers\ClaseController@examinar')->name('clase.examinar');
+Route::put('clase/confirmar/{id}', 'App\Http\Controllers\ClaseController@confirmar')->name('clase.confirmar');
+
 
 Auth::routes();
 

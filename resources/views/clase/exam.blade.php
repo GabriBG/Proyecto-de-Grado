@@ -22,7 +22,9 @@
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
     <div class="form-group">
     <label for="grupo_asignado" style="color:white;">Grupo Asignado</label>
-    <input type="text" name="grupo_asignado" id="grupo_asignado" style="color:white" class="form-control" value="{{ $clases->asignacionGrupos->grupos->numero_grupo }}" readonly>
+    <input type="text" name="" id="" style="color:white" class="form-control" value="{{ $clases->asignacionGrupos->grupos->numero_grupo }}" readonly>
+    <input type="text" name="grupo_asignado" id="grupo_asignado" value="{{ $clases->asignacionGrupos->id }}" style="display: none;">
+
 </div>
     </div>
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-5">
@@ -43,8 +45,9 @@
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
     <div class="form-group">
         <label for="horario" style="color:white;" >Horario:</label>
-        <input type="text" name="grupo_asignado" id="grupo_asignado" style="color:white" class="form-control" value="{{ $clases->horarios->hora_inicio }} - {{ $clases->horarios->hora_final }}" readonly>
- </div>
+        <input type="text" name="" id="" style="color:white" class="form-control" value="{{ $clases->horarios->hora_inicio }} - {{ $clases->horarios->hora_final }}" readonly>
+        <input type="text" name="horario" id="horario" value="{{ $clases->horarios->id }}" style="display: none;">
+    </div>
         </div>
                 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
                     <div class="form-group">
@@ -59,7 +62,8 @@
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
     <div class="form-group">
         <label for="aula" style="color:white;" >Aula:</label>
-        <input type="text" name="grupo_asignado" id="grupo_asignado" style="color:white" class="form-control" value="{{ $clases->aulas->nomenclatura }}" readonly>
+        <input type="text" name="" id="" style="color:white" class="form-control" value="{{ $clases->aulas->nomenclatura }}" readonly>
+        <input type="text" name="aula" id="aula" value="{{ $clases->aulas->id }}" style="display: none;">
  </div>
         </div>
             <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
@@ -100,19 +104,19 @@
                   </div>
                   @else
                   <div class="form-check">
-                    <input class="" type="radio" name="asistencia" id="asistencia">
+                    <input class="" type="radio" name="asistencia" id="asistencia" value="asistida">
                     <label class="form-check-label" for="asistencia" value="asistida" style="color:white">
                       Asistida
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="" type="radio" name="asistencia" id="asistencia">
+                    <input class="" type="radio" name="asistencia" id="asistencia" value="inasistida">
                     <label class="form-check-label" for="asistencia" value="inasistida" style="color:white">
                       Inasistencia
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="" type="radio" name="asistencia" id="asistencia" checked>
+                    <input class="" type="radio" name="asistencia" id="asistencia" value="pendiente" checked>
                     <label class="form-check-label" for="pendiente" value="pendiente" style="color:white">
                       Pendiente
                     </label>

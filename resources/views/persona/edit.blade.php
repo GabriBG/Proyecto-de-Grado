@@ -44,7 +44,6 @@
 <div class="form-group">
 <label for="password">Contraseña</label>
 <input type="password" name="password" id="password" value="{{ $personas->users->password }}" value="{{ isset($personas->users->password)?$personas->users->password:old('password') }}" class="form-control" placeholder="Contraseña">
-<button type="button" class="icon" id="togglePassword"><span class="tim-icons icon-zoom-split"></button></span>
 </div>
 </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">

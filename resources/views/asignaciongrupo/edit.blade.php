@@ -1,10 +1,10 @@
 @extends('layouts.app', ['page' => ('Asignacion Grupos'),'pageSlug' => 'dashboard'])
 
 @section('content')
-<h1>Asignatura</h1>
+<h1>Grupos Asignados</h1>
 
 <div class="row">
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <h4>Actualizar Asignatura</h4>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <h4>Actualizar Grupos Asignados</h4>
 @if (count($errors)>0)
 <div class="alert alert-danger">
 <ul>

@@ -240,9 +240,6 @@
     <div class="form-group">
         <label for="asistencia" style="color:white;">Asistencia:</label>
         <select class="form-control" style="color=#FFFFFF;" name="asistencia" id="asistencia">
-            <option class=""  value="">Seleccione el aula</option>
-            <option class=""  value="asistida">Asistida</option>
-            <option class=""  value="inasistida">Inasistida</option>
             <option class=""  value="pendiente">Pendiente</option>
         </select>
     </div>

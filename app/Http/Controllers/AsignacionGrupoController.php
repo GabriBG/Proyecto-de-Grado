@@ -128,11 +128,9 @@ class AsignacionGrupoController extends Controller
      {
 
          $campos=[
-             'documento_identidad'=>'required|string|max:100',
-             'nombre'=>'required|string|max:100',
-             'apellido'=>'required|string|max:100',
-             'email'=>'required|email',
-             'telefono'=>'required|string|max:100',
+             'docente'=>'required|string|max:100',
+             'asignatura'=>'required|string|max:100',
+             'grupo'=>'required|string|max:100',
          ];
 
          $mensaje=[
@@ -141,29 +139,16 @@ class AsignacionGrupoController extends Controller
 
          $this->validate($request, $campos,$mensaje);
 
-         $users=new User;
-         $users=User::findOrFail($id);
-         $personas=Persona::findOrFail($id);
-         $personas->update([
-         'documento_identidad'=>$request->input('documento_identidad'),
-         'nombre'=>$request->input('nombre'),
-         'apellido'=>$request->input('apellido'),
-         'telefono'=>$request->input('telefono')]);
-         $users->email=$request->input('email');
+         $asignacion_grupos=Asignacion_Grupo::findOrFail($id);
+         $asignacion_grupos->update([
+         'grupo_id'=>$request->input('grupo'),
+         'asignatura_id'=>$request->input('asignatura'),
+         'persona_id'=>$request->input('docente')]);
 
 
-         $role_id = $request->input('role');
+         $asignacion_grupos->save();
 
-         DB::table('model_has_roles')->where('model_id', $users->id)
-         ->update([
-             'role_id' => $role_id,
-             'model_id' => $users->id,
-             'model_type' => 'App\Models\User']);
-
-         $personas->save();
-         $users->save();
-
-         return Redirect::to('persona')->with('mensaje','Persona Actualizada');
+         return Redirect::to('asignaciongrupo')->with('mensaje','Grupo asignado actualizado');
      }
 
      /**

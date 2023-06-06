@@ -1,4 +1,52 @@
 @extends('layouts.app', ['page' => ('Asignaturas'),'pageSlug' => 'indexA'])
+@role('Docente')
+@section('content')
+
+
+<h1>Asignatura</h1>
+
+<div class="row">
+<div class="table-responsive">
+<table class="table table-striped table-hover"> <thead>
+<th>Id</th>
+<th>Codigo</th>
+<th>Nombre</th>
+<th>Creditos</th>
+</thead>
+<tbody>
+<form class="card card-header" action="{{ route('asignatura.index') }}" method="get">
+    <input name="name" id='name' type="text" aria-label="Search" class="form-control" placeholder="Buscar Asignatura"></input>
+    <br>
+    <input class="btn btn-info" type="submit" value="Buscar">
+</form>
+@foreach($asignaturas as $asi)
+<tr>
+<td>{{ $asi->id }}</td>
+<td>{{ $asi->codigo }}</td>
+<td>{{ $asi->nombre }}</td>
+<td>{{ $asi->creditos}}</td>
+<td>
+
+
+
+
+</a>
+</td>
+</tr>
+
+@endforeach
+
+</tbody> </table>
+</div>
+<div class="row">
+<div class="col-md-9">
+</div></div>
+</div>
+@endsection
+@endrole
+
+
+
 
 @section('content')
 
@@ -53,3 +101,4 @@
 <a target="_blank" href="{{ route('imprimirAsignaturas', ['name' => request('name')]) }}">
     <button class="btn btn-success"  value="PDF" type="submit">Generar PDF</button></a></div>
 @endsection
+

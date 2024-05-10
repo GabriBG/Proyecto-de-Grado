@@ -21,18 +21,23 @@
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="jornada">Jornada</label>
-<input type="text" name="jornada" id="jornada" value="{{ isset($horarios->jornada)?$horarios->jornada:old('jornada') }}" class="form-control" placeholder="Jornada del horario"> </div>
+<select name="jornada" id="jornada" class="form-control">
+    <option class="" value="">Seleccione el horario</option>
+    <option class="mañana" value="Mañana" {{ isset($horarios) && $horarios->jornada == "Mañana" ? 'selected' : '' }}>Mañana</option>
+    <option class="tarde" value="Tarde" {{ isset($horarios) && $horarios->jornada == "Tarde" ? 'selected' : '' }}>Tarde</option>
+</select>
+</div>
 </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="hora_inicio">Hora de inicio</label>
-<input type="text" name="hora_inicio" id="hora_inicio" value="{{ $horarios->hora_inicio }}" value="{{ isset($horarios->hora_inicio)?$horarios->hora_inicio:old('hora_inicio') }}" class="form-control" placeholder="Hora de inicio de la clase">
+<input type="time" name="hora_inicio" id="hora_inicio" value="{{ isset($horarios->hora_inicio)?$horarios->hora_inicio:old('hora_inicio') }}" class="form-control" placeholder="Hora de inicio de la clase">
 </div>
 </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
 <div class="form-group">
 <label for="hora_final">Hora de final</label>
-<input type="text" name="hora_final" id="hora_final" value="{{ isset($horarios->hora_final)?$horarios->hora_final:old('hora_final') }}" class="form-control" placeholder="Hora de final de la clase">
+<input type="time" name="hora_final" id="hora_final" value="{{ isset($horarios->hora_final)?$horarios->hora_final:old('hora_final') }}" class="form-control" placeholder="Hora de final de la clase">
 </div>
     </div>
 <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">

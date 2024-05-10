@@ -168,6 +168,6 @@ class AsignacionGrupoController extends Controller
 
 
 
-          return Redirect::to('persona');
+          return Redirect::to('asignaciongrupo');
      }
 }

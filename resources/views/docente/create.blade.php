@@ -1,6 +1,7 @@
 @extends('layouts.app', ['page' => ('Docentes'),'pageSlug' => 'crearP'])
 
 @section('content')
+
 <h1>Docentes</h1>
 <div class="row">
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> <h4>Ingresar Docente</h4>
@@ -23,9 +24,16 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
-<div class="form-group">
-<label for="email">Contraseña</label>
-<input type="text" name="password" value="{{ isset($users->password)?$users->password:old('password') }}" id="password" class="form-control" placeholder="Contraseña">
+        <div class="form-group">
+            <label for="email">Contraseña</label>
+            <div class="input-group align-items-center">
+                <input type="password" name="password" value="{{ isset($users->password)?$users->password:old('password') }}" id="password" class="form-control" placeholder="Contraseña">
+                <div class="input-group-append">
+                    <span class="input-group-text" onclick="togglePasswordVisibility()" style="color:black; padding: 11px">
+                        <i id="passwordIcon" class="fa fa-eye"></i>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
@@ -74,3 +82,18 @@
 </div>
 {!!Form::close()!!}
 @endsection
+<script>
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("password");
+        var button = document.querySelector("#password + .input-group-append button");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            button.textContent = "Ocultar";
+        } else {
+            passwordField.type = "password";
+            button.textContent = "Mostrar";
+        }
+    }
+</script>
+<script src="https://kit.fontawesome.com/cb86bf86a1.js" crossorigin="anonymous"></script>

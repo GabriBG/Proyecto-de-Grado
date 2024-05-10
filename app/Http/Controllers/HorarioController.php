@@ -62,7 +62,6 @@ class HorarioController extends Controller
         $horarios->jornada=$request->get('jornada');
         $horarios->hora_inicio=$request->get('hora_inicio');
         $horarios->hora_final=$request->get('hora_final');
-        $horarios->id_asignatura=$asignaturas->id;
 
         $horarios->save();
 

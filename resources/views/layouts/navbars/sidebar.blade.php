@@ -12,54 +12,6 @@
                 </a>
             </li>
             <li>
-                <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
-                    <i class="tim-icons icon-pin" ></i>
-                    <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
-                    <b class="caret mt-1"></b>
-                </a>
-
-                <div class="collapse" id="asignaciongrupo">
-                    <ul class="nav pl-4">
-                        <li @if ($pageSlug == 'indexAG') class="active " @endif>
-                            <a href="{{ route('asignaciongrupo.index')  }}">
-                                <i class="tim-icons icon-notes"></i>
-                                <p>{{ __('Consultar Grupos Asignados') }}</p>
-                            </a>
-                        </li>
-                        <li @if ($pageSlug == 'crearAG') class="active " @endif>
-                            <a href="{{ route('asignaciongrupo.create')  }}">
-                                <i class="tim-icons icon-bullet-list-67"></i>
-                                <p>{{ __('Asignar Grupos') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a data-toggle="collapse" href="#clase" aria-expanded="false">
-                    <i class="tim-icons icon-globe-2" ></i>
-                    <span class="nav-link-text" >{{ __('Clases') }}</span>
-                    <b class="caret mt-1"></b>
-                </a>
-
-                <div class="collapse" id="clase">
-                    <ul class="nav pl-4">
-                        <li @if ($pageSlug == 'indexC') class="active " @endif>
-                            <a href="{{ route('clase.index')  }}">
-                                <i class="tim-icons icon-notes"></i>
-                                <p>{{ __('Consultar Clases') }}</p>
-                            </a>
-                        </li>
-                        <li @if ($pageSlug == 'crearC') class="active " @endif>
-                            <a href="{{ route('clase.create')  }}">
-                                <i class="tim-icons icon-bullet-list-67"></i>
-                                <p>{{ __('Asignar Clases') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
                 <a data-toggle="collapse" href="#personas" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>
                     <span class="nav-link-text" >{{ __('Personas') }}</span>
@@ -102,6 +54,54 @@
                             <a href="{{ route('docente.create')  }}">
                                 <i class="tim-icons icon-bullet-list-67"></i>
                                 <p>{{ __('Asignar Docentes') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
+                    <i class="tim-icons icon-pin" ></i>
+                    <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                <div class="collapse" id="asignaciongrupo">
+                    <ul class="nav pl-4">
+                        <li @if ($pageSlug == 'indexAG') class="active " @endif>
+                            <a href="{{ route('asignaciongrupo.index')  }}">
+                                <i class="tim-icons icon-notes"></i>
+                                <p>{{ __('Consultar Grupos Asignados') }}</p>
+                            </a>
+                        </li>
+                        <li @if ($pageSlug == 'crearAG') class="active " @endif>
+                            <a href="{{ route('asignaciongrupo.create')  }}">
+                                <i class="tim-icons icon-bullet-list-67"></i>
+                                <p>{{ __('Asignar Grupos') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="#clase" aria-expanded="false">
+                    <i class="tim-icons icon-globe-2" ></i>
+                    <span class="nav-link-text" >{{ __('Clases') }}</span>
+                    <b class="caret mt-1"></b>
+                </a>
+
+                <div class="collapse" id="clase">
+                    <ul class="nav pl-4">
+                        <li @if ($pageSlug == 'indexC') class="active " @endif>
+                            <a href="{{ route('clase.index')  }}">
+                                <i class="tim-icons icon-notes"></i>
+                                <p>{{ __('Consultar Clases') }}</p>
+                            </a>
+                        </li>
+                        <li @if ($pageSlug == 'crearC') class="active " @endif>
+                            <a href="{{ route('clase.create')  }}">
+                                <i class="tim-icons icon-bullet-list-67"></i>
+                                <p>{{ __('Asignar Clases') }}</p>
                             </a>
                         </li>
                     </ul>

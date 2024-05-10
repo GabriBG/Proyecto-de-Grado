@@ -16,7 +16,7 @@
 
                     </div>
                 </div>
-                <img width="1920" height="750" alt="" class="attachment-medium"
+                <img width="1600" height="900" alt="" class="attachment-medium"
                                     style="max-width: 100%; border-image: 100px"
                                     src="{{ asset('black') }}/img/INICIO-UNIAJC.png">
 

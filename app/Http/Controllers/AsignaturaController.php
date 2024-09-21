@@ -18,8 +18,7 @@ class AsignaturaController extends Controller
         $nom = $request->input('name');
 
         $asignaturas = Asignatura::where('nombre','LIKE',"%$nom%")->
-        orWhere('codigo','LIKE',"%$nom%")->
-        orWhere('creditos','LIKE',"%$nom%")->paginate(6);
+        orWhere('codigo','LIKE',"%$nom%")->paginate(10);
 
         return view('asignatura.index',compact('asignaturas'));
     }
@@ -46,7 +45,6 @@ class AsignaturaController extends Controller
         $campos=[
             'codigo'=>'required|string|max:100',
             'nombre'=>'required|string|max:100',
-            'creditos'=>'required|int|max:100',
         ];
 
         $mensaje=[
@@ -58,7 +56,6 @@ class AsignaturaController extends Controller
         $asignaturas=new Asignatura;
         $asignaturas->codigo=$request->get('codigo');
         $asignaturas->nombre=$request->get('nombre');
-        $asignaturas->creditos=$request->get('creditos');
 
         $asignaturas->save();
 
@@ -101,7 +98,6 @@ class AsignaturaController extends Controller
         $campos=[
             'codigo'=>'required|string|max:100',
             'nombre'=>'required|string|max:100',
-            'creditos'=>'required|string|max:100',
         ];
 
         $mensaje=[
@@ -113,7 +109,6 @@ class AsignaturaController extends Controller
         $asignaturas=Asignatura::findOrFail($id);
         $asignaturas->codigo=$request->input('codigo');
         $asignaturas->nombre=$request->input('nombre');
-        $asignaturas->creditos=$request->input('creditos');
         $asignaturas->save();
 
         return Redirect::to('asignatura');

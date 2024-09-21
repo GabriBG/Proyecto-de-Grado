@@ -17,8 +17,8 @@ class GrupoSeeder extends Seeder
     {
         Grupo::create([
             'id' => 1,
-            'estudiantes_matriculados' => '16',
-            'numero_grupo' => 'B512',
+            'estudiantes_matriculados' => '10',
+            'numero_grupo' => '6-1',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -26,7 +26,35 @@ class GrupoSeeder extends Seeder
         Grupo::create([
             'id' => 2,
             'estudiantes_matriculados' => '13',
-            'numero_grupo' => 'B611',
+            'numero_grupo' => '6-3',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        Grupo::create([
+            'id' => 3,
+            'estudiantes_matriculados' => '20',
+            'numero_grupo' => '8-1',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        Grupo::create([
+            'id' => 4,
+            'estudiantes_matriculados' => '23',
+            'numero_grupo' => '8-3',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        Grupo::create([
+            'id' => 5,
+            'estudiantes_matriculados' => '21',
+            'numero_grupo' => '11-2',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        Grupo::create([
+            'id' => 6,
+            'estudiantes_matriculados' => '30',
+            'numero_grupo' => '4-1',
             'created_at' => now(),
             'updated_at' => now()
         ]);

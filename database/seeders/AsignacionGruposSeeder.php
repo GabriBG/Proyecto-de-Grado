@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Asignacion_Grupo;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class AsignacionGruposSeeder extends Seeder
@@ -20,6 +19,7 @@ class AsignacionGruposSeeder extends Seeder
             'grupo_id' => '1',
             'asignatura_id' => '1',
             'persona_id' => '4',
+            'aula' => 'A101',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -29,6 +29,7 @@ class AsignacionGruposSeeder extends Seeder
             'grupo_id' => '2',
             'asignatura_id' => '2',
             'persona_id' => '2',
+            'aula' => 'B202',
             'created_at' => now(),
             'updated_at' => now()
         ]);

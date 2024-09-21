@@ -11,13 +11,10 @@ class Horario extends Model
 
 
     public $timestamps = false;
-    
+
     protected $fillable = ['jornada','hora_inicio','hora_final'];
 
-    public function asignaturas()
-    {
-        return $this->belongsTo(Asignatura::class, 'id_asignatura');
-    }
+
     public function profile(){
         return $this->hasOne(Asignatura::class);
     }

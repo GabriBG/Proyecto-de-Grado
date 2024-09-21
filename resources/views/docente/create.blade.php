@@ -67,6 +67,9 @@
             </option>
     </select>
 <br>
+</div>
+</div>
+</div>
 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
 <button class="btn btn-danger" type="reset"><span class="glyphicon glyphicon-remove"></span> Vaciar Campos</button>
         </div>

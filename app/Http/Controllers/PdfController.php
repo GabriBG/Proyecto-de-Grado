@@ -76,8 +76,6 @@ public function imprimirClase(Request $request){
     $clases = Clase::whereHas('horarios', function ($query) use ($nom) {
         $query->where('hora_inicio', 'like', "%$nom%")
             ->orWhere('hora_final', 'LIKE', "%$nom%");
-    })->orWhereHas('aulas', function ($query) use ($nom) {
-        $query->where('nomenclatura', 'like', "%$nom%");
     })->orWhereHas('asignaturas', function ($query) use ($nom) {
         $query->where('nombre', 'LIKE', "%$nom%");
     })->orWhereHas('grupos', function ($query) use ($nom) {
@@ -86,7 +84,7 @@ public function imprimirClase(Request $request){
         $query->where('nombre', 'LIKE', "%$nom%")
             ->orWhere('apellido', 'LIKE', "%$nom%");
     })->orWhere('asistencia', "$nom")
-    ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
+    ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->get();
 
     $pdf = PDF::loadView('pdf.clasePDF',['clases' => $clases ]);
     $pdf->setPaper('carta','A4');
@@ -94,5 +92,7 @@ public function imprimirClase(Request $request){
     return $pdf->stream();
 
 }
+
+
 
 }

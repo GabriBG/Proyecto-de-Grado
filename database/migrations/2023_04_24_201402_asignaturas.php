@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('codigo', 11)->unique();;
             $table->string('nombre', 30)->notnull();
-            $table->string('creditos', 3)->notnull();
             $table->timestamps();
         });
     }

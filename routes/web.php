@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AsignaturaController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\ClaseController;
+use App\Http\Controllers\AsistenciaController;
 
 
 
@@ -19,21 +20,28 @@ Route::resource('grupo', 'App\Http\Controllers\GrupoController');
 Route::resource('asignaciongrupo', 'App\Http\Controllers\AsignacionGrupoController');
 Route::resource('docente', 'App\Http\Controllers\DocenteController');
 Route::resource('clase', 'App\Http\Controllers\ClaseController');
+Route::resource('asistencia', 'App\Http\Controllers\AsistenciaController');
 
 });
 
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
 Route::get('/home', 'App\Http\Controllers\InicioController@index')->name('home')->middleware('auth');
+Route::get('/reportes', 'App\Http\Controllers\InicioController@reportes')->name('reportes')->middleware('auth');
 Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
 Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
 Route::get('imprimirClase','App\http\Controllers\PdfController@imprimirClase')->name('imprimirClase');
+Route::get('imprimirAsistencia','App\http\Controllers\AsistenciaController@imprimirAsistencia')->name('imprimirAsistencia');
+Route::get('/asistencia/{id}', [AsistenciaController::class, 'show'])->name('asistencia.show');
 Route::get('/asignacion-grupo/{id}', 'App\http\Controllers\ClaseController@getAsignacionGrupo')->name('asignacion-grupo');
 Route::get('/obtener-datos-asignacion-grupo', 'App\Http\Controllers\ClaseController@obtenerDatosAsignacionGrupo');
 Route::get('/obtener-datos-horario', 'App\Http\Controllers\ClaseController@obtenerDatoshorario');
 Route::get('/obtener-datos-aula', 'App\Http\Controllers\ClaseController@obtenerDatosaula');
 Route::get('clase/{id}/examinar', 'App\Http\Controllers\ClaseController@examinar')->name('clase.examinar');
 Route::put('clase/confirmar/{id}', 'App\Http\Controllers\ClaseController@confirmar')->name('clase.confirmar');
+Route::get('obtener-estudiantes/{grupoId}', [ClaseController::class, 'obtenerEstudiantes']);
+
+
 
 
 Auth::routes();

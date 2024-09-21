@@ -23,4 +23,12 @@ class InicioController extends Controller
     {
         return view('inicio');
     }
+    public function reportes()
+    {
+        return view('reportes');
+    }
+    public function reporteAsistencia()
+    {
+        return view('reportesAsistencia');
+    }
 }

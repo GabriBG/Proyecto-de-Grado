@@ -11,7 +11,6 @@
 <th>Id</th>
 <th>Codigo</th>
 <th>Nombre</th>
-<th>Creditos</th>
 </thead>
 <tbody>
 <form class="card card-header" action="{{ route('asignatura.index') }}" method="get">
@@ -24,7 +23,6 @@
 <td>{{ $asi->id }}</td>
 <td>{{ $asi->codigo }}</td>
 <td>{{ $asi->nombre }}</td>
-<td>{{ $asi->creditos}}</td>
 <td>
 
 
@@ -37,6 +35,11 @@
 @endforeach
 
 </tbody> </table>
+<!-- Inicio del Paginador -->
+<div class="d-flex justify-content-center">
+    {{ $asignaturas->links() }}
+</div>
+<!-- Fin del Paginador -->
 </div>
 <div class="row">
 <div class="col-md-9">
@@ -59,7 +62,6 @@
 <th>Id</th>
 <th>Codigo</th>
 <th>Nombre</th>
-<th>Creditos</th>
   <th>Opciones</th>
 </thead>
 <tbody>
@@ -73,13 +75,13 @@
 <td>{{ $asi->id }}</td>
 <td>{{ $asi->codigo }}</td>
 <td>{{ $asi->nombre }}</td>
-<td>{{ $asi->creditos}}</td>
 <td>
 <a href="{{url('asignatura/'.$asi->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asi->id}}">
   <i >Eliminar</i>
 </button>
+
 
 </a>
 </td>
@@ -93,6 +95,11 @@
 </div>
 @endif
 </tbody> </table>
+<!-- Inicio del Paginador -->
+<div class="d-flex justify-content-center">
+    {{ $asignaturas->links() }}
+</div>
+<!-- Fin del Paginador -->
 </div>
 <div class="row">
 <div class="col-md-9">

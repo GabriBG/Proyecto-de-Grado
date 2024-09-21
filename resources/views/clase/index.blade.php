@@ -108,6 +108,11 @@
 </tr>
 
 </tbody> </table>
+<!-- Inicio del Paginador -->
+<div class="d-flex justify-content-center">
+    {{ $clases->links() }}
+</div>
+<!-- Fin del Paginador -->
 </div>
 <div class="row">
 <div class="col-md-9">
@@ -169,6 +174,11 @@
 </div>
 @endif
 </tbody> </table>
+<!-- Inicio del Paginador -->
+<div class="d-flex justify-content-center">
+    {{ $clases->links() }}
+</div>
+<!-- Fin del Paginador -->
 </div>
 <div class="row">
 <div class="col-md-9">

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
             $table->unsignedBigInteger('persona_id');
             $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
+            $table->string('aula')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('asignacion_grupos');
     }
 };

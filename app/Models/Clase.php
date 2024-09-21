@@ -9,20 +9,23 @@ class Clase extends Model
 {
     use HasFactory;
 
-    protected $table= 'clases';
+    protected $table = 'clases';
     public $timestamps = false;
 
-    protected $fillable = ['grupo_id','asignatura_id','persona_id'];
+    protected $fillable = [
+        'grupoasignado_id',
+        'horario_id',
+        'fecha',
+        'asistencia',
+        'modalidad'
+    ];
 
 
-    public function aulas()
-    {
-        return $this->belongsTo(Aula::class, 'aula_id');
-    }
     public function horarios()
     {
         return $this->belongsTo(Horario::class, 'horario_id');
     }
+
     public function asignacionGrupos()
     {
         return $this->belongsTo(Asignacion_Grupo::class, 'grupoasignado_id');
@@ -32,7 +35,10 @@ class Clase extends Model
     {
         return $this->hasOneThrough(Persona::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'persona_id');
     }
-
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class);
+    }
     public function asignaturas()
     {
         return $this->hasOneThrough(Asignatura::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'asignatura_id');
@@ -41,6 +47,12 @@ class Clase extends Model
     public function grupos()
     {
         return $this->hasOneThrough(Grupo::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'grupo_id');
-}
+    }
 
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Persona::class, 'clase_estudiante')
+                    ->withPivot('asistencia', 'observacion')
+                    ->withTimestamps();
+    }
 }

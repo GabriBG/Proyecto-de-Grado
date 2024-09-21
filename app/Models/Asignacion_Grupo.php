@@ -12,7 +12,12 @@ class Asignacion_Grupo extends Model
     protected $table= 'asignacion_grupos';
     public $timestamps = false;
 
-    protected $fillable = ['grupo_id','asignatura_id','persona_id'];
+    protected $fillable = [
+        'grupo_id',
+        'asignatura_id',
+        'persona_id',
+        'aula',
+    ];
 
     public function asignaciones()
     {
@@ -30,4 +35,8 @@ class Asignacion_Grupo extends Model
     {
         return $this->belongsTo(Persona::class, 'persona_id');
     }
+    public function estudiantes()
+{
+    return $this->hasMany(Estudiante::class, 'id_grupo', 'id');
+}
 }

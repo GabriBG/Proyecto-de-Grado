@@ -79,25 +79,24 @@
                                 <h5 class="title">{{ auth()->user()->name }}</h5>
                             </a>
                             <p class="description">
-                                {{ __('Institucion Universitaria Antonio Jose Camacho') }}
+                                {{ __('Institucion Educativa Regional Simon Bolivar') }}
                             </p>
                         </div>
                     </p>
                     <div class="card-description">
-                        {{ __('La Institución Universitaria Antonio José Camacho es una entidad de carácter público, comprometida con la formación integral, en diferentes niveles y modalidades, para contribuir con el desarrollo y transformación social de la región, mediante la docencia, la investigación y la proyección social.') }}
+                        <p>{{ __('La Institución Educativa Regional Simón Bolívar, se encuentra ubicada en el corregimiento San Antonio de los Caballeros, del municipio de Florida Valle, al frente del Centro Nacional de Investigación de la Caña de Azúcar CENICAÑA.') }}</p>
+                        <p>{{ __('En el año 1.965 el señor Jaime Domínguez Vásquez, donó el terreno para que se construyera el plantel. La construcción se realizó con dineros provenientes del Estado y de donaciones de habitantes de la comunidad. Inició labores, en el año 1969, como satélite del colegio Germán Nieto, de Candelaria. Su primer rector entre los años 1969 y 1971 fue el señor Raúl Abella. La primera promoción de bachilleres graduandos a nombre de este plantel, fue en el año 1973, siendo rector el Lic. Nelson Díaz Nieto y Coordinador, el Lic. Óscar Ocampo.') }}</p>
+                        <p>{{ __('Debido a que la principal fuente económica de esta región, es la agroindustria azucarera, y en menor escala, los cultivos de pancoger; se decidió que el plantel tuviera la modalidad agropecuaria. Desde su inicio, y hasta el año 1972, este plantel sólo ofrecía educación básica secundaria; es decir, los grados 1°, 2°, 3° y 4° de bachillerato, equivalentes a los grados de 6° a 9° de la actualidad. El nivel de educación media, o sea los grados 5° y 6° se ofrecieron en convenio con los colegios Germán Nieto del municipio de Candelaria Y Cárdenas de Palmira.') }}</p>
                     </div>
+
                 </div>
                 <div class="card-footer">
                     <div class="button-container">
-                        <a href="https://web.facebook.com/UNIAJC" target="_blank">
+                        <a href="https://www.facebook.com/TECNOLOGOSDEFLORIDA/?locale=es_LA " target="_blank">
                         <button class="btn btn-icon btn-round btn-facebook">
                             <i class="fab fa-facebook"></i>
                         </button></a>
-                        <a href="https://twitter.com/UNIAJC" target="_blank">
-                        <button class="btn btn-icon btn-round btn-twitter">
-                            <i class="fab fa-twitter"></i>
-                        </button></a>
-                        <a href="https://www.uniajc.edu.co/" target="_blank">
+                        <a href="https://ieregionalsimonbolivar.weebly.com/" target="_blank">
                         <button class="btn btn-icon btn-round btn-google">
                             <i class="fab fa-google-plus"></i>
                         </button></a>

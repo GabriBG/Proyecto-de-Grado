@@ -1,4 +1,4 @@
-@extends('layouts.app', ['page' => ('Docentes'),'pageSlug' => 'dashboard'])
+@extends('layouts.app', ['page' => ('Docentes'),'pageSlug' => 'docentes'])
 
 @section('content')
 
@@ -56,8 +56,11 @@
         </option>
 </select>
 {!! Form::close() !!}
-<div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
-<div class="form-group"> <br>
+</div>
+</div>
+<br>
+<div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+    <div class="form-group">
 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
 <a class="btn btn-danger" href="{{ route('docente.index') }}"><span class="glyphicon glyphicon-remove"></span> Atrás</a>        </div>    </div>
 </div>

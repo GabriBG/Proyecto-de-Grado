@@ -2,7 +2,7 @@
 <div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="/home" class="simple-text logo-normal"><img src="{{ asset('black') }}/img/uniajc.png"></a>
+            <a href="/home" class="simple-text logo-normal"><img src="{{ asset('black') }}/img/LOGO-UNIAJC.png"></a>
         </div>
         <ul class="nav">
             <li @if ($pageSlug == 'dashboard') class="active " @endif>
@@ -11,7 +11,7 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-            <li>
+            <li @if ($pageSlug == 'asignaciongrupo') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
                     <i class="tim-icons icon-pin" ></i>
                     <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
@@ -35,7 +35,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'clase') class="active " @endif>
                 <a data-toggle="collapse" href="#clase" aria-expanded="false">
                     <i class="tim-icons icon-globe-2" ></i>
                     <span class="nav-link-text" >{{ __('Clases') }}</span>
@@ -59,7 +59,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'personas') class="active " @endif>
                 <a data-toggle="collapse" href="#personas" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>
                     <span class="nav-link-text" >{{ __('Personas') }}</span>
@@ -83,7 +83,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'docentes') class="active " @endif>
                 <a data-toggle="collapse" href="#docentes" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>
                     <span class="nav-link-text" >{{ __('Docentes') }}</span>
@@ -107,7 +107,7 @@
                     </ul>
                 </div>
             </li>
-                <li>
+                <li @if ($pageSlug == 'asignaturas') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaturas" aria-expanded="false">
                     <i class="tim-icons icon-puzzle-10" ></i>
                     <span class="nav-link-text" >{{ __('Asignaturas') }}</span>
@@ -131,7 +131,7 @@
                     </ul>
                 </div>
                 </li>
-                <li>
+                <li @if ($pageSlug == 'grupos') class="active " @endif>
                 <a data-toggle="collapse" href="#grupos" aria-expanded="false">
                     <i class="tim-icons icon-world" ></i>
                     <span class="nav-link-text" >{{ __('Grupos') }}</span>
@@ -155,7 +155,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'horarios') class="active " @endif>
                 <a data-toggle="collapse" href="#horarios" aria-expanded="false">
                     <i class="tim-icons icon-calendar-60" ></i>
                     <span class="nav-link-text" >{{ __('Horarios') }}</span>
@@ -179,6 +179,7 @@
                     </ul>
                 </div>
             </li>
+            {{--}}
             <li>
                 <a data-toggle="collapse" href="#aulas" aria-expanded="false">
                     <i class="tim-icons icon-square-pin" ></i>
@@ -203,6 +204,7 @@
                     </ul>
                 </div>
             </li>
+            --}}
         </ul>
     </div>
 </div>
@@ -220,7 +222,7 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-            <li>
+            <li @if ($pageSlug == 'asignaciongrupo') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
                     <i class="tim-icons icon-pin" ></i>
                     <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
@@ -244,7 +246,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'clase') class="active " @endif>
                 <a data-toggle="collapse" href="#clase" aria-expanded="false">
                     <i class="tim-icons icon-globe-2" ></i>
                     <span class="nav-link-text" >{{ __('Clases') }}</span>
@@ -268,7 +270,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'docentes') class="active " @endif>
                 <a data-toggle="collapse" href="#docentes" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>
                     <span class="nav-link-text" >{{ __('Docentes') }}</span>
@@ -292,7 +294,7 @@
                     </ul>
                 </div>
             </li>
-                <li>
+                <li @if ($pageSlug == 'asignaturas') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaturas" aria-expanded="false">
                     <i class="tim-icons icon-puzzle-10" ></i>
                     <span class="nav-link-text" >{{ __('Asignaturas') }}</span>
@@ -316,7 +318,7 @@
                     </ul>
                 </div>
                 </li>
-                <li>
+                <li @if ($pageSlug == 'grupos') class="active " @endif>
                 <a data-toggle="collapse" href="#grupos" aria-expanded="false">
                     <i class="tim-icons icon-world" ></i>
                     <span class="nav-link-text" >{{ __('Grupos') }}</span>
@@ -340,7 +342,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'horarios') class="active " @endif>
                 <a data-toggle="collapse" href="#horarios" aria-expanded="false">
                     <i class="tim-icons icon-calendar-60" ></i>
                     <span class="nav-link-text" >{{ __('Horarios') }}</span>
@@ -364,6 +366,7 @@
                     </ul>
                 </div>
             </li>
+            {{--
             <li>
                 <a data-toggle="collapse" href="#aulas" aria-expanded="false">
                     <i class="tim-icons icon-square-pin" ></i>
@@ -388,6 +391,7 @@
                     </ul>
                 </div>
             </li>
+            --}}
         </ul>
     </div>
 </div>
@@ -405,7 +409,7 @@
                     <p>{{ __('Inicio') }}</p>
                 </a>
             </li>
-                <li>
+                <li @if ($pageSlug == 'asignaturas') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaturas" aria-expanded="false">
                     <i class="tim-icons icon-puzzle-10" ></i>
                     <span class="nav-link-text" >{{ __('Asignaturas') }}</span>
@@ -429,7 +433,7 @@
                     </ul>
                 </div>
                 </li>
-                <li>
+                <li @if ($pageSlug == 'grupos') class="active " @endif>
                 <a data-toggle="collapse" href="#grupos" aria-expanded="false">
                     <i class="tim-icons icon-world" ></i>
                     <span class="nav-link-text" >{{ __('Grupos') }}</span>
@@ -453,7 +457,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'horarios') class="active " @endif>
                 <a data-toggle="collapse" href="#horarios" aria-expanded="false">
                     <i class="tim-icons icon-calendar-60" ></i>
                     <span class="nav-link-text" >{{ __('Horarios') }}</span>
@@ -477,7 +481,8 @@
                     </ul>
                 </div>
             </li>
-            <li>
+{{--
+                <li>
                 <a data-toggle="collapse" href="#aulas" aria-expanded="false">
                     <i class="tim-icons icon-square-pin" ></i>
                     <span class="nav-link-text" >{{ __('Aulas') }}</span>
@@ -501,7 +506,8 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            --}}
+            <li @if ($pageSlug == 'asignaciongrupo') class="active " @endif>
                 <a data-toggle="collapse" href="#asignaciongrupo" aria-expanded="false">
                     <i class="tim-icons icon-pin" ></i>
                     <span class="nav-link-text" >{{ __('Grupos Asignados') }}</span>
@@ -519,7 +525,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li @if ($pageSlug == 'clase') class="active " @endif>
                 <a data-toggle="collapse" href="#clase" aria-expanded="false">
                     <i class="tim-icons icon-globe-2" ></i>
                     <span class="nav-link-text" >{{ __('Clases') }}</span>

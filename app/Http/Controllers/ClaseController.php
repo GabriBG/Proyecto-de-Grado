@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
-use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo, Horario};
+use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grupo, Horario, Estudiante, Asistencia};
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +31,6 @@ class ClaseController extends Controller
         $clases = Clase::whereHas('horarios', function ($query) use ($nom) {
             $query->where('hora_inicio', 'like', "%$nom%")
                 ->orWhere('hora_final', 'LIKE', "%$nom%");
-        })->orWhereHas('aulas', function ($query) use ($nom) {
-            $query->where('nomenclatura', 'like', "%$nom%");
         })->orWhereHas('asignaturas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%");
         })->orWhereHas('grupos', function ($query) use ($nom) {
@@ -41,15 +39,12 @@ class ClaseController extends Controller
             $query->where('nombre', 'LIKE', "%$nom%")
                 ->orWhere('apellido', 'LIKE', "%$nom%");
         })->orWhere('asistencia', "$nom")
-        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')->get();
+        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->get();
 
 
         $autenticado = Clase::whereHas('horarios', function ($query) use ($nom) {
             $query->where('hora_inicio', 'like', "%$nom%")
                 ->orWhere('hora_final', 'LIKE', "%$nom%");
-        })
-        ->orWhereHas('aulas', function ($query) use ($nom) {
-            $query->where('nomenclatura', 'like', "%$nom%");
         })
         ->orWhereHas('asignaturas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%");
@@ -65,26 +60,47 @@ class ClaseController extends Controller
                 });
         })
         ->orWhere('asistencia', "$nom")
-        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'aulas', 'asignacionGrupos')
+        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')
         ->get();
 
         return view('clase.index', compact('clases','autenticado'));
 
      }
 
+     public function obtenerEstudiantes($grupoId)
+     {
+         $asignacionGrupo = Asignacion_Grupo::with('estudiantes')->find($grupoId);
+
+         if ($asignacionGrupo) {
+             $estudiantes = $asignacionGrupo->estudiantes->map(function($estudiante) {
+                 return [
+                     'id' => $estudiante->id,
+                     'nombres' => $estudiante->nombres,
+                     'apellidos' => $estudiante->apellidos,
+                 ];
+             });
+         } else {
+             $estudiantes = [];
+         }
+
+         return response()->json(['estudiantes' => $estudiantes]);
+     }
+
+
      /**
       * Show the form for creating a new resource.
       *
       * @return \Illuminate\Http\Response
       */
-     public function create()
-     {
-        $asignacionGrupos = Asignacion_Grupo::all();
-        $horarios = Horario::all();
-        $aulas = Aula::orderBy('id','DESC')->get();
+      public function create()
+      {
+          $asignacionGrupos = Asignacion_Grupo::all();
+          $horarios = Horario::all();
 
-         return view ('clase.create', compact('asignacionGrupos', 'horarios', 'aulas'));
-         }
+          return view('clase.create', compact('asignacionGrupos', 'horarios'));
+      }
+
+
 
      /**
       * Store a newly created resource in storage.
@@ -93,36 +109,52 @@ class ClaseController extends Controller
       * @return \Illuminate\Http\Response
       */
 
-     public function store(Request $request)
-     {
+      public function store(Request $request)
+      {
+          // Validar los datos del formulario
+          $request->validate([
+              'grupo_asignado' => 'required|exists:asignacion_grupos,id',
+              'horario' => 'required|exists:horarios,id',
+              'fecha' => 'required|date',
+              'asistencia' => 'required|string|max:100',
+              'modalidad' => 'required|string|max:100',
+          ]);
 
-             $campos=[
-                 'grupo_asignado'=>'required|string|max:100',
-                 'horario'=>'required|string|max:100',
-                 'aula'=>'required|string|max:100',
-                 'fecha'=>'required|date',
-                 'asistencia'=>'required|string|max:100',
-                 'modalidad'=>'required|string|max:100',
-             ];
+          // Si la clase es "asistida", validar la asistencia de los estudiantes
+          if ($request->asistencia == 'asistida') {
+              $request->validate([
+                  'asistencia.*' => 'nullable|boolean',
+                  'observacion.*' => 'nullable|string|max:255',
+              ]);
+          }
 
-             $mensaje=[
-                 'required'=>'El :attribute es requerido'
-             ];
 
-             $this->validate($request, $campos,$mensaje);
+          // Crear la clase
+          $clase = Clase::create([
+              'grupoasignado_id' => $request->grupo_asignado,
+              'horario_id' => $request->horario,
+              'fecha' => $request->fecha,
+              'asistencia' => $request->asistencia,
+              'modalidad' => $request->modalidad,
+          ]);
 
-         $clases=new Clase();
-         $clases->grupoasignado_id=$request->get('grupo_asignado');
-         $clases->horario_id=$request->get('horario');
-         $clases->aula_id=$request->get('aula');
-         $clases->fecha=$request->get('fecha');
-         $clases->asistencia=$request->get('asistencia');
-         $clases->modalidad=$request->get('modalidad');
+          // Guardar la asistencia de los estudiantes si la clase es "asistida"
+          if ($request->asistencia == 'asistida' && is_array($request->asistencia_estudiantes)) {
+              foreach ($request->asistencia_estudiantes as $estudianteId => $asistio) {
+                  Asistencia::create([
+                      'clase_id' => $clase->id,
+                      'estudiante_id' => $estudianteId,
+                      'asistencia' => $asistio ? true : false,
+                      'observacion' => $request->observacion[$estudianteId] ?? null,
+                  ]);
+              }
+          }
 
-         $clases->save();
+          return redirect()->route('clase.index')->with('success', 'Clase creada con éxito.');
+      }
 
-         return Redirect::to('clase');
-     }
+
+
 
 
 
@@ -193,14 +225,13 @@ class ClaseController extends Controller
 
 
      public function examinar($id)
-     {   $clases=new Clase;
+     {
+         $clases = Clase::find($id);
+         $asignacionGrupos = Asignacion_Grupo::all();
+         $horarios = Horario::all();
+         $aulas = Aula::all();
 
-        $clases= Clase::find($id);
-        $asignacionGrupos = Asignacion_Grupo::all();
-        $horarios = Horario::all();
-        $aulas = Aula::all();
-
-         return view ('clase.exam', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
+         return view('clase.exam', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
      }
 
      /**
@@ -210,63 +241,82 @@ class ClaseController extends Controller
       * @param  int  $id
       * @return \Illuminate\Http\Response
       */
-     public function update(Request $request, $id)
-     {
-        $campos=[
-            'grupo_asignado'=>'required|string|max:100',
-            'horario'=>'required|string|max:100',
-            'aula'=>'required|string|max:100',
-            'fecha'=>'required|date',
-            'asistencia'=>'required|string|max:100',
-            'modalidad'=>'required|string|max:100',
-        ];
+      public function update(Request $request, $id)
+      {
+          // Validar los campos
+          $campos = [
+              'grupo_asignado' => 'required|string|max:100',
+              'horario' => 'required|string|max:100',
+              'fecha' => 'required|date',
+              'asistencia' => 'required|string|max:100',
+              'modalidad' => 'required|string|max:100',
+          ];
 
-        $mensaje=[
-            'required'=>'El :attribute es requerido'
-        ];
+          $mensaje = [
+              'required' => 'El :attribute es requerido'
+          ];
 
-        $this->validate($request, $campos,$mensaje);
+          $this->validate($request, $campos, $mensaje);
 
+          // Encontrar la clase y actualizar sus campos
+          $clases = Clase::findOrFail($id);
+          $clases->grupoasignado_id = $request->get('grupo_asignado');
+          $clases->horario_id = $request->get('horario');
+          $clases->fecha = $request->get('fecha');
+          $clases->asistencia = $request->get('asistencia');
+          $clases->modalidad = $request->get('modalidad');
+          $clases->save();
 
-        $clases=new Clase();
-        $clases=Clase::findOrFail($id);
-        $clases->grupoasignado_id=$request->get('grupo_asignado');
-        $clases->horario_id=$request->get('horario');
-        $clases->aula_id=$request->get('aula');
-        $clases->fecha=$request->get('fecha');
-        $clases->asistencia=$request->get('asistencia');
-        $clases->modalidad=$request->get('modalidad');
+          // Guardar la asistencia y observaciones de los estudiantes
+          if ($request->get('asistencia') == 'asistida') {
+              $grupoId = $request->get('grupo_asignado');
+              $estudiantes = Asignacion_Grupo::find($grupoId)->estudiantes;
 
-        $clases->save();
+              foreach ($estudiantes as $estudiante) {
+                  $asistenciaEstudiante = $request->input('asistencia_estudiante_' . $estudiante->id) ? true : false;
+                  $observacionEstudiante = $request->input('observacion_estudiante_' . $estudiante->id);
 
+                  $asistencia = Asistencia::updateOrCreate(
+                      [
+                          'clase_id' => $clases->id,
+                          'estudiante_id' => $estudiante->id,
+                      ],
+                      [
+                          'asistencia' => $asistenciaEstudiante,
+                          'observacion' => $observacionEstudiante,
+                      ]
+                  );
+              }
+          }
 
-         return Redirect::to('clase')->with('mensaje','Clase actualizada');
-     }
+          return Redirect::to('clase')->with('mensaje', 'Clase actualizada');
+      }
+
 
 
 
      public function confirmar(Request $request, $id)
-     {
-        $campos=[
-            'asistencia'=>'required|string|max:100',
-        ];
+{
+    $request->validate([
+        'asistencia' => 'required|string|max:100',
+    ]);
 
-        $mensaje=[
-            'required'=>'El :attribute es requerido'
-        ];
+    $clase = Clase::findOrFail($id);
+    $clase->asistencia = $request->get('asistencia');
+    $clase->save();
 
-        $this->validate($request, $campos, $mensaje);
+    if ($request->get('asistencia') == 'asistida') {
+        foreach ($request->asistencia_estudiante as $estudianteId => $asistencia) {
+            $observacion = $request->observacion[$estudianteId] ?? null;
+            Asistencia::updateOrCreate(
+                ['clase_id' => $id, 'estudiante_id' => $estudianteId],
+                ['asistio' => $asistencia, 'observacion' => $observacion]
+            );
+        }
+    }
 
-
-        $clases=new Clase();
-        $clases=Clase::findOrFail($id);
-        $clases->asistencia=$request->get('asistencia');
-
-        $clases->save();
-
-
-         return Redirect::to('clase')->with('mensaje','Asistencia de Clase Confirmada');
-     }
+    return redirect()->route('clase.index')->with('success', 'Asistencia de Clase Confirmada');
+}
 
      /**
       * Remove the specified resource from storage.

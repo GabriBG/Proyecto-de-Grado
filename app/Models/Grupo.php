@@ -16,7 +16,12 @@ class Grupo extends Model
 
     public function asignacionesGrupos()
     {
-        return $this->hasMany(AsignacionGrupo::class);
+        return $this->hasMany(Asignacion_Grupo::class);
+    }
+
+    public function estudiantes()
+    {
+        return $this->hasMany(Estudiante::class, 'id_grupo');
     }
 
 }

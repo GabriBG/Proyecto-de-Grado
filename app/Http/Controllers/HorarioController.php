@@ -55,14 +55,12 @@ class HorarioController extends Controller
             ];
 
             $this->validate($request, $campos,$mensaje);
-
-        $asignaturas=new Asignatura;
+            
         $horarios=new Horario;
 
         $horarios->jornada=$request->get('jornada');
         $horarios->hora_inicio=$request->get('hora_inicio');
         $horarios->hora_final=$request->get('hora_final');
-        $horarios->id_asignatura=$asignaturas->id;
 
         $horarios->save();
 

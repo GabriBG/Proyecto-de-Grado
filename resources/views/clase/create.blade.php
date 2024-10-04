@@ -93,8 +93,8 @@
     <div class="row" id="observacion-container" style="display:none;">
         <div class="col-lg-12">
             <div class="form-group">
-                <label for="observacion" style="color:white;">Observación:</label>
-                <textarea class="form-control"name="observacion" id="observacion" style="width: 100%; height: 150px;"></textarea>
+                <label for="observacionClase" style="color:white;">Observación:</label>
+                <textarea class="form-control"name="observacionClase" id="observacionClase" style="width: 100%; height: 150px;"></textarea>
             </div>
         </div>
     </div>

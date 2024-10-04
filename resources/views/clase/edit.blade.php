@@ -176,57 +176,41 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Detectar el cambio en el select de asistencia
-        $('#asistencia').change(function() {
-            var estadoAsistencia = this.value;
+    // Detectar el cambio en el select de asistencia
+    $('#asistencia').change(function() {
+        var estadoAsistencia = this.value;
 
-            // Si el estado es 'asistida', cargar estudiantes y limpiar la observación
-            if (estadoAsistencia == 'asistida') {
-                cargarEstudiantes();
-                $('#cargar-estudiantes-btn').show();
-                $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
-                $('#observacion-container').hide(); // Esconder el campo de observación
-            }
-            // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
-            else if (estadoAsistencia == 'inasistida') {
-                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
-                $('#observacion-container').show(); // Mostrar el campo de observación
-                $('#observacion').prop('readonly', false).val(''); // Habilitar el campo observación
-                $('#cargar-estudiantes-btn').hide();
-            }
-            // Si se selecciona otro estado, esconder campo observación y lista de estudiantes
-            else {
-                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
-                $('#observacion-container').hide(); // Esconder el campo de observación
-                $('#observacion').prop('readonly', false).val(''); // Limpiar observación
-                $('#cargar-estudiantes-btn').hide();
-            }
-        });
-
-        // Controlar el checkbox general para seleccionar/deseleccionar todos los estudiantes
-        $('#asistencia-general').change(function() {
-            var isChecked = $(this).prop('checked');
-            $('input[type=checkbox][name^="asistencia_estudiante_"]').prop('checked', isChecked);
-        });
-
-        // Validar antes de enviar el formulario
-        $('#editForm').submit(function(e) {
-            var estadoAsistencia = $('#asistencia').val();
-            var observacionClase = $('#observacionClase').val().trim();
-
-            // Si el estado es 'inasistida', verificar que se haya ingresado una observación
-            if (estadoAsistencia == 'inasistida' && observacionClase == '') {
-                e.preventDefault(); // Evitar que se envíe el formulario
-                alert('Debe ingresar una observación si la asistencia es "inasistida".');
-            }
-
-            // Validar si el estado es 'asistida' y no hay estudiantes cargados
-            if (estadoAsistencia == 'asistida' && $('#estudiantes-table tbody tr').length == 0) {
-                e.preventDefault();
-                alert('Debe cargar la lista de estudiantes para tomar asistencia.');
-            }
-        });
+        // Si el estado es 'asistida', cargar estudiantes y limpiar la observación
+        if (estadoAsistencia == 'asistida') {
+            cargarEstudiantes();
+            $('#cargar-estudiantes-btn').show();
+            $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
+            $('#observacion-container').hide(); // Esconder el campo de observación
+        }
+        // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
+        else if (estadoAsistencia == 'inasistida') {
+            $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+            $('#observacion-container').show(); // Mostrar el campo de observación
+            $('#observacion').prop('readonly', false); // Habilitar el campo observación
+            $('#cargar-estudiantes-btn').hide();
+        }
+        // Si se selecciona otro estado, esconder campo observación y lista de estudiantes
+        else {
+            $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+            $('#observacion-container').hide(); // Esconder el campo de observación
+            $('#observacion').prop('readonly', false).val(''); // Limpiar observación
+            $('#cargar-estudiantes-btn').hide();
+        }
     });
+
+    // Al cargar la página, verificar el estado actual de la clase
+    var estadoAsistenciaInicial = $('#asistencia').val();
+    if (estadoAsistenciaInicial == 'inasistida') {
+        $('#observacion-container').show(); // Mostrar el campo de observación si es 'inasistida'
+        $('#observacion').prop('readonly', false); // Habilitar el campo observación
+    }
+});
+
 
     // Función para cargar los estudiantes (ya implementada)
     function cargarEstudiantes() {

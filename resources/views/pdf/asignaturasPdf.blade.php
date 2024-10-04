@@ -35,7 +35,6 @@
             <th>Id</th>
             <th>Codigo</th>
             <th>Nombre</th>
-            <th>Creditos</th>
         </thead>
         <tbody>
         @foreach($asignaturas as $asi)
@@ -43,7 +42,6 @@
             <td>{{ $asi->id }}</td>
             <td>{{ $asi->codigo }}</td>
             <td>{{ $asi->nombre }}</td>
-            <td>{{ $asi->creditos}}</td>
 
         </a>
         </td>

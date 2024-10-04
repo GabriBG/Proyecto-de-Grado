@@ -42,8 +42,7 @@ public function imprimirAsignaturas(Request $request){
     $nom = $request->input('name');
 
     $asignaturas = Asignatura::where('nombre','LIKE',"%$nom%")->
-    orWhere('codigo','LIKE',"%$nom%")->
-    orWhere('creditos','LIKE',"%$nom%")->paginate(6);
+    orWhere('codigo','LIKE',"%$nom%")->paginate(6);
     $pdf = PDF::loadView('pdf.asignaturasPDF',['asignaturas' => $asignaturas ]);
     $pdf->setPaper('carta','A4');
 

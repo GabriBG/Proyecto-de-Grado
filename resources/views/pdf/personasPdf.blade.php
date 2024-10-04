@@ -32,7 +32,7 @@
 
 
         <div class="table-responsive">
-            <table class="table table-striped table-hover"> <thead style="font-family: Verdana, Geneva, Tahoma, sans-serif; color: #ffff;">
+            <table class="table table-striped table-hover"> <thead style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
         <th>Id</th>
         <th>Documento Identidad</th>
         <th>Nombres</th>

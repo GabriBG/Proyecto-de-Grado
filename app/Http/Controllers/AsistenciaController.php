@@ -71,12 +71,13 @@ class AsistenciaController extends Controller
         $query->where('asistencia', $estado_asistencia);
     }
 
-    // Ejecutar la consulta
-    $asistencias = $query->paginate(10);
+    // Ejecutar la consulta con paginación y adjuntar los parámetros del filtro
+    $asistencias = $query->paginate(10)->appends($request->except('page'));
 
     // Retornar la vista con las asistencias y los horarios
     return view('asistencia.index', compact('asistencias', 'horarios'));
 }
+
 
 
 

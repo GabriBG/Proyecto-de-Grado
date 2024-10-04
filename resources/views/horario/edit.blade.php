@@ -26,7 +26,7 @@
                 <label for="jornada">Jornada</label>
                 <select name="jornada" id="jornada" class="form-control">
                     <option value="Mañana" {{ $horarios->jornada == 'Mañana' ? 'selected' : '' }}>Mañana</option>
-                    <option value="Tarde" {{ $horarios->jornada == 'Tarde' ? 'selected' : '' }}>Tarde</option>
+                    <option value="Tarde" {{ $horarios->jornada == 'Sabatina' ? 'selected' : '' }}>Sabatina</option>
                 </select>
             </div>
         </div>

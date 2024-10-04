@@ -36,6 +36,7 @@
                 <th>Fecha</th>
                 <th>Estado de Asistencia</th>
                 <th>Horario</th>
+                <th>Observación</th>
             </tr>
         </thead>
         <tbody>
@@ -49,6 +50,7 @@
                     <td>{{ $asistencia->created_at->format('d-m-Y') }}</td>
                     <td>{{ $asistencia->asistencia == 1 ? 'Asistida' : 'Inasistida' }}</td>
                     <td>{{ $asistencia->clase->horarios->hora_inicio }} - {{ $asistencia->clase->horarios->hora_final }}</td>
+                    <td>{{ $asistencia->observacion }}</td>
                 </tr>
             @endforeach
         </tbody>

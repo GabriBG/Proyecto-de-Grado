@@ -28,7 +28,7 @@ class DocenteController extends Controller
                         ->orWhere('apellido', 'LIKE', "%$nom%")
                         ->orWhere('documento_identidad', 'LIKE', "%$nom%");
                 });
-        })->get();
+        })->paginate(10);
 
 
    //     $personas = Persona::whereIn('id', $docentes->pluck('model_id'))->get();
@@ -59,52 +59,57 @@ class DocenteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request)
-    {
+     public function store(Request $request)
+     {
+         // Validar los campos
+         $campos = [
+             'username' => 'required|string|max:100',
+             'password' => 'required|string|min:8',
+             'documento_identidad' => 'required|string|max:100',
+             'nombre' => 'required|string|max:100',
+             'apellido' => 'required|string|max:100',
+             'email' => 'required|string|email|max:100|unique:users,email',
+             'telefono' => 'required|string|max:100',
+         ];
 
-            $campos=[
-                'username'=>'required|string|max:100',
-                'password'=>'required|string|max:100',
-                'documento_identidad'=>'required|string|max:100',
-                'nombre'=>'required|string|max:100',
-                'apellido'=>'required|string|max:100',
-                'email'=>'required|string|max:100',
-                'telefono'=>'required|string|max:100',
-            ];
+         $mensaje = [
+             'required' => 'El :attribute es requerido',
+             'email.unique' => 'El email ya está registrado',
+         ];
 
-            $mensaje=[
-                'required'=>'El :attribute es requerido'
-            ];
+         $this->validate($request, $campos, $mensaje);
 
-            $this->validate($request, $campos,$mensaje);
+         // Crear un nuevo usuario
+         $users = new User;
+         $users->username = $request->get('username');
 
-        $users=new User;
-        $personas=new Persona;
-        $users->username=$request->get('username');
-        $users->password=$request->get('password');
-        $users->email=$request->get('email');
+         // Encriptar la contraseña
+         $users->password = Hash::make($request->get('password'));
 
-        $users->save();
+         $users->email = $request->get('email');
+         $users->save();
 
-        $personas->documento_identidad=$request->get('documento_identidad');
-        $personas->nombre=$request->get('nombre');
-        $personas->apellido=$request->get('apellido');
-        $personas->telefono=$request->get('telefono');
-        $personas->id_usuario=$users->id;
+         // Crear los datos de la persona asociada
+         $personas = new Persona;
+         $personas->documento_identidad = $request->get('documento_identidad');
+         $personas->nombre = $request->get('nombre');
+         $personas->apellido = $request->get('apellido');
+         $personas->telefono = $request->get('telefono');
+         $personas->id_usuario = $users->id;
+         $personas->save();
 
-        $personas->save();
+         // Asignar el rol al usuario
+         $role_id = $request->input('role');
+         DB::table('model_has_roles')->insert([
+             'role_id' => $role_id,
+             'model_id' => $users->id,
+             'model_type' => 'App\Models\User'
+         ]);
 
-        $role_id = $request->input('role');
+         // Redirigir con un mensaje de éxito
+         return Redirect::to('docente')->with('mensaje', 'Docente creado exitosamente');
+     }
 
-        DB::table('model_has_roles')
-        ->insert([
-            'role_id' => $role_id,
-            'model_id' => $users->id,
-            'model_type' => 'App\Models\User']);
-
-
-        return Redirect::to('docente');
-    }
 
     /**
      * Display the specified resource.
@@ -141,46 +146,59 @@ class DocenteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+{
+    // Validar los campos
+    $campos = [
+        'documento_identidad' => 'required|string|max:100',
+        'nombre' => 'required|string|max:100',
+        'apellido' => 'required|string|max:100',
+        'email' => 'required|email|max:100|unique:users,email,' . $id,
+        'telefono' => 'required|string|max:100',
+        'password' => 'nullable|string|min:8',  // Solo validar si se pasa una nueva contraseña
+    ];
 
-        $campos=[
-            'documento_identidad'=>'required|string|max:100',
-            'nombre'=>'required|string|max:100',
-            'apellido'=>'required|string|max:100',
-            'email'=>'required|email',
-            'telefono'=>'required|string|max:100',
-        ];
+    $mensaje = [
+        'required' => 'El :attribute es requerido',
+        'email.unique' => 'El email ya está registrado',
+    ];
 
-        $mensaje=[
-            'required'=>'El :attribute es requerido'
-        ];
+    $this->validate($request, $campos, $mensaje);
 
-        $this->validate($request, $campos,$mensaje);
+    // Encontrar el usuario y la persona
+    $users = User::findOrFail($id);
+    $personas = Persona::findOrFail($id);
 
-        $users=new User;
-        $users=User::findOrFail($id);
-        $personas=Persona::findOrFail($id);
-        $personas->update([
-        'documento_identidad'=>$request->input('documento_identidad'),
-        'nombre'=>$request->input('nombre'),
-        'apellido'=>$request->input('apellido'),
-        'telefono'=>$request->input('telefono')]);
-        $users->email=$request->input('email');
+    // Actualizar los datos de la persona
+    $personas->update([
+        'documento_identidad' => $request->input('documento_identidad'),
+        'nombre' => $request->input('nombre'),
+        'apellido' => $request->input('apellido'),
+        'telefono' => $request->input('telefono'),
+    ]);
 
+    // Actualizar el email
+    $users->email = $request->input('email');
 
-        $role_id = $request->input('role');
+    // Si se envió una nueva contraseña, encriptarla y actualizarla
+    if (!empty($request->input('password'))) {
+        $users->password = Hash::make($request->input('password'));
+    }
 
-        DB::table('model_has_roles')->where('model_id', $users->id)
+    // Guardar los cambios
+    $users->save();
+    $personas->save();
+
+    // Actualizar el rol
+    $role_id = $request->input('role');
+    DB::table('model_has_roles')
+        ->where('model_id', $users->id)
         ->update([
             'role_id' => $role_id,
-            'model_id' => $users->id,
-            'model_type' => 'App\Models\User']);
+        ]);
 
-        $personas->save();
-        $users->save();
-
-        return Redirect::to('docente')->with('mensaje','Docente Actualizado');
-    }
+    // Redirigir con un mensaje de éxito
+    return Redirect::to('docente')->with('mensaje', 'Docente actualizado exitosamente');
+}
 
     /**
      * Remove the specified resource from storage.

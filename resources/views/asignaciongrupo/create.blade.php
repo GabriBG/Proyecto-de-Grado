@@ -62,6 +62,17 @@
             <input type="text" name="aula" class="form-control" placeholder="Ingrese el número de aula">
         </div>
     </div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="sede">Sede</label>
+            <select class="form-control" name="sede">
+                <option class=""value="">Seleccione la sede</option>
+                <option class="Principal" value="Principal">Principal</option>
+                <option class="Parroquial" value="Parroquial">Parroquial</option>
+                <option class="Simon Bolivar" value="Simon Bolivar">Simon Bolivar</option>
+            </select>
+        </div>
+    </div>
     <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
         <div class="form-group">
             <br>

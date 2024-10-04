@@ -10,7 +10,7 @@ class Grupo extends Model
     use HasFactory;
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['estudiantes_matriculados','numero_grupo'];
 

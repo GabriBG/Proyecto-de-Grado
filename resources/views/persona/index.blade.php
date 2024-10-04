@@ -36,9 +36,9 @@
 
 <td>
 <a href="{{url('persona/'.$per->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
-  <i >Eliminar</i>
-</button>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$per->id}}">
+    <i >Eliminar</i>
+  </button>
 
 </a>
 </td>

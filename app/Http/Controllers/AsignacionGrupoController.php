@@ -28,7 +28,7 @@ class AsignacionGrupoController extends Controller
             $query->where('nombre', 'LIKE', "%$nom%");
         })->orWhereHas('grupos', function ($query) use ($nom) {
             $query->where('numero_grupo', 'LIKE', "%$nom%");
-        })->with('personas', 'asignaturas', 'grupos')->get();
+        })->with('personas', 'asignaturas', 'grupos')->paginate(10);
 
         return view('asignaciongrupo.index',compact('asignacion_grupos'));
      }
@@ -66,6 +66,7 @@ class AsignacionGrupoController extends Controller
               'asignatura' => 'required|string|max:100',
               'grupo' => 'required|string|max:100',
               'aula' => 'required|string|max:100',
+              'sede' => 'required|string|max:100',
           ];
 
           $mensaje = [
@@ -79,6 +80,8 @@ class AsignacionGrupoController extends Controller
           $asignaciones->asignatura_id = $request->get('asignatura');
           $asignaciones->persona_id = $request->get('docente');
           $asignaciones->aula = $request->get('aula');
+          $asignaciones->sede = $request->get('sede');
+
 
           $asignaciones->save();
 
@@ -131,6 +134,7 @@ class AsignacionGrupoController extends Controller
         'asignatura' => 'required|string|max:100',
         'grupo' => 'required|string|max:100',
         'aula' => 'required|string|max:100',
+        'sede' => 'required|string|max:100',
     ];
 
     $mensaje = [
@@ -144,6 +148,7 @@ class AsignacionGrupoController extends Controller
         'grupo_id' => $request->input('grupo'),
         'asignatura_id' => $request->input('asignatura'),
         'aula' => $request->input('aula'),
+        'sede' => $request->input('sede'),
         'persona_id' => $request->input('docente'),
 
     ]);
@@ -161,15 +166,12 @@ class AsignacionGrupoController extends Controller
       */
      public function destroy($id)
      {
+        $asignacion=Asignacion_Grupo::findOrFail($id);
 
-         $users=User::findOrFail($id);
-         $personas=Persona::findOrFail($id);
-
-         $users->delete();
-         $personas->delete();
+         $asignacion->delete();
 
 
 
-          return Redirect::to('persona');
+          return Redirect::to('asignaciongrupo');
      }
 }

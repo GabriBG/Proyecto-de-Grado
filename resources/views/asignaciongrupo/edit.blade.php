@@ -58,6 +58,16 @@
                 <input type="text" class="form-control" name="aula" value="{{ $asignacion_grupos->aula }}">
             </div>
         </div>
+        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <label for="aula">Sede</label>
+                <select class="form-control" name="aula">
+                    <option value="Principal" {{ $asignacion_grupos->sede == 'Principal' ? 'selected' : '' }}>Principal</option>
+                    <option value="Parroquial" {{ $asignacion_grupos->sede == 'Parroquial' ? 'selected' : '' }}>Parroquial</option>
+                    <option value="Simon Bolivar" {{ $asignacion_grupos->sede == 'Simon Bolivar' ? 'selected' : '' }}>Simon Bolivar</option>
+                </select>
+            </div>
+        </div>
         <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
             <div class="form-group"><br>
                 <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>

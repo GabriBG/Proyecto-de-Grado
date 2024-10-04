@@ -36,12 +36,14 @@
         </div>
         <BR>
             <!-- Tercera sección -->
+            @role('Admin|Director')
             <div class="d-flex flex-column align-items-center mt-3">
-                <h2>REPORTES</h2>
+                <h2>Reportes</h2>
                 <div class="d-flex justify-content-center">
                     <a href="{{ route('reportes') }}" class="btn btn-info mx-2">Generar reportes</a>
                 </div>
             </div>
+            @endrole
     </div>
 </div>
 

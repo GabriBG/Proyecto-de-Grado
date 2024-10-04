@@ -9,13 +9,13 @@ class Asignatura extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['codigo','nombre','creditos'];
 
 
     public function asignacionesGrupos()
 {
-    return $this->hasMany(AsignacionGrupo::class);
+    return $this->hasMany(Asignacion_Grupo::class);
 }
 }

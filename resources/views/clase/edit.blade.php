@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form action="{{ route('clase.update', $clases->id) }}" method="POST">
+<form action="{{ route('clase.update', $clases->id) }}" method="POST" id="editForm">
     @csrf
     @method('PUT')
 
@@ -111,17 +111,45 @@
                 </select>
             </div>
         </div>
-
-        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div id="observacion-container" style="display: none;">
             <div class="form-group">
-                <label for="modalidad" style="color:white;">Modalidad</label>
-                <select class="form-control" name="modalidad" id="modalidad">
-                    <option value="virtual" {{ $clases->modalidad == "virtual" ? 'selected' : '' }}>Virtual</option>
-                    <option value="presencial" {{ $clases->modalidad == "presencial" ? 'selected' : '' }}>Presencial</option>
-                </select>
+                <label for="observacion" style="color:white;">Observación:</label>
+                <textarea class="form-control" name="observacionClase" id="observacionClase" style="color:white;">{{ old('observacionClase', $clases->observacionClase) }}</textarea>
             </div>
         </div>
     </div>
+    <div class="row" id="cargar-estudiantes-btn" style="display:none;">
+        <div class="col-lg-12">
+            <button class="btn btn-info" type="button" onclick="cargarEstudiantes()">Cargar Estudiantes</button>
+        </div>
+    </div>
+    <br>
+    @if($clases->asistencia == 'asistida')
+<div id="estudiantes-container" class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table" id="estudiantes-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Estudiante</th>
+                    <th>Asistencia</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($clases->asistencias as $index => $asistencia)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $asistencia->estudiante->nombres }} {{ $asistencia->estudiante->apellidos }}</td>
+                        <td>{{ $asistencia->asistencia == '1' ? 'Asistió' : 'No asistió' }}</td>
+                        <td>{{ $asistencia->observacion }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
     <div id="estudiantes-container" class="row" style="display: none;">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table" id="estudiantes-table">
@@ -147,63 +175,91 @@
 </form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#asistencia').change(function() {
-        if (this.value == 'asistida') {
-            cargarEstudiantes();
-        } else {
-            $('#estudiantes-container').hide();
-        }
-    });
+    $(document).ready(function() {
+        // Detectar el cambio en el select de asistencia
+        $('#asistencia').change(function() {
+            var estadoAsistencia = this.value;
 
-    // Mostrar el botón "Cargar Estudiantes" si la asistencia es asistida al cargar la página
-    if ($('#asistencia').val() == 'asistida') {
-        cargarEstudiantes();
-    }
-
-    $('#asistencia-general').change(function() {
-        $('input[type=checkbox][name^="asistencia"]').prop('checked', this.checked);
-    });
-
-    $('#examForm').submit(function(e) {
-        if ($('#asistencia').val() == 'asistida' && $('#estudiantes-table tbody tr').length == 0) {
-            e.preventDefault();
-            alert('Debe cargar la lista de estudiantes para tomar asistencia.');
-        }
-    });
-});
-
-function cargarEstudiantes() {
-    const grupoId = $('#grupo_asignado').val();
-    if (grupoId) {
-        $.ajax({
-            url: '/obtener-estudiantes/' + grupoId,
-            method: 'GET',
-            success: function(response) {
-                const estudiantes = response.estudiantes;
-                const tbody = $('#estudiantes-table tbody');
-                var contador ="1";
-                tbody.empty();
-                estudiantes.forEach(estudiante => {
-                    const row = `
-                        <tr>
-                            <td>${contador}</td>
-                            <td>${estudiante.nombres} ${estudiante.apellidos}</td>
-                            <td><input type="checkbox" name="asistencia_estudiante_${estudiante.id}"></td>
-                            <td><input type="text" name="observacion_estudiante_${estudiante.id}" class="form-control"></td>
-                        </tr>`;
-                        contador ++;
-                    tbody.append(row);
-                });
-                $('#estudiantes-container').show();
-            },
-            error: function(error) {
-                console.error('Error al cargar los estudiantes:', error);
+            // Si el estado es 'asistida', cargar estudiantes y limpiar la observación
+            if (estadoAsistencia == 'asistida') {
+                cargarEstudiantes();
+                $('#cargar-estudiantes-btn').show();
+                $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
+                $('#observacion-container').hide(); // Esconder el campo de observación
+            }
+            // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
+            else if (estadoAsistencia == 'inasistida') {
+                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+                $('#observacion-container').show(); // Mostrar el campo de observación
+                $('#observacion').prop('readonly', false).val(''); // Habilitar el campo observación
+                $('#cargar-estudiantes-btn').hide();
+            }
+            // Si se selecciona otro estado, esconder campo observación y lista de estudiantes
+            else {
+                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+                $('#observacion-container').hide(); // Esconder el campo de observación
+                $('#observacion').prop('readonly', false).val(''); // Limpiar observación
+                $('#cargar-estudiantes-btn').hide();
             }
         });
+
+        // Controlar el checkbox general para seleccionar/deseleccionar todos los estudiantes
+        $('#asistencia-general').change(function() {
+            var isChecked = $(this).prop('checked');
+            $('input[type=checkbox][name^="asistencia_estudiante_"]').prop('checked', isChecked);
+        });
+
+        // Validar antes de enviar el formulario
+        $('#editForm').submit(function(e) {
+            var estadoAsistencia = $('#asistencia').val();
+            var observacionClase = $('#observacionClase').val().trim();
+
+            // Si el estado es 'inasistida', verificar que se haya ingresado una observación
+            if (estadoAsistencia == 'inasistida' && observacionClase == '') {
+                e.preventDefault(); // Evitar que se envíe el formulario
+                alert('Debe ingresar una observación si la asistencia es "inasistida".');
+            }
+
+            // Validar si el estado es 'asistida' y no hay estudiantes cargados
+            if (estadoAsistencia == 'asistida' && $('#estudiantes-table tbody tr').length == 0) {
+                e.preventDefault();
+                alert('Debe cargar la lista de estudiantes para tomar asistencia.');
+            }
+        });
+    });
+
+    // Función para cargar los estudiantes (ya implementada)
+    function cargarEstudiantes() {
+        const grupoId = $('#grupo_asignado').val();
+        if (grupoId) {
+            $.ajax({
+                url: '/obtener-estudiantes/' + grupoId,
+                method: 'GET',
+                success: function(response) {
+                    const estudiantes = response.estudiantes;
+                    const tbody = $('#estudiantes-table tbody');
+                    var contador = "1";
+                    tbody.empty();
+                    estudiantes.forEach(estudiante => {
+                        const row = `
+                            <tr>
+                                <td>${contador}</td>
+                                <td>${estudiante.nombres} ${estudiante.apellidos}</td>
+                                <td><input type="checkbox" name="asistencia_estudiante_${estudiante.id}"></td>
+                                <td><input type="text" name="observacion_estudiante_${estudiante.id}" class="form-control"></td>
+                            </tr>`;
+                        contador++;
+                        tbody.append(row);
+                    });
+                    $('#estudiantes-container').show();
+                },
+                error: function(error) {
+                    console.error('Error al cargar los estudiantes:', error);
+                }
+            });
+        }
     }
-}
-</script>
+    </script>
 {!! Html::script('./js/metodos.js') !!}
 @endsection
 @endrole

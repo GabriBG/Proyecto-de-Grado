@@ -66,9 +66,9 @@
 <td>{{ $hora->hora_final}}</td>
 <td>
 <a href="{{url('horario/'.$hora->id.'/edit')}}" ><button class="btn btn-info">Actualizar</button></a>
-<button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$hora->id}}">
-  <i >Eliminar</i>
-</buttom>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$hora->id}}">
+    <i >Eliminar</i>
+  </button>
 
 </a>
 </td>

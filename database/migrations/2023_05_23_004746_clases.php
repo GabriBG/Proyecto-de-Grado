@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreign('grupoasignado_id')->references('id')->on('asignacion_grupos')->onDelete('cascade');
             $table->unsignedBigInteger('horario_id');
             $table->foreign('horario_id')->references('id')->on('horarios')->onDelete('cascade');
-            $table->string('modalidad');
             $table->date('fecha');
+            $table->string('observacionClase')->nullable();
             $table->string('asistencia');
             $table->timestamps();
         });

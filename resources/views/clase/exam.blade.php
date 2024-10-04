@@ -80,18 +80,75 @@
             <div class="form-group">
                 <label for="asistencia" style="color:white;">Confirmar Asistencia:</label>
                 <select class="form-control" name="asistencia" id="asistencia" style="color:white;">
+                @if ($clases->asistencia == 'asistida' || $clases->asistencia == 'inasistida')
+                <option value="{{$clases->asistencia}}" {{ $clases->asistencia == 'asistida' ? 'selected' : '' }}>{{ucfirst($clases->asistencia)}}</option>
+            </select>
+        </div>
+    </div>
+    @if ($clases->asistencia == 'inasistida')
+     <!-- Campo para la observación -->
+     <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label for="observacion" style="color:white;">Observación:</label>
+
+            <!-- Mostrar observación si la clase está 'inasistida' -->
+            @if($clases->asistencia == 'inasistida')
+                <textarea class="form-control" name="observacionClase" id="observacionClase" style="color:white;" readonly>{{ $clases->observacionClase }}</textarea>
+
+            <!-- Mostrar un campo editable si la asistencia es 'pendiente' -->
+            @elseif($clases->asistencia == 'pendiente')
+                <textarea class="form-control" name="observacionClase" id="observacionClase" style="color:white;">{{ old('observacionClase', $clases->observacionClase) }}</textarea>
+            @endif
+        </div>
+    </div>
+@endif
+</div>
+@if($clases->asistencia == 'asistida')
+<div id="estudiantes-container" class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table" id="estudiantes-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Estudiante</th>
+                    <th>Asistencia</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($clases->asistencias as $index => $asistencia)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $asistencia->estudiante->nombres }} {{ $asistencia->estudiante->apellidos }}</td>
+                        <td>{{ $asistencia->asistencia == '1' ? 'Asistió' : 'No asistió' }}</td>
+                        <td>{{ $asistencia->observacion }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+<br>
+
+<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
+<a class="btn btn-danger" href="{{ route('clase.index') }}"><span class="glyphicon glyphicon-remove"></span> Atrás</a>
+
+</form>
+                @else
                     <option value="pendiente" {{ $clases->asistencia == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
                     <option value="asistida" {{ $clases->asistencia == 'asistida' ? 'selected' : '' }}>Asistida</option>
-                    <option value="inasistida" {{ $clases->asistencia == 'inasistida' ? 'selected' : '' }}>Inasistencia</option>
+                    <option value="inasistida" {{ $clases->asistencia == 'inasistida' ? 'selected' : '' }}>Inasistida</option>
                 </select>
             </div>
         </div>
-        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div id="observacion-container" style="display: none;">
             <div class="form-group">
-                <label for="modalidad" style="color:white;">Modalidad:</label>
-                <input type="text" name="modalidad" id="modalidad" style="color:white" class="form-control" value="{{ ucfirst($clases->modalidad) }}" readonly>
+                <label for="observacion" style="color:white;">Observación:</label>
+                <textarea class="form-control" name="observacionClase" id="observacionClase" style="color:white;">{{ old('observacionClase', $clases->observacionClase) }}</textarea>
             </div>
         </div>
+
     </div>
 
     <div id="estudiantes-container" class="row" style="display: none;">
@@ -119,61 +176,91 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#asistencia').change(function() {
-        if (this.value == 'asistida') {
-            cargarEstudiantes();
-        } else {
-            $('#estudiantes-container').hide();
-        }
-    });
+    $(document).ready(function() {
+        // Detectar el cambio en el select de asistencia
+        $('#asistencia').change(function() {
+            var estadoAsistencia = this.value;
 
-    // Mostrar el botón "Cargar Estudiantes" si la asistencia es asistida al cargar la página
-    if ($('#asistencia').val() == 'asistida') {
-        cargarEstudiantes();
-    }
-
-    $('#asistencia-general').change(function() {
-        $('input[type=checkbox][name^="asistencia"]').prop('checked', this.checked);
-    });
-
-    $('#examForm').submit(function(e) {
-        if ($('#asistencia').val() == 'asistida' && $('#estudiantes-table tbody tr').length == 0) {
-            e.preventDefault();
-            alert('Debe cargar la lista de estudiantes para tomar asistencia.');
-        }
-    });
-});
-
-function cargarEstudiantes() {
-    const grupoId = $('#grupo_asignado').val();
-    if (grupoId) {
-        $.ajax({
-            url: '/obtener-estudiantes/' + grupoId,
-            method: 'GET',
-            success: function(response) {
-                const estudiantes = response.estudiantes;
-                const tbody = $('#estudiantes-table tbody');
-                var contador ="1";
-                tbody.empty();
-                estudiantes.forEach(estudiante => {
-                    const row = `
-                        <tr>
-                            <td>${contador}</td>
-                            <td>${estudiante.nombres} ${estudiante.apellidos}</td>
-                            <td><input type="checkbox" name="asistencia_estudiante_${estudiante.id}"></td>
-                            <td><input type="text" name="observacion_estudiante_${estudiante.id}" class="form-control"></td>
-                        </tr>`;
-                        contador ++;
-                    tbody.append(row);
-                });
-                $('#estudiantes-container').show();
-            },
-            error: function(error) {
-                console.error('Error al cargar los estudiantes:', error);
+            // Si el estado es 'asistida', cargar estudiantes y limpiar la observación
+            if (estadoAsistencia == 'asistida') {
+                cargarEstudiantes();
+                $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
+                $('#observacion-container').hide(); // Esconder el campo de observación
+            }
+            // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
+            else if (estadoAsistencia == 'inasistida') {
+                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+                $('#observacion-container').show(); // Mostrar el campo de observación
+                $('#observacion').prop('readonly', false).val(''); // Habilitar el campo observación
+            }
+            // Si se selecciona otro estado, esconder campo observación y lista de estudiantes
+            else {
+                $('#estudiantes-container').hide(); // Esconder lista de estudiantes
+                $('#observacion-container').hide(); // Esconder el campo de observación
+                $('#observacion').prop('readonly', false).val(''); // Limpiar observación
             }
         });
+
+        // Controlar el checkbox general para seleccionar/deseleccionar todos los estudiantes
+        $('#asistencia-general').change(function() {
+            var isChecked = $(this).prop('checked');
+            $('input[type=checkbox][name^="asistencia_estudiante_"]').prop('checked', isChecked);
+        });
+
+        // Validar antes de enviar el formulario
+        $('#examForm').submit(function(e) {
+            var estadoAsistencia = $('#asistencia').val();
+            var observacionClase = $('#observacionClase').val().trim();
+
+            // Si el estado es 'inasistida', verificar que se haya ingresado una observación
+            if (estadoAsistencia == 'inasistida' && observacionClase == '') {
+                e.preventDefault(); // Evitar que se envíe el formulario
+                alert('Debe ingresar una observación si la asistencia es "inasistida".');
+            }
+
+            // Validar si el estado es 'asistida' y no hay estudiantes cargados
+            if (estadoAsistencia == 'asistida' && $('#estudiantes-table tbody tr').length == 0) {
+                e.preventDefault();
+                alert('Debe cargar la lista de estudiantes para tomar asistencia.');
+            }
+        });
+    });
+
+    // Función para cargar los estudiantes (ya implementada)
+    function cargarEstudiantes() {
+        const grupoId = $('#grupo_asignado').val();
+        if (grupoId) {
+            $.ajax({
+                url: '/obtener-estudiantes/' + grupoId,
+                method: 'GET',
+                success: function(response) {
+                    const estudiantes = response.estudiantes;
+                    const tbody = $('#estudiantes-table tbody');
+                    var contador = "1";
+                    tbody.empty();
+                    estudiantes.forEach(estudiante => {
+                        const row = `
+                            <tr>
+                                <td>${contador}</td>
+                                <td>${estudiante.nombres} ${estudiante.apellidos}</td>
+                                <td><input type="checkbox" name="asistencia_estudiante_${estudiante.id}"></td>
+                                <td><input type="text" name="observacion_estudiante_${estudiante.id}" class="form-control"></td>
+                            </tr>`;
+                        contador++;
+                        tbody.append(row);
+                    });
+                    $('#estudiantes-container').show();
+                },
+                error: function(error) {
+                    console.error('Error al cargar los estudiantes:', error);
+                }
+            });
+        }
     }
-}
-</script>
+    </script>
+
+
+
+
+@endif
 @endsection

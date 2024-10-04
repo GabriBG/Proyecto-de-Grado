@@ -10,16 +10,15 @@ class Clase extends Model
     use HasFactory;
 
     protected $table = 'clases';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'grupoasignado_id',
         'horario_id',
         'fecha',
         'asistencia',
-        'modalidad'
+        'observacionClase'
     ];
-
 
     public function horarios()
     {
@@ -35,10 +34,12 @@ class Clase extends Model
     {
         return $this->hasOneThrough(Persona::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'persona_id');
     }
+
     public function estudiante()
     {
         return $this->belongsTo(Estudiante::class);
     }
+
     public function asignaturas()
     {
         return $this->hasOneThrough(Asignatura::class, Asignacion_Grupo::class, 'id', 'id', 'grupoasignado_id', 'asignatura_id');
@@ -54,5 +55,10 @@ class Clase extends Model
         return $this->belongsToMany(Persona::class, 'clase_estudiante')
                     ->withPivot('asistencia', 'observacion')
                     ->withTimestamps();
+    }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class, 'clase_id');
     }
 }

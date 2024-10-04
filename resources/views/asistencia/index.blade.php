@@ -40,7 +40,14 @@
                             @endforeach
                         </select>
                     </div>
-
+        <!-- Filtro por asistencia (asistida o inasistida) -->
+        <div class="col-md-3">
+            <select name="estado_asistencia" id="estado_asistencia" class="form-control">
+                <option value="">Estado de Asistencia</option>
+                <option value="1">Asistida</option>
+                <option value="0">Inasistida</option>
+            </select>
+        </div>
                     <!-- Botón de buscar -->
                     <div class="col-md-3">
                         <input class="btn btn-info" type="submit" value="Buscar">
@@ -50,7 +57,7 @@
                     <!-- Generar PDF -->
                     <div class="col-md-3">
                         <a target="_blank" href="{{ route('imprimirAsistencia', request()->query()) }}">
-                            <button class="btn btn-success" type="button">Generar PDF</button>
+                            <button target="_blank" class="btn btn-success" type="button">Generar PDF</button>
                         </a>
                     </div>
                 </div>
@@ -72,47 +79,43 @@
                 </thead>
                 <tbody>
                     @foreach($asistencias as $asistencia)
-    <tr>
-        <td>{{ $asistencia->id }}</td>
-        <td>{{ $asistencia->estudiante->nombres }} {{ $asistencia->estudiante->apellidos }}</td>
-        <td>{{ $asistencia->clase->grupos->numero_grupo }}</td>
-        <td>{{ $asistencia->clase->personas->nombre }} {{ $asistencia->clase->personas->apellido }}</td>
-        <td>{{ $asistencia->clase->asignaturas->nombre }}</td>
-        <td>{{ $asistencia->created_at->format('d-m-Y') }}</td>
-        <td>
-            @if($asistencia->asistencia == 1)
-                Asistida
-            @else
-                Inasistida
-            @endif
-        </td>
-        <td>{{ $asistencia->clase->horarios->hora_inicio }} - {{ $asistencia->clase->horarios->hora_final }}</td>
-        <td>
-<!-- Botón que abre el modal -->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-ver-{{$asistencia->id}}">
-    Eliminar
-</button>
-
-</div>
-        </td>
-    </tr>
-    @include('asistencia.modal')
-@endforeach
-@if(Session::has('mensaje'))
-<div class="alert alert-success alert" role="alert">
-{{ Session::get('mensaje')}}
-</div>
-@endif
+                        <tr>
+                            <td>{{ $asistencia->id }}</td>
+                            <td>{{ $asistencia->estudiante->nombres }} {{ $asistencia->estudiante->apellidos }}</td>
+                            <td>{{ $asistencia->clase->grupos->numero_grupo }}</td>
+                            <td>{{ $asistencia->clase->personas->nombre }} {{ $asistencia->clase->personas->apellido }}</td>
+                            <td>{{ $asistencia->clase->asignaturas->nombre }}</td>
+                            <td>{{ $asistencia->created_at->format('d-m-Y') }}</td>
+                            <td>
+                                @if($asistencia->asistencia == 1)
+                                    Asistida
+                                @else
+                                    Inasistida
+                                @endif
+                            </td>
+                            <td>{{ $asistencia->clase->horarios->hora_inicio }} - {{ $asistencia->clase->horarios->hora_final }}</td>
+                            <td>
+                                @if($asistencia->observacion)
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal-ver-{{$asistencia->id}}">
+                                        Ver Observación
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
 
-            <!-- Inicio del Paginador -->
+            <!-- Incluir el modal -->
+            @include('asistencia.modal')
+
+            <!-- Paginador -->
             <div class="d-flex justify-content-center">
                 {{ $asistencias->links() }}
             </div>
-            <!-- Fin del Paginador -->
         </div>
     </div>
 @endsection
 @endrole
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

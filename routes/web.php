@@ -4,6 +4,7 @@ use App\Http\Controllers\AsignaturaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\PdfController;
 
 
 
@@ -31,6 +32,10 @@ Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPerson
 Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsignaturas')->name('imprimirAsignaturas');
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
 Route::get('imprimirClase','App\http\Controllers\PdfController@imprimirClase')->name('imprimirClase');
+Route::get('/reporte-por-estudiante', [PdfController::class, 'reportePorEstudiante'])->name('reporte.por_estudiante');
+Route::get('/reporteDocente/{id}', [PdfController::class, 'reporteDocente'])->name('reporte.reporteDocente');
+Route::get('/reporteClasePDF/{id}', [ClaseController::class, 'reporteClasePDF'])->name('reporte.reporteClasePDF');
+Route::get('/reporte-estudiante/{id}', [PdfController::class, 'generarReporteEstudiante'])->name('reporte.estudiante');
 Route::get('imprimirAsistencia','App\http\Controllers\AsistenciaController@imprimirAsistencia')->name('imprimirAsistencia');
 Route::get('/asistencia/{id}', [AsistenciaController::class, 'show'])->name('asistencia.show');
 Route::get('/asignacion-grupo/{id}', 'App\http\Controllers\ClaseController@getAsignacionGrupo')->name('asignacion-grupo');

@@ -78,9 +78,9 @@
 <td>
 <a href="{{url('asignatura/'.$asi->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$asi->id}}">
-  <i >Eliminar</i>
-</button>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-delete-{{$asi->id}}">
+    <i >Eliminar</i>
+  </button>
 
 
 </a>

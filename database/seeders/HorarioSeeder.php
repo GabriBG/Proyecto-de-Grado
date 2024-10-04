@@ -26,9 +26,9 @@ class HorarioSeeder extends Seeder
 
         Horario::create([
             'id' => 2,
-            'jornada' => 'Tarde',
-            'hora_inicio' => '14:45',
-            'hora_final' => '15:30',
+            'jornada' => 'Sabatina',
+            'hora_inicio' => '7:45',
+            'hora_final' => '8:30',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -42,9 +42,9 @@ class HorarioSeeder extends Seeder
         ]);
         Horario::create([
             'id' => 4,
-            'jornada' => 'Tarde',
-            'hora_inicio' => '13:00',
-            'hora_final' => '14:45',
+            'jornada' => 'Sabatina',
+            'hora_inicio' => '7:00',
+            'hora_final' => '7:45',
             'created_at' => now(),
             'updated_at' => now()
         ]);

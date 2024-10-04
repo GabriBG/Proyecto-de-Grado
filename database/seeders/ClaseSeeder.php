@@ -20,9 +20,9 @@ class ClaseSeeder extends Seeder
             'id' => 1,
             'grupoasignado_id' => '1',
             'horario_id' => '1',
-            'modalidad' => 'presencial',
             'fecha' => Carbon::create(2023, 6, 3),
             'asistencia' => 'asistida',
+            'observacionClase' => '',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -31,9 +31,9 @@ class ClaseSeeder extends Seeder
             'id' => 2,
             'grupoasignado_id' => '2',
             'horario_id' => '2',
-            'modalidad' => 'presencial',
             'fecha' => Carbon::create(2023, 6, 6),
             'asistencia' => 'pendiente',
+            'observacionClase' => '',
             'created_at' => now(),
             'updated_at' => now()
         ]);

@@ -22,7 +22,7 @@
 <select class="form-control" name="jornada">
     <option class=""value="">Seleccione el horario</option>
     <option class="Mañana" value="Mañana">Mañana</option>
-    <option class="Tarde" value="Tarde">Tarde</option>
+    <option class="Tarde" value="Sabatina">Sabatina</option>
 </select>
         </div>
     </div>

@@ -6,6 +6,8 @@ use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Grupo;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class GrupoController extends Controller
 {
@@ -31,13 +33,24 @@ class GrupoController extends Controller
     $grupoIds = $estudiantes->pluck('id_grupo');
 
     // Añadir a la consulta inicial los grupos que corresponden a los estudiantes encontrados
-    $gruposPorEstudiantes = Grupo::whereIn('id', $grupoIds)->paginate(6);
+    $gruposPorEstudiantes = Grupo::whereIn('id', $grupoIds)->get(); // Cambiado a get()
 
     // Combinar los grupos encontrados por búsqueda directa y por estudiantes
-    $gruposCombinados = $grupos->merge($gruposPorEstudiantes)->unique('id');
+    $gruposCombinados = $grupos->getCollection()->merge($gruposPorEstudiantes)->unique('id');
+
+    // Paginar la colección combinada manualmente
+    $currentPage = LengthAwarePaginator::resolveCurrentPage();
+    $perPage = 10;
+    $paginatedGrupos = new LengthAwarePaginator(
+        $gruposCombinados->forPage($currentPage, $perPage), // Dividir la colección por página
+        $gruposCombinados->count(), // Total de grupos
+        $perPage,
+        $currentPage,
+        ['path' => $request->url(), 'query' => $request->query()] // Mantener los parámetros en la URL
+    );
 
     return view('grupo.index')
-        ->with('grupos', $gruposCombinados)
+        ->with('grupos', $paginatedGrupos) // Pasar la colección paginada
         ->with('estudiantes', $estudiantes);
 }
 
@@ -182,11 +195,11 @@ public function update(Request $request, $id)
     public function destroy($id)
     {
 
-        $asignaturas=Grupo::findOrFail($id);
+        $grupo=Grupo::findOrFail($id);
         Grupo::destroy($id);
 
 
-        $asignaturas->delete();
+        $grupo->delete();
 
 
          return Redirect::to('grupo');

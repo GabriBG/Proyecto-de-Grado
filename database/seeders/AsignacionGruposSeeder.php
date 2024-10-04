@@ -20,6 +20,7 @@ class AsignacionGruposSeeder extends Seeder
             'asignatura_id' => '1',
             'persona_id' => '4',
             'aula' => 'A101',
+            'sede' => 'Principal',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -30,6 +31,18 @@ class AsignacionGruposSeeder extends Seeder
             'asignatura_id' => '2',
             'persona_id' => '2',
             'aula' => 'B202',
+            'sede' => 'Parroquial',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        Asignacion_Grupo::create([
+            'id' => 3,
+            'grupo_id' => '3',
+            'asignatura_id' => '3',
+            'persona_id' => '5',
+            'aula' => 'B302',
+            'sede' => 'Simon Bolivar',
             'created_at' => now(),
             'updated_at' => now()
         ]);

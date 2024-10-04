@@ -10,7 +10,7 @@
         <link rel="shortcut icon" href="{{ asset('black') }}/img/logo.jpg" type="image/x-icon">
         <!-- Favicon -->
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('black') }}/img/apple-icon.png">
-        <link rel="icon" type="image/png" href="{{ asset('black') }}/img/favicon.png">
+        <link rel="icon" type="image/png" href="{{ asset('black') }}/img/logo.png">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
         <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -20,7 +20,14 @@
         <link href="{{ asset('black') }}/scss/_variables.scss" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
         <link href="{{ asset('black') }}/css/theme.css" rel="stylesheet" />
-        
+        <!-- Estilos y scripts para Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Bootstrap 5 JavaScript and Popper.js (required for modals) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body class="{{ $class ?? '' }}">

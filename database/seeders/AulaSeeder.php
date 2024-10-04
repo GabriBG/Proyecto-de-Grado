@@ -32,21 +32,21 @@ class AulaSeeder extends Seeder
         Aula::create([
             'id' => 3,
             'nomenclatura' => 'A103',
-            'sede' => 'Principal',
+            'sede' => 'Simon Bolivar',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         Aula::create([
             'id' => 4,
             'nomenclatura' => 'A303',
-            'sede' => 'Principal',
+            'sede' => 'Simon Bolivar',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         Aula::create([
             'id' => 5,
             'nomenclatura' => 'C103',
-            'sede' => 'Jardin',
+            'sede' => 'Parroquial',
             'created_at' => now(),
             'updated_at' => now()
         ]);

@@ -34,6 +34,7 @@
 <td>{{ $per->users->roles->pluck('name')->implode(', ') }}</td>
 
 <td>
+    <a target="_blank" href="{{url('reporteDocente', $per->id)}}"><button class="btn btn-secundary">Reporte</button></a>
 <a href="{{url('docente/'.$per->id.'/edit')}}"><button class="btn btn-info">Actualizar</button></a>
 <button type="buttom" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-{{$per->id}}">
   <i >Eliminar</i>
@@ -51,6 +52,10 @@
 @endif
 </tbody> </table>
 </div>
+    <!-- Paginación -->
+    <div class="d-flex justify-content-center">
+        {{ $docentes->links() }}
+    </div>
 <div class="row">
 <div class="col-md-9">
 <a href="{{url('docente/create')}}" class="pull-left">

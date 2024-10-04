@@ -9,8 +9,8 @@ class Asignacion_Grupo extends Model
 {
     use HasFactory;
 
-    protected $table= 'asignacion_grupos';
-    public $timestamps = false;
+    protected $table = 'asignacion_grupos';
+    public $timestamps = true;
 
     protected $fillable = [
         'grupo_id',
@@ -23,20 +23,24 @@ class Asignacion_Grupo extends Model
     {
         return $this->hasMany(Persona::class);
     }
+
     public function grupos()
     {
         return $this->belongsTo(Grupo::class, 'grupo_id');
     }
+
     public function asignaturas()
     {
         return $this->belongsTo(Asignatura::class, 'asignatura_id');
     }
+
     public function personas()
     {
         return $this->belongsTo(Persona::class, 'persona_id');
     }
     public function estudiantes()
-{
-    return $this->hasMany(Estudiante::class, 'id_grupo', 'id');
-}
+    {
+        return $this->grupos->estudiantes();  // Obtener estudiantes a través del grupo
+    }
+
 }

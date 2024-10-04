@@ -10,7 +10,7 @@ class Horario extends Model
     use HasFactory;
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['jornada','hora_inicio','hora_final'];
 

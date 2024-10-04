@@ -14,8 +14,8 @@ class UsersTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    { 
-    
+    {
+
         User::create([
             'id' => 1,
             'username' => 'GabrielBG',
@@ -53,6 +53,16 @@ class UsersTableSeeder extends Seeder
             'email' => 'GPerez@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('G.Perez2023'),
+            'created_at' => now(),
+            'updated_at' => now()
+        ])->assignRole('Docente');
+
+        User::create([
+            'id' => 5,
+            'username' => 'ARuiz',
+            'email' => 'aruiz@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('A.Ruiz2024*'),
             'created_at' => now(),
             'updated_at' => now()
         ])->assignRole('Docente');

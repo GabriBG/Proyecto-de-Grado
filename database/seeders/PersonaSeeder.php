@@ -59,6 +59,17 @@ class PersonaSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        Persona::create([
+            'id' => 5,
+            'id_usuario' => '5',
+            'documento_identidad' => '188293827',
+            'nombre' => 'Alfonso',
+            'apellido' => 'Ruiz Mejia',
+            'telefono' => '3127738271',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 
 }

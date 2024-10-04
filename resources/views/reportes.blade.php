@@ -22,6 +22,10 @@
                 <h2>Reportes de informacion registrada</h2>
                 <div class="d-flex justify-content-center">
                     <a href="{{ route('asistencia.index') }}" class="btn btn-info mx-2">Reporte de asistencias</a>
+                    <a href="{{ route('grupo.index') }}" class="btn btn-info">
+                        Reporte de estudiantes y grupos
+                    </a>
+
                     <a href="{{ route('clase.index') }}" class="btn btn-info mx-2">Reporte de clases</a>
                     <a href="{{ route('asignaciongrupo.index') }}" class="btn btn-info mx-2">Reporte de grupos asignados</a>
 
@@ -30,7 +34,6 @@
             <BR>
             <div class="d-flex flex-column align-items-center mt-3">
                 <div class="d-flex justify-content-center">
-                    <a href="{{ route('grupo.index') }}" class="btn btn-info mx-2">Reporte de grupos</a>
                     <a href="{{ route('asignatura.index') }}" class="btn btn-info mx-2">Reporte de asignaturas</a>
                     <a href="{{ route('docente.index') }}" class="btn btn-info mx-2">Reporte de docentes</a>
                     <a href="{{ route('horario.index') }}" class="btn btn-info mx-2">Reporte de horarios</a>

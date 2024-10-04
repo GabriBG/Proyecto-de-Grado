@@ -8,7 +8,7 @@ use App\Models\{Asignacion_Grupo, Clase, Horaro, Aula, Persona, Asignatura, Grup
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 class ClaseController extends Controller
 {
 
@@ -39,7 +39,7 @@ class ClaseController extends Controller
             $query->where('nombre', 'LIKE', "%$nom%")
                 ->orWhere('apellido', 'LIKE', "%$nom%");
         })->orWhere('asistencia', "$nom")
-        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->get();
+        ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->paginate(10);
 
 
         $autenticado = Clase::whereHas('horarios', function ($query) use ($nom) {
@@ -61,18 +61,17 @@ class ClaseController extends Controller
         })
         ->orWhere('asistencia', "$nom")
         ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')
-        ->get();
+        ->paginate(10);
 
         return view('clase.index', compact('clases','autenticado'));
 
      }
-
      public function obtenerEstudiantes($grupoId)
      {
-         $asignacionGrupo = Asignacion_Grupo::with('estudiantes')->find($grupoId);
+         $asignacionGrupo = Asignacion_Grupo::find($grupoId);
 
-         if ($asignacionGrupo) {
-             $estudiantes = $asignacionGrupo->estudiantes->map(function($estudiante) {
+         if ($asignacionGrupo && $asignacionGrupo->grupos) {
+             $estudiantes = $asignacionGrupo->grupos->estudiantes->map(function($estudiante) {
                  return [
                      'id' => $estudiante->id,
                      'nombres' => $estudiante->nombres,
@@ -82,9 +81,10 @@ class ClaseController extends Controller
          } else {
              $estudiantes = [];
          }
-
          return response()->json(['estudiantes' => $estudiantes]);
      }
+
+
 
 
      /**
@@ -110,48 +110,48 @@ class ClaseController extends Controller
       */
 
       public function store(Request $request)
-      {
-          // Validar los datos del formulario
-          $request->validate([
-              'grupo_asignado' => 'required|exists:asignacion_grupos,id',
-              'horario' => 'required|exists:horarios,id',
-              'fecha' => 'required|date',
-              'asistencia' => 'required|string|max:100',
-              'modalidad' => 'required|string|max:100',
-          ]);
+{
+    // Validar los datos del formulario
+    $request->validate([
+        'grupo_asignado' => 'required|exists:asignacion_grupos,id',
+        'horario' => 'required|exists:horarios,id',
+        'fecha' => 'required|date',
+        'asistencia' => 'required|string|max:100',
+    ]);
 
-          // Si la clase es "asistida", validar la asistencia de los estudiantes
-          if ($request->asistencia == 'asistida') {
-              $request->validate([
-                  'asistencia.*' => 'nullable|boolean',
-                  'observacion.*' => 'nullable|string|max:255',
-              ]);
-          }
+    // Si la clase es "asistida", validar la asistencia de los estudiantes
+    if ($request->asistencia == 'asistida') {
+        $request->validate([
+            'asistencia_estudiantes' => 'required|array', // Validar que se envía asistencia de estudiantes
+            'asistencia_estudiantes.*' => 'nullable|boolean', // Cada asistencia debe ser booleano (1 o 0)
+            'observacion.*' => 'nullable|string|max:255',
+        ]);
+    }
 
+    // Crear la clase
+    $clase = Clase::create([
+        'grupoasignado_id' => $request->grupo_asignado,
+        'horario_id' => $request->horario,
+        'fecha' => $request->fecha,
+        'asistencia' => $request->asistencia,
+        'observacionClase' => $request->observacionClase ?: null, // Asignar null si está vacío
+    ]);
 
-          // Crear la clase
-          $clase = Clase::create([
-              'grupoasignado_id' => $request->grupo_asignado,
-              'horario_id' => $request->horario,
-              'fecha' => $request->fecha,
-              'asistencia' => $request->asistencia,
-              'modalidad' => $request->modalidad,
-          ]);
+    // Guardar la asistencia de los estudiantes si la clase es "asistida"
+    if ($request->asistencia == 'asistida' && is_array($request->asistencia_estudiantes)) {
+        foreach ($request->asistencia_estudiantes as $estudianteId => $asistio) {
+            Asistencia::create([
+                'clase_id' => $clase->id,
+                'estudiante_id' => $estudianteId,
+                'asistencia' => $asistio ? 1 : 0, // Asegurarse de que sea 1 o 0
+                'observacion' => $request->observacion[$estudianteId] ?? null,
+            ]);
+        }
+    }
 
-          // Guardar la asistencia de los estudiantes si la clase es "asistida"
-          if ($request->asistencia == 'asistida' && is_array($request->asistencia_estudiantes)) {
-              foreach ($request->asistencia_estudiantes as $estudianteId => $asistio) {
-                  Asistencia::create([
-                      'clase_id' => $clase->id,
-                      'estudiante_id' => $estudianteId,
-                      'asistencia' => $asistio ? true : false,
-                      'observacion' => $request->observacion[$estudianteId] ?? null,
-                  ]);
-              }
-          }
+    return redirect()->route('clase.index')->with('success', 'Clase creada con éxito.');
+}
 
-          return redirect()->route('clase.index')->with('success', 'Clase creada con éxito.');
-      }
 
 
 
@@ -222,16 +222,46 @@ class ClaseController extends Controller
          return view ('clase.edit', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
      }
 
+     public function reporteClasePDF($id)
+     {
+         // Buscar la clase por ID
+         $clase = Clase::with('asignacionGrupos.grupos', 'asignacionGrupos.asignaturas', 'asignacionGrupos.personas')
+                     ->where('id', $id)
+                     ->first();
 
+         // Obtener datos de la clase
+         $docente = $clase->asignacionGrupos->personas;
+         $asignatura = $clase->asignacionGrupos->asignaturas;
+         $grupo = $clase->asignacionGrupos->grupos;
+         $sede = $clase->asignacionGrupos->sede;
+         $aula = $clase->asignacionGrupos->aula;
+         $fecha = $clase->fecha;
+         $horario = $clase->horarios;
+         $asistencia = $clase->asistencia;
+
+         // Si la clase fue asistida, obtener la lista de estudiantes
+         $estudiantes = [];
+         if ($asistencia == 1) { // Asistida
+             $estudiantes = Estudiante::where('clase_id', $clase->id)
+                         ->where('asistencia', 1) // Solo los que asistieron
+                         ->get();
+         }
+
+         // Cargar la vista para generar el PDF
+         $pdf = Pdf::loadView('pdf.clase-reporte', compact('clase', 'docente', 'asignatura', 'grupo', 'fecha', 'aula', 'sede', 'horario', 'asistencia', 'estudiantes'));
+         $pdf->setPaper('carta','A4');
+
+         return $pdf->stream();
+     }
 
      public function examinar($id)
      {
-         $clases = Clase::find($id);
-         $asignacionGrupos = Asignacion_Grupo::all();
-         $horarios = Horario::all();
-         $aulas = Aula::all();
+    // Obtener la clase con sus relaciones
+    $clases = Clase::with(['asistencias.estudiante', 'asignacionGrupos.grupos', 'asignacionGrupos.personas', 'asignaturas', 'horarios'])
+                ->findOrFail($id);
 
-         return view('clase.exam', compact('clases', 'asignacionGrupos', 'horarios', 'aulas'));
+
+         return view('clase.exam', compact('clases'));
      }
 
      /**
@@ -249,7 +279,6 @@ class ClaseController extends Controller
               'horario' => 'required|string|max:100',
               'fecha' => 'required|date',
               'asistencia' => 'required|string|max:100',
-              'modalidad' => 'required|string|max:100',
           ];
 
           $mensaje = [
@@ -264,7 +293,7 @@ class ClaseController extends Controller
           $clases->horario_id = $request->get('horario');
           $clases->fecha = $request->get('fecha');
           $clases->asistencia = $request->get('asistencia');
-          $clases->modalidad = $request->get('modalidad');
+          $clases->observacionClase = $request->get('observacionClase') ?? '';
           $clases->save();
 
           // Guardar la asistencia y observaciones de los estudiantes

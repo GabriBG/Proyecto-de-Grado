@@ -14,7 +14,8 @@
 <body>
     <div class="header">
         <h2>Reporte del Docente</h2>
-        <h3>{{ $docente->nombre }} {{ $docente->apellido }}</h4>
+        <h3 class="header">Institución Educativa Regional Simon Bolivar</h3>
+        <h3>{{ $docente->nombre }} {{ $docente->apellido }}</h3>
     </div>
     <div class="content">
         <h4>Asignaturas:</h4>

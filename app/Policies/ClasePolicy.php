@@ -15,7 +15,8 @@ class ClasePolicy
      */
     public function update(User $user, Clase $clase)
     {
-        return $user->hasRole('Admin');  // Permitir si el usuario es Admin
+        // Permitir si el usuario tiene el rol de Admin o Director
+        return $user->hasRole('Admin') || $user->hasRole('Director');
     }
 
     /**
@@ -23,7 +24,8 @@ class ClasePolicy
      */
     public function delete(User $user, Clase $clase)
     {
-        return $user->hasRole('Admin');  // Solo Admin puede eliminar
+        // Permitir si el usuario tiene el rol de Admin o Director
+        return $user->hasRole('Admin') || $user->hasRole('Director');
     }
 
     /**
@@ -31,7 +33,8 @@ class ClasePolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('Admin');  // Solo Admin puede crear
+        // Permitir si el usuario tiene el rol de Admin o Director
+        return $user->hasRole('Admin') || $user->hasRole('Director') || $user->hasRole(roles: 'Docente');
     }
 
     /**
@@ -39,6 +42,7 @@ class ClasePolicy
      */
     public function generatePdf(User $user)
     {
-        return $user->hasRole('Admin');  // Solo Admin puede generar PDFs
+        // Permitir si el usuario tiene el rol de Admin o Director
+        return $user->hasRole('Admin') || $user->hasRole('Director');
     }
 }

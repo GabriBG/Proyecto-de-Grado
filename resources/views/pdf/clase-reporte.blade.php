@@ -27,6 +27,7 @@
 <body>
 
     <h2 class="header">Reporte de Clase</h2>
+    <h3 class="header">Institución Educativa Regional Simon Bolivar</h3>
 
     <p><strong>Docente:</strong> {{ $docente->nombre }} {{ $docente->apellido }}</p>
     <p><strong>Asignatura:</strong> {{ $asignatura->nombre }}</p>

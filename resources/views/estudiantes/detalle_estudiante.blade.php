@@ -35,6 +35,7 @@
 <body>
     <div class="header">
         <h2>Reporte del Estudiante</h2>
+        <h3 class="header">Institución Educativa Regional Simon Bolivar</h3>
         <p><strong>Nombre:</strong> {{ $estudiante->nombres }}</p>
         <p><strong>Apellido:</strong> {{ $estudiante->apellidos }}</p>
         <p><strong>Grupo:</strong> {{ $grupo->numero_grupo   }}</p>

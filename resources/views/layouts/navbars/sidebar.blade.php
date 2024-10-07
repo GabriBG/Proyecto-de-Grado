@@ -59,6 +59,7 @@
                     </ul>
                 </div>
             </li>
+            @role('Admin')
             <li @if ($pageSlug == 'personas') class="active " @endif>
                 <a data-toggle="collapse" href="#personas" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>
@@ -83,6 +84,7 @@
                     </ul>
                 </div>
             </li>
+            @endrole
             <li @if ($pageSlug == 'docentes') class="active " @endif>
                 <a data-toggle="collapse" href="#docentes" aria-expanded="false">
                     <i class="tim-icons icon-single-02" ></i>

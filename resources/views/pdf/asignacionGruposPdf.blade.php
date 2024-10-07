@@ -26,6 +26,7 @@
 <body>
     <br>
     <h1 style="font-family: Verdana, Geneva, Tahoma, sans-serif;" >Reporte de Asignacion de Grupos</h1>
+    <h3 class="header" style="justify-content: center; padding-left: 150px">Institución Educativa Regional Simon Bolivar</h3>
     <br>
 <div class="main-panel">
 

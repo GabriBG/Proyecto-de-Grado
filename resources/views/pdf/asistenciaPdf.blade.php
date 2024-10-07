@@ -25,6 +25,7 @@
 </head>
 <body>
     <h1>Reporte de Asistencia</h1>
+    <h3 class="header" style="justify-content: center; padding-left: 150px">Institución Educativa Regional Simon Bolivar</h3>
     <table border="1">
         <thead>
             <tr>

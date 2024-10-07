@@ -1,6 +1,6 @@
 
 @extends('layouts.app', ['page' => 'Asistencias', 'pageSlug' => 'indexA'])
-@role('Admin')
+@role('Admin|Director')
 @section('content')
     <h1>Asistencias Registradas</h1>
 

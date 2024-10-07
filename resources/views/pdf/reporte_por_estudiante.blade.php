@@ -29,6 +29,7 @@
 <body>
     <br>
     <h1>Reporte de Clases</h1>
+    <h3 class="header" style="justify-content: center; padding-left: 150px">Institución Educativa Regional Simon Bolivar</h3>
     <br>
     <table>
         <thead>

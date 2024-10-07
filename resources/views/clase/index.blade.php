@@ -23,7 +23,8 @@
                 </form>
                 <br>
                 @foreach($clases as $cla)
-                    @if(auth()->user()->hasRole('Admin') || (auth()->user()->hasRole('Docente') && $cla->asignacionGrupos->personas->id_usuario == auth()->user()->id))
+                @if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Director') || (auth()->user()->hasRole('Docente') && $cla->asignacionGrupos->personas->id_usuario == auth()->user()->id))
+
                         <tr>
                             <td>{{ $cla->id }}</td>
                             <td>{{ $cla->asignacionGrupos->personas->nombre }} {{ $cla->asignacionGrupos->personas->apellido }}</td>

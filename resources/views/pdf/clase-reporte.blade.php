@@ -48,8 +48,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
+                    <th>Nombre completo</th>
+                    <th>Asistencia</th>
                     <th>Observación</th>
                 </tr>
             </thead>

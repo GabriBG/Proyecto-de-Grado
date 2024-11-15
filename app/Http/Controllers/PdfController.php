@@ -100,30 +100,52 @@ public function reporteDocente($id)
 }
 
 
-public function imprimirClase(Request $request){
-
+public function imprimirClase(Request $request)
+{
     $nom = $request->input('name');
+    $usuario = auth()->user();
 
+    // Crear una consulta base para las clases
+    $query = Clase::query();
 
-    $clases = Clase::whereHas('horarios', function ($query) use ($nom) {
-        $query->where('hora_inicio', 'like', "%$nom%")
-            ->orWhere('hora_final', 'LIKE', "%$nom%");
-    })->orWhereHas('asignaturas', function ($query) use ($nom) {
-        $query->where('nombre', 'LIKE', "%$nom%");
-    })->orWhereHas('grupos', function ($query) use ($nom) {
-        $query->where('numero_grupo', 'LIKE', "%$nom%");
-    })->orWhereHas('personas', function ($query) use ($nom) {
-        $query->where('nombre', 'LIKE', "%$nom%")
-            ->orWhere('apellido', 'LIKE', "%$nom%");
-    })->orWhere('asistencia', "$nom")
-    ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->get();
+    // Aplicar los filtros de búsqueda en horario, asignatura, grupo y asistencia
+    $query->where(function ($query) use ($nom) {
+        $query->whereHas('horarios', function ($query) use ($nom) {
+                $query->where('hora_inicio', 'like', "%$nom%")
+                      ->orWhere('hora_final', 'LIKE', "%$nom%");
+            })
+            ->orWhereHas('asignaturas', function ($query) use ($nom) {
+                $query->where('nombre', 'LIKE', "%$nom%");
+            })
+            ->orWhereHas('grupos', function ($query) use ($nom) {
+                $query->where('numero_grupo', 'LIKE', "%$nom%");
+            })
+            ->orWhereHas('personas', function ($query) use ($nom) {
+                $query->where('nombre', 'LIKE', "%$nom%")
+                      ->orWhere('apellido', 'LIKE', "%$nom%");
+            })
+            ->orWhere('asistencia', "$nom");
+    });
 
-    $pdf = PDF::loadView('pdf.clasePDF',['clases' => $clases ]);
-    $pdf->setPaper('carta','A4');
+    // Verificar el rol del usuario y aplicar el filtro adicional si es docente
+    if ($usuario->hasRole('Docente')) {
+        // Limitar la consulta solo a las clases del docente autenticado
+        $query->whereHas('personas', function ($query) {
+            $query->where('id_usuario', auth()->user()->id); // Asegúrate de que 'user_id' sea el campo correcto.
+        });
+    }
+
+    // Ejecutar la consulta y cargar las relaciones necesarias
+    $clases = $query->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->get();
+
+    // Generar el PDF con las clases filtradas
+    $pdf = PDF::loadView('pdf.clasePDF', ['clases' => $clases]);
+    $pdf->setPaper('carta', 'A4');
 
     return $pdf->stream();
-
 }
+
+
 
 
 

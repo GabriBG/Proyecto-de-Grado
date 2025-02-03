@@ -32,9 +32,9 @@
             @endforeach
         </ul>
 
-        <h4>Clases Inasistidas:</h4>
+        <h4>Clases no asistidas:</h4>
         @if($inasistencias->isEmpty())
-            <p>No hay inasistencias registradas.</p>
+            <p>No hay registradas.</p>
         @else
             <table>
                 <thead>

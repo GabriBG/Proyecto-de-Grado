@@ -85,7 +85,7 @@
             <select class="form-control" style="color=#FFFFFF;" name="asistencia" id="asistencia">
                 <option value="">Seleccione el estado de asistencia</option>
                 <option value="asistida">Asistida</option>
-                <option value="inasistida">Inasistida</option>
+                <option value="no asistida">No asistida</option>
                 <option value="pendiente">Pendiente</option>
             </select>
         </div>
@@ -150,7 +150,7 @@ $(document).ready(function() {
         if (asistencia == 'asistida') {
             $('#cargar-estudiantes-btn').show();
             $('#observacion-container').hide(); // Ocultar el campo de observación
-        } else if (asistencia == 'inasistida') {
+        } else if (asistencia == 'no asistida') {
             $('#observacion-container').show(); // Mostrar el campo de observación
             $('#cargar-estudiantes-btn').hide(); // Ocultar el botón de cargar estudiantes
             $('#estudiantes-container').hide(); // Ocultar la tabla de estudiantes
@@ -170,9 +170,9 @@ $(document).ready(function() {
         var asistencia = $('#asistencia').val();
         var observacion = $('#observacion').val().trim();
 
-        // Validar que el campo de observación no esté vacío si la asistencia es "inasistida"
-        if (asistencia == 'inasistida' && observacion === '') {
-            alert('Debe llenar el campo de observación para una clase inasistida.');
+        // Validar que el campo de observación no esté vacío si la asistencia es "no asistida"
+        if (asistencia == 'no asistida' && observacion === '') {
+            alert('Debe llenar el campo de observación para una clase no asistida.');
             event.preventDefault(); // Prevenir el envío del formulario si está vacío
         }
     });
@@ -309,7 +309,7 @@ function cargarEstudiantes() {
             <select class="form-control" style="color=#FFFFFF;" name="asistencia" id="asistencia">
                 <option value="">Seleccione el estado de asistencia</option>
                 <option value="asistida">Asistida</option>
-                <option value="inasistida">Inasistida</option>
+                <option value="no asistida">No asistida</option>
                 <option value="pendiente">Pendiente</option>
             </select>
         </div>
@@ -372,7 +372,7 @@ function cargarEstudiantes() {
             if (asistencia == 'asistida') {
                 $('#cargar-estudiantes-btn').show();
                 $('#observacion-container').hide(); // Ocultar el campo de observación
-            } else if (asistencia == 'inasistida') {
+            } else if (asistencia == 'no asistida') {
                 $('#observacion-container').show(); // Mostrar el campo de observación
                 $('#cargar-estudiantes-btn').hide(); // Ocultar el botón de cargar estudiantes
                 $('#estudiantes-container').hide(); // Ocultar la tabla de estudiantes
@@ -392,9 +392,9 @@ function cargarEstudiantes() {
             var asistencia = $('#asistencia').val();
             var observacion = $('#observacion').val().trim();
 
-            // Validar que el campo de observación no esté vacío si la asistencia es "inasistida"
-            if (asistencia == 'inasistida' && observacion === '') {
-                alert('Debe llenar el campo de observación para una clase inasistida.');
+            // Validar que el campo de observación no esté vacío si la asistencia es "no asistida"
+            if (asistencia == 'no asistida' && observacion === '') {
+                alert('Debe llenar el campo de observación para una clase no asistida.');
                 event.preventDefault(); // Prevenir el envío del formulario si está vacío
             }
         });
@@ -522,7 +522,7 @@ function cargarEstudiantes() {
             <select class="form-control" style="color=#FFFFFF;" name="asistencia" id="asistencia">
                 <option value="">Seleccione el estado de asistencia</option>
                 <option value="asistida">Asistida</option>
-                <option value="inasistida">Inasistida</option>
+                <option value="no asistida">No asistida</option>
                 <option value="pendiente">Pendiente</option>
             </select>
         </div>
@@ -585,7 +585,7 @@ function cargarEstudiantes() {
             if (asistencia == 'asistida') {
                 $('#cargar-estudiantes-btn').show();
                 $('#observacion-container').hide(); // Ocultar el campo de observación
-            } else if (asistencia == 'inasistida') {
+            } else if (asistencia == 'no asistida') {
                 $('#observacion-container').show(); // Mostrar el campo de observación
                 $('#cargar-estudiantes-btn').hide(); // Ocultar el botón de cargar estudiantes
                 $('#estudiantes-container').hide(); // Ocultar la tabla de estudiantes
@@ -605,9 +605,9 @@ function cargarEstudiantes() {
             var asistencia = $('#asistencia').val();
             var observacion = $('#observacion').val().trim();
 
-            // Validar que el campo de observación no esté vacío si la asistencia es "inasistida"
-            if (asistencia == 'inasistida' && observacion === '') {
-                alert('Debe llenar el campo de observación para una clase inasistida.');
+            // Validar que el campo de observación no esté vacío si la asistencia es "no asistida"
+            if (asistencia == 'no asistida' && observacion === '') {
+                alert('Debe llenar el campo de observación para una clase no asistida.');
                 event.preventDefault(); // Prevenir el envío del formulario si está vacío
             }
         });

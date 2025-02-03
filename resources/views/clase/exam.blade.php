@@ -80,19 +80,19 @@
             <div class="form-group">
                 <label for="asistencia" style="color:white;">Confirmar Asistencia:</label>
                 <select class="form-control" name="asistencia" id="asistencia" style="color:white;">
-                @if ($clases->asistencia == 'asistida' || $clases->asistencia == 'inasistida')
+                @if ($clases->asistencia == 'asistida' || $clases->asistencia == 'no asistida')
                 <option value="{{$clases->asistencia}}" {{ $clases->asistencia == 'asistida' ? 'selected' : '' }}>{{ucfirst($clases->asistencia)}}</option>
             </select>
         </div>
     </div>
-    @if ($clases->asistencia == 'inasistida')
+    @if ($clases->asistencia == 'no asistida')
      <!-- Campo para la observación -->
      <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
         <div class="form-group">
             <label for="observacion" style="color:white;">Observación:</label>
 
-            <!-- Mostrar observación si la clase está 'inasistida' -->
-            @if($clases->asistencia == 'inasistida')
+            <!-- Mostrar observación si la clase está 'no asistida' -->
+            @if($clases->asistencia == 'no asistida')
                 <textarea class="form-control" name="observacionClase" id="observacionClase" style="color:white;" readonly>{{ $clases->observacionClase }}</textarea>
 
             <!-- Mostrar un campo editable si la asistencia es 'pendiente' -->
@@ -138,7 +138,7 @@
                 @else
                     <option value="pendiente" {{ $clases->asistencia == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
                     <option value="asistida" {{ $clases->asistencia == 'asistida' ? 'selected' : '' }}>Asistida</option>
-                    <option value="inasistida" {{ $clases->asistencia == 'inasistida' ? 'selected' : '' }}>Inasistida</option>
+                    <option value="no asistida" {{ $clases->asistencia == 'no asistida' ? 'selected' : '' }}>No asistida</option>
                 </select>
             </div>
         </div>
@@ -187,8 +187,8 @@
                 $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
                 $('#observacion-container').hide(); // Esconder el campo de observación
             }
-            // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
-            else if (estadoAsistencia == 'inasistida') {
+            // Si el estado es 'no asistida', mostrar campo observación y ocultar estudiantes
+            else if (estadoAsistencia == 'no asistida') {
                 $('#estudiantes-container').hide(); // Esconder lista de estudiantes
                 $('#observacion-container').show(); // Mostrar el campo de observación
                 $('#observacion').prop('readonly', false).val(''); // Habilitar el campo observación
@@ -212,10 +212,10 @@
             var estadoAsistencia = $('#asistencia').val();
             var observacionClase = $('#observacionClase').val().trim();
 
-            // Si el estado es 'inasistida', verificar que se haya ingresado una observación
-            if (estadoAsistencia == 'inasistida' && observacionClase == '') {
+            // Si el estado es 'no asistida', verificar que se haya ingresado una observación
+            if (estadoAsistencia == 'no asistida' && observacionClase == '') {
                 e.preventDefault(); // Evitar que se envíe el formulario
-                alert('Debe ingresar una observación si la asistencia es "inasistida".');
+                alert('Debe ingresar una observación si la asistencia es "no asistida".');
             }
 
             // Validar si el estado es 'asistida' y no hay estudiantes cargados

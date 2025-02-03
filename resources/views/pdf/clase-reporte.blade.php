@@ -38,7 +38,7 @@
     <p><strong>Aula:</strong> {{ $aula }}</p>
     <p><strong>Asistencia:</strong> {{ ucfirst($clase->asistencia) }}</p>
 
-    @if($asistencia == 'inasistida')
+    @if($asistencia == 'no asistida')
         <p><strong>Observación:</strong> {{ $clase->observacionClase }}</p>
         @elseif($asistencia == 'pendiente')
         <p><strong>CLASE PENDIENTE</strong></p>

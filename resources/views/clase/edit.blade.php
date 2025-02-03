@@ -107,7 +107,7 @@
                 <select class="form-control" name="asistencia" id="asistencia">
                     <option value="pendiente" {{ $clases->asistencia == "pendiente" ? 'selected' : '' }}>Pendiente</option>
                     <option value="asistida" {{ $clases->asistencia == "asistida" ? 'selected' : '' }}>Asistida</option>
-                    <option value="inasistida" {{ $clases->asistencia == "inasistida" ? 'selected' : '' }}>Inasistida</option>
+                    <option value="no asistida" {{ $clases->asistencia == "no asistida" ? 'selected' : '' }}>No asistida</option>
                 </select>
             </div>
         </div>
@@ -187,8 +187,8 @@
             $('#observacion').prop('readonly', true).val(''); // Deshabilitar campo de observación
             $('#observacion-container').hide(); // Esconder el campo de observación
         }
-        // Si el estado es 'inasistida', mostrar campo observación y ocultar estudiantes
-        else if (estadoAsistencia == 'inasistida') {
+        // Si el estado es 'no asistida', mostrar campo observación y ocultar estudiantes
+        else if (estadoAsistencia == 'no asistida') {
             $('#estudiantes-container').hide(); // Esconder lista de estudiantes
             $('#observacion-container').show(); // Mostrar el campo de observación
             $('#observacion').prop('readonly', false); // Habilitar el campo observación
@@ -205,8 +205,8 @@
 
     // Al cargar la página, verificar el estado actual de la clase
     var estadoAsistenciaInicial = $('#asistencia').val();
-    if (estadoAsistenciaInicial == 'inasistida') {
-        $('#observacion-container').show(); // Mostrar el campo de observación si es 'inasistida'
+    if (estadoAsistenciaInicial == 'no asistida') {
+        $('#observacion-container').show(); // Mostrar el campo de observación si es 'no asistida'
         $('#observacion').prop('readonly', false); // Habilitar el campo observación
     }
 });

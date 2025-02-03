@@ -72,6 +72,9 @@ public function reporteDocente($id)
 {
     // Encontrar al docente por su ID
     $docente = Persona::find($id);
+    if (!$docente) {
+        return redirect()->back()->with('error', 'Docente no encontrado.');
+    }
 
     // Obtener asignaturas que el docente imparte
     $asignaturas = Asignatura::whereHas('asignacionesGrupos', function ($query) use ($docente) {
@@ -83,21 +86,26 @@ public function reporteDocente($id)
         $query->where('persona_id', $docente->id);
     })->get();
 
-    // Obtener clases inasistidas por los estudiantes bajo este docente
-    $inasistencias = Clase::where('asistencia', 'inasistida')
-    ->whereHas('asignacionGrupos', function ($query) use ($docente) {
-        $query->where('persona_id', $docente->id);
-    })
-    ->with(['asignacionGrupos'])
-    ->get();
+    // Obtener clases no asistidas por los estudiantes bajo este docente
+    $inasistencias = Clase::where('asistencia', 'no asistida')
+        ->whereHas('asignacionGrupos', function ($query) use ($docente) {
+            $query->where('persona_id', $docente->id);
+        })
+        ->with(['asignacionGrupos'])
+        ->get();
 
+    // Verificar si hay datos antes de generar el PDF
+    if ($asignaturas->isEmpty() && $grupos->isEmpty() && $inasistencias->isEmpty()) {
+        return redirect()->back()->with('error', 'No hay datos para generar el reporte del docente.');
+    }
 
     // Generar PDF
     $pdf = \PDF::loadView('pdf.docente-pdf', compact('docente', 'asignaturas', 'grupos', 'inasistencias'));
-    $pdf->setPaper('carta','A4');
+    $pdf->setPaper('a4', 'portrait'); // Cambiar a 'landscape' si es necesario
 
     return $pdf->stream();
 }
+
 
 
 public function imprimirClase(Request $request)

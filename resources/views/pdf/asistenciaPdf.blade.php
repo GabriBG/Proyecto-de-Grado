@@ -49,7 +49,7 @@
                     <td>{{ $asistencia->clase->personas->nombre }} {{ $asistencia->clase->personas->apellido }}</td>
                     <td>{{ $asistencia->clase->asignaturas->nombre }}</td>
                     <td>{{ $asistencia->created_at->format('d-m-Y') }}</td>
-                    <td>{{ $asistencia->asistencia == 1 ? 'Asistida' : 'Inasistida' }}</td>
+                    <td>{{ $asistencia->asistencia == 1 ? 'Asistida' : 'No asistida' }}</td>
                     <td>{{ $asistencia->clase->horarios->hora_inicio }} - {{ $asistencia->clase->horarios->hora_final }}</td>
                     <td>{{ $asistencia->observacion }}</td>
                 </tr>

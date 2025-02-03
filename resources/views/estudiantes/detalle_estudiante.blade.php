@@ -40,10 +40,10 @@
         <p><strong>Apellido:</strong> {{ $estudiante->apellidos }}</p>
         <p><strong>Grupo:</strong> {{ $grupo->numero_grupo   }}</p>
         <p><strong>Total de Asistencias:</strong> {{ $totalAsistencias }}</p>
-        <p><strong>Total de Inasistencias:</strong> {{ $totalInasistencias }}</p>
+        <p><strong>Total de NO asistencias:</strong> {{ $totalInasistencias }}</p>
     </div>
 
-    <h3>Detalle de Inasistencias</h3>
+    <h3>Detalles de NO asistencias</h3>
 
     @if(count($inasistenciasDetalles) > 0)
         <table>
@@ -65,7 +65,7 @@
             </tbody>
         </table>
     @else
-        <p class="no-records">No hay inasistencias registradas para este estudiante.</p>
+        <p class="no-records">El estudiante ha asistido a todas las clases.</p>
     @endif
 </body>
 </html>

@@ -13,11 +13,11 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-Route::resource('persona', 'App\Http\Controllers\PersonaController');
+Route::resource('persona', 'App\Http\Controllers\PersonaController')->middleware('role:Admin');
 Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController');
 Route::resource('aula', 'App\Http\Controllers\AulaController');
 Route::resource('horario', 'App\Http\Controllers\HorarioController');
-Route::resource('grupo', 'App\Http\Controllers\GrupoController');
+Route::resource('grupo', 'App\Http\Controllers\GrupoController')->middleware('role:Admin');;
 Route::resource('asignaciongrupo', 'App\Http\Controllers\AsignacionGrupoController');
 Route::resource('docente', 'App\Http\Controllers\DocenteController');
 Route::resource('clase', 'App\Http\Controllers\ClaseController');
@@ -26,6 +26,7 @@ Route::resource('asistencia', 'App\Http\Controllers\AsistenciaController');
 });
 
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
+Route::get('/asistencia', 'App\Http\Controllers\AsistenciaController@index')->name('asistencia.index')->middleware('auth');
 Route::get('/home', 'App\Http\Controllers\InicioController@index')->name('home')->middleware('auth');
 Route::get('/reportes', 'App\Http\Controllers\InicioController@reportes')->name('reportes')->middleware('auth');
 Route::get('imprimirPersonas','App\http\Controllers\PdfController@imprimirPersonas')->name('imprimirPersonas');
@@ -33,7 +34,7 @@ Route::get('imprimirAsignaturas','App\http\Controllers\PdfController@imprimirAsi
 Route::get('imprimirAsignacion','App\http\Controllers\PdfController@imprimirAsignacion')->name('imprimirAsignacion');
 Route::get('imprimirClase','App\http\Controllers\PdfController@imprimirClase')->name('imprimirClase');
 Route::get('/reporte-por-estudiante', [PdfController::class, 'reportePorEstudiante'])->name('reporte.por_estudiante');
-Route::get('/reporteDocente/{id}', [PdfController::class, 'reporteDocente'])->name('reporte.reporteDocente');
+Route::get('/reporteDocente/{id}', [PdfController::class, 'reporteDocente'])->name('reporte.reporteDocente')->middleware('role:Admin,Director');
 Route::get('/reporteClasePDF/{id}', [ClaseController::class, 'reporteClasePDF'])->name('reporte.reporteClasePDF');
 Route::get('/reporte-estudiante/{id}', [PdfController::class, 'generarReporteEstudiante'])->name('reporte.estudiante');
 Route::get('imprimirAsistencia','App\http\Controllers\AsistenciaController@imprimirAsistencia')->name('imprimirAsistencia');

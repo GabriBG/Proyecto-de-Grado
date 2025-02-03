@@ -40,12 +40,12 @@
                             @endforeach
                         </select>
                     </div>
-        <!-- Filtro por asistencia (asistida o inasistida) -->
+        <!-- Filtro por asistencia (asistida o no asistida) -->
         <div class="col-md-3">
             <select name="estado_asistencia" id="estado_asistencia" class="form-control">
                 <option value="">Estado de Asistencia</option>
                 <option value="1">Asistida</option>
-                <option value="0">Inasistida</option>
+                <option value="0">No asistida</option>
             </select>
         </div>
                     <!-- Botón de buscar -->
@@ -90,7 +90,7 @@
                                 @if($asistencia->asistencia == 1)
                                     Asistida
                                 @else
-                                    Inasistida
+                                No asistida
                                 @endif
                             </td>
                             <td>{{ $asistencia->clase->horarios->hora_inicio }} - {{ $asistencia->clase->horarios->hora_final }}</td>

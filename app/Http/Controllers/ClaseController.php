@@ -93,12 +93,25 @@ class ClaseController extends Controller
       * @return \Illuminate\Http\Response
       */
       public function create()
-      {
-          $asignacionGrupos = Asignacion_Grupo::all();
-          $horarios = Horario::all();
+{
+    $user = auth()->user();
+    $role = $user->roles->pluck('name')->first(); // Obtiene el rol del usuario
 
-          return view('clase.create', compact('asignacionGrupos', 'horarios'));
-      }
+    // Si el usuario es Docente, solo obtiene sus grupos asignados
+    if ($role == 'Docente') {
+        $asignacionGrupos = Asignacion_Grupo::whereHas('personas', function ($query) use ($user) {
+            $query->where('id_usuario', $user->id);
+        })->get();
+    } else {
+        // Si es Admin o Director, obtiene todos los grupos asignados
+        $asignacionGrupos = Asignacion_Grupo::all();
+    }
+
+    $horarios = Horario::all();
+
+    return view('clase.create', compact('asignacionGrupos', 'horarios'));
+}
+
 
 
 

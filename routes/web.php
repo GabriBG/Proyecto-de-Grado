@@ -17,7 +17,7 @@ Route::resource('persona', 'App\Http\Controllers\PersonaController')->middleware
 Route::resource('asignatura', 'App\Http\Controllers\AsignaturaController');
 Route::resource('aula', 'App\Http\Controllers\AulaController');
 Route::resource('horario', 'App\Http\Controllers\HorarioController');
-Route::resource('grupo', 'App\Http\Controllers\GrupoController')->middleware('role:Admin');;
+Route::resource('grupo', 'App\Http\Controllers\GrupoController');
 Route::resource('asignaciongrupo', 'App\Http\Controllers\AsignacionGrupoController');
 Route::resource('docente', 'App\Http\Controllers\DocenteController');
 Route::resource('clase', 'App\Http\Controllers\ClaseController');

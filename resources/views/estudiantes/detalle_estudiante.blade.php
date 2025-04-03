@@ -39,6 +39,12 @@
         <p><strong>Nombre:</strong> {{ $estudiante->nombres }}</p>
         <p><strong>Apellido:</strong> {{ $estudiante->apellidos }}</p>
         <p><strong>Grupo:</strong> {{ $grupo->numero_grupo   }}</p>
+        <p><strong>Estado del grupo:</strong>         @if ($grupo->estado == 1 )
+Activo
+@else
+Inactivo
+        @endif</p>
+        <p><strong>Año Escolar:</strong> {{ $grupo->ano }}</p>
         <p><strong>Total de Asistencias:</strong> {{ $totalAsistencias }}</p>
         <p><strong>Total de NO asistencias:</strong> {{ $totalInasistencias }}</p>
     </div>

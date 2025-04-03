@@ -77,9 +77,13 @@ public function reporteDocente($id)
     }
 
     // Obtener asignaturas que el docente imparte
-    $asignaturas = Asignatura::whereHas('asignacionesGrupos', function ($query) use ($docente) {
-        $query->where('persona_id', $docente->id);
-    })->get();
+$asignaturas = Asignatura::whereHas('asignacionesGrupos', function ($query) use ($docente) {
+    $query->where('persona_id', $docente->id)
+          ->whereHas('grupos', function ($q) {
+              $q->where('estado', 1);
+          });
+})->get();
+
 
     // Obtener los grupos a los que el docente da clases
     $grupos = Grupo::whereHas('asignacionesGrupos', function ($query) use ($docente) {

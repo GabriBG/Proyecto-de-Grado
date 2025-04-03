@@ -19,6 +19,8 @@
                 <th>Numero de Grupo</th>
                 <th>Aula</th>
                 <th>Sede</th>
+                <th>Año Escolar</th>
+                <th>Estado</th>
                 @if($role == 'Admin' || $role == 'Director')
                     <th>Opciones</th>
                 @endif
@@ -35,6 +37,7 @@
                 @foreach($asignacion_grupos as $asigna)
                     <!-- Mostrar asignaciones solo si es docente del grupo o es Admin/Director -->
                     @if($role == 'Admin' || $role == 'Director' || ($role == 'Docente' && $asigna->personas->id_usuario == $user->id))
+                    @if( $asigna->grupos->estado == 1)
                         <tr>
                             <td>{{ $asigna->id }}</td>
                             <td>{{ $asigna->personas->nombre }} {{ $asigna->personas->apellido }}</td>
@@ -42,7 +45,12 @@
                             <td>{{ $asigna->grupos->numero_grupo }}</td>
                             <td>{{ $asigna->aula }}</td>
                             <td>{{ $asigna->sede }}</td>
-
+                            <td>{{ $asigna->grupos->ano }}</td>
+                            @if($asigna->grupos->estado = 1)
+                            <td>Activo</td>
+                            @else
+                            <td>Inactivo</td>
+                            @endif
                             @if($role == 'Admin' || $role == 'Director')
                                 <td>
                                     <a href="{{ url('asignaciongrupo/'.$asigna->id.'/edit') }}">
@@ -55,6 +63,7 @@
                                 </td>
                             @endif
                         </tr>
+                        @endif
                         @include('asignaciongrupo.modal')
                     @endif
                 @endforeach

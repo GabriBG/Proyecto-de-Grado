@@ -111,11 +111,43 @@
 
             <!-- Paginador -->
             <div class="d-flex justify-content-center">
-                {{ $asistencias->links() }}
+                {!! $asistencias->onEachSide(1)->links('vendor.pagination.bootstrap-5') !!}
             </div>
         </div>
     </div>
 @endsection
 @endrole
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<style>.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.page-item {
+    list-style: none;
+}
+
+.page-link {
+    padding: 12px 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.page-link:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.page-item.active .page-link {
+    background-color: #ff4081;
+    color: white;
+    transform: scale(1.2);
+}
+</style>

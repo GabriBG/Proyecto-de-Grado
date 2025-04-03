@@ -37,6 +37,25 @@
                 <input type="text" name="numero_grupo" value="{{ $grupo->numero_grupo }}" id="numero_grupo" class="form-control" placeholder="Numero de grupo">
             </div>
         </div>
+        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <label>Año escolar</label>
+                <select class="form-control" style="color=#FFFFFF;" name="ano" id="ano">
+                    @for($i = 2021; $i <= 2050; $i++)
+                        <option value="{{ $i }}" {{ ($grupo->ano == $i) ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+            <div class="form-group">
+                <label>Estado</label>
+                <select class="form-control" style="color=#FFFFFF;" name="estado" id="estado">
+                        <option value="1" {{ $grupo->estado == '1' ? 'selected' : '' }}>Activo</option>
+                        <option value="0" {{ $grupo->estado == '0' ? 'selected' : '' }}>Inactivo</option>
+                </select>
+            </div>
+        </div>
         <div class="col-lg-4 col-md-12 col-sm-6 col-xs-12">
             <div class="form-group">
                 <br>

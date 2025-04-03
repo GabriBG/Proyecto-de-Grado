@@ -9,6 +9,8 @@
                     <th>Id</th>
                     <th>Estudiantes Matriculados</th>
                     <th>Numero Grupo</th>
+                    <th>Año Escolar</th>
+                    <th>Estado</th>
                     <th>Opciones</th>
                 </thead>
                 <tbody>
@@ -22,6 +24,12 @@
                         <td>{{ $gru->id }}</td>
                         <td>{{ $gru->estudiantes_matriculados }}</td>
                         <td>{{ $gru->numero_grupo }}</td>
+                        <td>{{ $gru->ano }}</td>
+                        @if($gru->estado==1)
+                        <td>Activo</td>
+                        @else
+                        <td>Inactivo</td>
+                        @endif
                         <td>
                             <!-- Solo Admin y Director pueden ver los botones de actualizar y eliminar -->
                             @role('Admin|Director')
@@ -38,7 +46,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="6">
                             <div id="estudiantes-{{ $gru->id }}" class="collapse">
                                 <table class="table table-striped table-hover">
                                     <thead>

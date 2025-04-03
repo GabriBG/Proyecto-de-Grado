@@ -12,6 +12,7 @@
                 <th>Asignatura</th>
                 <th>Numero de Grupo</th>
                 <th>Horario</th>
+                <th>Fecha</th>
                 <th>Estado</th>
                 <th>Opciones</th>
             </thead>
@@ -31,6 +32,7 @@
                             <td>{{ $cla->asignacionGrupos->asignaturas->nombre }}</td>
                             <td>{{ $cla->asignacionGrupos->grupos->numero_grupo }}</td>
                             <td>{{ $cla->horarios->hora_inicio }} - {{ $cla->horarios->hora_final }}</td>
+                            <td>{{ $cla->fecha }}</td>
                             <td>{{ ucfirst($cla->asistencia) }}</td>
                             <td>
                                 <a href="{{ url('clase/'.$cla->id.'/examinar') }}"><button class="btn btn-close">Examinar</button></a>

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\PdfController;
-
+use App\Http\Controllers\GrupoController;
 
 
 Route::get('/', function () {
@@ -26,6 +26,7 @@ Route::resource('asistencia', 'App\Http\Controllers\AsistenciaController');
 });
 
 Route::get('/dashboard', 'App\Http\Controllers\HomeController@index')->name('dashboard')->middleware('auth');
+Route::post('/grupos/import', [GrupoController::class, 'import'])->name('grupos.import');
 Route::get('/asistencia', 'App\Http\Controllers\AsistenciaController@index')->name('asistencia.index')->middleware('auth');
 Route::get('/home', 'App\Http\Controllers\InicioController@index')->name('home')->middleware('auth');
 Route::get('/reportes', 'App\Http\Controllers\InicioController@reportes')->name('reportes')->middleware('auth');
@@ -71,4 +72,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 });
+
 

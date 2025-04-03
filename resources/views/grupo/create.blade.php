@@ -38,6 +38,26 @@
             <input type="text" name="numero_grupo" value="{{ old('numero_grupo') }}" id="numero_grupo" class="form-control" placeholder="Numero de grupo">
         </div>
     </div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label>Año escolar</label>
+            <select class="form-control" style="color=#FFFFFF;" name="ano" id="ano">
+                <option class="" value="2020">2020</option>
+                @for($i = 2021; $i <= 2050; $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-9 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <label>Estado</label>
+            <select class="form-control" style="color=#FFFFFF;" name="estado" id="estado">
+                <option class="" value="1">Activo</option>
+                <option class="" value="0">Inactivo</option>
+            </select>
+        </div>
+    </div>
     <div class="col-lg-4 col-md-12 col-sm-6 col-xs-12">
         <div class="form-group">
             <br>
@@ -45,7 +65,7 @@
         </div>
     </div>
 </div>
-<div id="tablaEstudiantesContainer" class="row" style="display:none;">
+
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <table class="table" id="tablaEstudiantes">
             <thead>
@@ -61,6 +81,7 @@
     </div>
 </div>
 <div class="row">
+
     <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
         <div class="form-group">
             <br>

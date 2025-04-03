@@ -28,7 +28,9 @@
         <h4>Grupos:</h4>
         <ul>
             @foreach($grupos as $grupo)
+            @if ($grupo->estado == 1)
                 <li>Grupo: {{ $grupo->numero_grupo }}</li>
+                @endif
             @endforeach
         </ul>
 

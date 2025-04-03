@@ -12,7 +12,7 @@ class Grupo extends Model
 
     public $timestamps = true;
 
-    protected $fillable = ['estudiantes_matriculados','numero_grupo'];
+    protected $fillable = ['estudiantes_matriculados','numero_grupo','ano'];
 
     public function asignacionesGrupos()
     {

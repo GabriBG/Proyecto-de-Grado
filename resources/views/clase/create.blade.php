@@ -30,7 +30,9 @@
             <select class="form-control" style="color=#FFFFFF;" name="grupo_asignado" id="grupo_asignado">
                 <option value="">Seleccione el grupo</option>
                 @foreach($asignacionGrupos as $asigna)
+                @if ($asigna->grupos->estado == 1)
                 <option value="{{ $asigna->id }}">{{ $asigna->grupos->numero_grupo }} {{ $asigna->asignaturas->nombre }}</option>
+                @endif
                 @endforeach
             </select>
         </div>
@@ -254,7 +256,9 @@ function cargarEstudiantes() {
             <select class="form-control" style="color=#FFFFFF;" name="grupo_asignado" id="grupo_asignado">
                 <option value="">Seleccione el grupo</option>
                 @foreach($asignacionGrupos as $asigna)
+                @if ($asigna->grupos->estado == 1)
                 <option value="{{ $asigna->id }}">{{ $asigna->grupos->numero_grupo }} {{ $asigna->asignaturas->nombre }}</option>
+                @endif
                 @endforeach
             </select>
         </div>
@@ -467,7 +471,9 @@ function cargarEstudiantes() {
             <select class="form-control" style="color=#FFFFFF;" name="grupo_asignado" id="grupo_asignado">
                 <option value="">Seleccione el grupo</option>
                 @foreach($asignacionGrupos as $asigna)
+                @if ($asigna->grupos->estado == 1)
                 <option value="{{ $asigna->id }}">{{ $asigna->grupos->numero_grupo }} {{ $asigna->asignaturas->nombre }}</option>
+                @endif
                 @endforeach
             </select>
         </div>

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('estudiantes_matriculados')->notnull();
             $table->string('numero_grupo', 7)->notnull();
+            $table->integer('ano')->notnull();
+            $table->boolean('estado')->notnull();
             $table->timestamps();
         });
     }

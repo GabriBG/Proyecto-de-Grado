@@ -15,13 +15,28 @@ class GrupoController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     */public function index(Request $request)
+     */
+
+public function index(Request $request)
 {
     $nom = $request->input('name');
 
-    // Buscar grupos basados en el nombre o número del grupo
-    $grupos = Grupo::where('estudiantes_matriculados', 'LIKE', "%$nom%")
-        ->orWhere('numero_grupo', 'LIKE', "%$nom%")
+    // Convertir "Activo" o "Inactivo" en valores booleanos (1 o 0)
+    $estado = null;
+    if (strcasecmp($nom, "Activo") === 0) {
+        $estado = 1;
+    } elseif (strcasecmp($nom, "Inactivo") === 0) {
+        $estado = 0;
+    }
+
+    // Buscar grupos basados en estudiantes matriculados, número de grupo o estado
+    $grupos = Grupo::where(function ($query) use ($nom, $estado) {
+            $query->where('estudiantes_matriculados', 'LIKE', "%$nom%")
+                  ->orWhere('numero_grupo', 'LIKE', "%$nom%");
+            if (!is_null($estado)) {
+                $query->orWhere('estado', $estado);
+            }
+        })
         ->paginate(10);
 
     // Buscar estudiantes basados en el nombre o apellido
@@ -32,8 +47,8 @@ class GrupoController extends Controller
     // Obtener los IDs de los grupos correspondientes a los estudiantes encontrados
     $grupoIds = $estudiantes->pluck('id_grupo');
 
-    // Añadir a la consulta inicial los grupos que corresponden a los estudiantes encontrados
-    $gruposPorEstudiantes = Grupo::whereIn('id', $grupoIds)->get(); // Cambiado a get()
+    // Obtener los grupos de los estudiantes encontrados
+    $gruposPorEstudiantes = Grupo::whereIn('id', $grupoIds)->get();
 
     // Combinar los grupos encontrados por búsqueda directa y por estudiantes
     $gruposCombinados = $grupos->getCollection()->merge($gruposPorEstudiantes)->unique('id');
@@ -50,9 +65,10 @@ class GrupoController extends Controller
     );
 
     return view('grupo.index')
-        ->with('grupos', $paginatedGrupos) // Pasar la colección paginada
+        ->with('grupos', $paginatedGrupos)
         ->with('estudiantes', $estudiantes);
 }
+
 
 
     /**
@@ -77,6 +93,8 @@ class GrupoController extends Controller
     $campos = [
         'estudiantes_matriculados' => 'required|integer|min:1',
         'numero_grupo' => 'required|string|max:100',
+        'ano' => 'required|integer|max:100',
+        'estado' => 'required|integer|max:100',
         'estudiantes_nombres.*' => 'required|string|max:255',
         'estudiantes_apellidos.*' => 'required|string|max:255'
     ];
@@ -91,6 +109,8 @@ class GrupoController extends Controller
     $grupo = new Grupo;
     $grupo->estudiantes_matriculados = $request->get('estudiantes_matriculados');
     $grupo->numero_grupo = $request->get('numero_grupo');
+    $grupo->ano = $request->get('ano');
+    $grupo->estado = $request->get('estado');
     $grupo->save();
 
     // Obtener los nombres y apellidos de los estudiantes del formulario
@@ -142,6 +162,8 @@ public function update(Request $request, $id)
     $campos = [
         'estudiantes_matriculados' => 'required|string|max:100',
         'numero_grupo' => 'required|string|max:100',
+        'ano' => 'required|integer',
+        'estado' => 'required|string|max:100',
         'estudiantes_nombres' => 'required|array',
         'estudiantes_nombres.*' => 'required|string',
         'estudiantes_apellidos' => 'required|array',
@@ -166,6 +188,8 @@ public function update(Request $request, $id)
     $grupo = Grupo::findOrFail($id);
     $grupo->estudiantes_matriculados = $request->input('estudiantes_matriculados');
     $grupo->numero_grupo = $request->input('numero_grupo');
+    $grupo->ano = $request->input('ano');
+    $grupo->estado = $request->input('estado');
     $grupo->save();
 
     // Actualizar estudiantes

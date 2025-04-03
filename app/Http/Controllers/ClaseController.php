@@ -38,7 +38,7 @@ class ClaseController extends Controller
         })->orWhereHas('personas', function ($query) use ($nom) {
             $query->where('nombre', 'LIKE', "%$nom%")
                 ->orWhere('apellido', 'LIKE', "%$nom%");
-        })->orWhere('asistencia', "$nom")
+        })->Where('asistencia', "$nom")->orWhere('fecha', 'LIKE', "%$nom%")
         ->with('personas', 'asignaturas', 'grupos', 'horarios', 'asignacionGrupos')->paginate(10);
 
 
